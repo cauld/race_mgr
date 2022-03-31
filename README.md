@@ -1,1 +1,3 @@
-# pc2_race_mgr
+# Race Manager
+
+We're off to the races!
