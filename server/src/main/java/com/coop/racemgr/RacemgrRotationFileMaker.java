@@ -16,7 +16,7 @@ public class RacemgrRotationFileMaker {
 
     public RacemgrRotationFileMaker(int raceCount, boolean persist) throws ParseException, IOException {
         this.version = 7;
-        this.config = new RacemgrRotationConfig(new GameServer(), raceCount, persist);
+        this.config = new RacemgrRotationConfig(new GameServerProxy(), raceCount, persist);
     }
 
     public void writeGeneratedRotationFile() throws IOException {

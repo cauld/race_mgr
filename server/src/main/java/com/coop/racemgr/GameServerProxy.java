@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component
-public class GameServer {
+public class GameServerProxy {
     final private String gameServerHost = System.getenv("RM_GAMESERVER_HOST"); // e.g. localhost
     final private String gameServerPort = System.getenv("RM_GAMESERVER_PORT");
 
