@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,13 +30,14 @@ public class GameServerProxy {
     private List getData(String url) {
         //https://stackoverflow.com/a/62863017
         WebClient webClient = WebClient.create();
-        String response = webClient.get()
+        Mono<GameServerResponse> response = webClient.get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(String.class)
-                .block();
+                .bodyToMono(GameServerResponse.class);
+                //.bodyToMono(String.class);
+                //.block();
 
-        return this.serverResponseToJson(response);
+        return this.serverResponseToJson(String.valueOf(response));
     }
 
     private List serverResponseToJson(String jsonString) {

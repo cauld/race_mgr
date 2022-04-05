@@ -8,8 +8,12 @@ import java.io.*;
 @Component
 public class GameServerMgr implements Runnable {
     private static Process gameServerMgrInstance = null;
-    private static String gameServerFsPath = System.getenv("RM_PATH_TO_DEDICATED_SERVER");
-    private static String gameServerExe = gameServerFsPath + "\\DedicatedServerCmd.exe";
+    final private static String gameServerFsPath = System.getenv("RM_PATH_TO_DEDICATED_SERVER");
+    final private static String gameServerExe = gameServerFsPath + "\\DedicatedServerCmd.exe";
+
+    public static Process getInstance() {
+        return gameServerMgrInstance;
+    }
 
     /**
      * Calling run() will actually run the server on the current thread. Call start() to
@@ -45,6 +49,15 @@ public class GameServerMgr implements Runnable {
         while((line = buff.readLine()) != null) {
             System.out.println(line);
         }
+    }
+
+    public static void restart() {
+        System.out.println("Restarting the external game server!");
+        var gameServerMgrInstance = GameServerMgr.getInstance();
+        gameServerMgrInstance.destroy();
+        GameServerMgr.gameServerMgrInstance = null;
+        Thread gameServerMgr = new Thread(new GameServerMgr());
+        gameServerMgr.start();
     }
 
     @PreDestroy
