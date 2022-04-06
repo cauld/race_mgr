@@ -3,6 +3,13 @@ package com.coop.racemgr;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+// @TODO: I think we can just replace this with Jackson overall
 // https://code.google.com/archive/p/json-simple/
 // https://www.geeksforgeeks.org/parse-json-java/
 import org.json.simple.JSONArray;
@@ -30,23 +37,17 @@ public class GameServerProxy {
     private List getData(String url) {
         //https://stackoverflow.com/a/62863017
         WebClient webClient = WebClient.create();
-        Mono<GameServerResponse> response = webClient.get()
+        String response = webClient.get()
                 .uri(url)
                 .retrieve()
-                .bodyToMono(GameServerResponse.class);
-                //.bodyToMono(String.class);
-                //.block();
+                .bodyToMono(String.class)
+                .block();
 
         return this.serverResponseToJson(String.valueOf(response));
     }
 
     private List serverResponseToJson(String jsonString) {
-        Object obj = null;
-        try {
-            obj = new JSONParser().parse(jsonString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Object obj = RacemgrUtils.jsonStrToObj(jsonString);
         JSONObject jo = (JSONObject) obj;
         JSONObject joResponse = (JSONObject) jo.get("response");
         JSONArray jsonArr = (JSONArray) joResponse.get("list");
@@ -83,6 +84,28 @@ public class GameServerProxy {
         String apiUrl = this.getDataApiUrl(endpoint);
         List apiData = this.getData(apiUrl);
         return RacemgrUtils.filterList(apiData, count, random);
+    }
+
+    public Object getRotation() throws IOException {
+        String gameServerFsPath = System.getenv("RM_PATH_TO_DEDICATED_SERVER");
+        String gameServerDefaultRotationFilePath = gameServerFsPath + "\\lua\\sms_rotate\\sms_rotate_default_config.json";
+        File file = new File(gameServerDefaultRotationFilePath);
+        String jsonString = FileUtils.readFileToString(file, "UTF-8");
+        Object obj = RacemgrUtils.jsonStrToObj(jsonString);
+        return obj;
+    }
+
+    public Object getStats() throws IOException {
+        String gameServerFsPath = System.getenv("RM_PATH_TO_DEDICATED_SERVER");
+        String gameServerStatsFilePath = gameServerFsPath + "\\lua_config\\sms_stats_data.json";
+        File file = new File(gameServerStatsFilePath);
+        String dataString = FileUtils.readFileToString(file, "UTF-8");
+        // The file is JSON-ish, but has comments that need removed before parsing
+        var jsonStart = dataString.indexOf("{");
+        var jsonEnd = dataString.lastIndexOf("}");
+        var jsonString = dataString.substring(jsonStart, jsonEnd + 1);
+        Object obj = RacemgrUtils.jsonStrToObj(jsonString);
+        return obj;
     }
 
     private List weatherWithoutRain(List weatherData) {

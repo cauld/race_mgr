@@ -8,5 +8,9 @@
      - NOTE: Don't use quotes, path is escaped internally
    - Open the Window's command prompt, `cd` to RMS server director (important), run `java -jar racemgr-0.0.1.jar`
 
+## API Endpoints
+ - All API endpoints start with `/api/v1/` (e.g.) `http://localhost:8080/api/v1/rotation`
+ - `/rotation`: List and/or change existing rotation
+
 ## Troubleshooting
  - If the server ever starts complaining about not being able to bind ports then most likely RMS lost track of the Game Server thread. To fix open task manager in Windows, kill "DedicatedServerCmd.exe", and restart RMS.
