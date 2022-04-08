@@ -45,6 +45,5 @@ public class RacemgrRotationFileMaker {
         // Once a new file has been written we must remove the active/cached one and reboot
         // the game server for this to take effect.
         this.deleteCachedRotationFile(gameServerFsPath);
-        GameServerMgr.restart();
     }
 }
