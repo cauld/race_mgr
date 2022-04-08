@@ -26,7 +26,7 @@ public class GameServerMgr implements Runnable {
     }
 
     public static void start() throws InterruptedException, IOException {
-        if (WindowsUtils.isProcessRunning(gameServerExeName) == true) {
+        if (isRunning() == true) {
             System.out.println("External game server already running, forcing restart!");
             GameServerMgr.stop();
         }
@@ -45,7 +45,7 @@ public class GameServerMgr implements Runnable {
 
     @PreDestroy
     public static void stop() throws IOException {
-        if (WindowsUtils.isProcessRunning(gameServerExeName) == true) {
+        if (isRunning() == true) {
             System.out.println("Stopping the external game server!");
             var pids = WindowsUtils.getPidsByName(gameServerExeName);
             if (pids.size() > 0) {
@@ -54,5 +54,9 @@ public class GameServerMgr implements Runnable {
         } else {
             System.out.println("External game server not running, nothing to stop.");
         }
+    }
+
+    public static boolean isRunning() throws IOException {
+        return WindowsUtils.isProcessRunning(gameServerExeName);
     }
 }
