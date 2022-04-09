@@ -1,7 +1,7 @@
 package com.coop.racemgr.controller;
 
-import com.coop.racemgr.GameServerMgr;
-import com.coop.racemgr.RacemgrUtils;
+import com.coop.racemgr.gameserver.GameServerMgr;
+import com.coop.racemgr.utils.RacemgrUtils;
 
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;

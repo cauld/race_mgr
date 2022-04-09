@@ -1,6 +1,6 @@
 package com.coop.racemgr.controller;
 
-import com.coop.racemgr.GameServerProxy;
+import com.coop.racemgr.gameserver.GameServerProxy;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

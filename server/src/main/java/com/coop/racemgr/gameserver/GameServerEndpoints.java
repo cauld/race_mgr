@@ -1,4 +1,4 @@
-package com.coop.racemgr;
+package com.coop.racemgr.gameserver;
 
 public enum GameServerEndpoints
 {

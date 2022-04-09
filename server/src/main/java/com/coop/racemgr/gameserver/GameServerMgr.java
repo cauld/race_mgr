@@ -1,5 +1,6 @@
-package com.coop.racemgr;
+package com.coop.racemgr.gameserver;
 
+import com.coop.racemgr.utils.WindowsUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PreDestroy;

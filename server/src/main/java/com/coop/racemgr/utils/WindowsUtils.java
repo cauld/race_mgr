@@ -1,4 +1,4 @@
-package com.coop.racemgr;
+package com.coop.racemgr.utils;
 
 import java.io.IOException;
 import java.lang.ProcessHandle.Info;

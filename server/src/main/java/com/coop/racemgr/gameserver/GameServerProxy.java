@@ -1,22 +1,15 @@
-package com.coop.racemgr;
+package com.coop.racemgr.gameserver;
 
+import com.coop.racemgr.utils.RacemgrUtils;
+import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-// @TODO: I think we can just replace this with Jackson overall
-// https://code.google.com/archive/p/json-simple/
-// https://www.geeksforgeeks.org/parse-json-java/
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
-import reactor.core.publisher.Mono;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
@@ -58,11 +51,24 @@ public class GameServerProxy {
         return this.gameServerListBaseUrl + "/" + endpoint;
     }
 
-    public List getTracks(int count, boolean random) throws ParseException {
+    public List getTracks(int count, boolean random, boolean allowKarts) throws ParseException {
         String endpoint = GameServerEndpoints.TRACKS.getEndpoint();
         String apiUrl = this.getDataApiUrl(endpoint);
         List apiData = this.getData(apiUrl);
+        if (allowKarts == false) {
+            apiData = withoutKartTracks(apiData);
+        }
         return RacemgrUtils.filterList(apiData, count, random);
+    }
+
+    private List withoutKartTracks(List tracks) {
+        Predicate byTrack = trackElement -> {
+            String track = RacemgrUtils.getValueFromObj("name", trackElement);
+            return !track.contains("kart");
+        };
+        var filteredTracks = tracks.stream().filter(byTrack)
+                .collect(Collectors.toList());
+        return (List) filteredTracks;
     }
 
     public List getVehicles(int count, boolean random) throws ParseException {
@@ -72,18 +78,31 @@ public class GameServerProxy {
         return RacemgrUtils.filterList(apiData, count, random);
     }
 
-    public List getLiveries(int count, boolean random) throws ParseException {
+    public List getLiveries(int count, boolean random) {
         String endpoint = GameServerEndpoints.LIVERIES.getEndpoint();
         String apiUrl = this.getDataApiUrl(endpoint);
         List apiData = this.getData(apiUrl);
         return RacemgrUtils.filterList(apiData, count, random);
     }
 
-    public List getVehicleClasses(int count, boolean random) throws ParseException {
+    public List getVehicleClasses(int count, boolean random, boolean allowKarts) throws ParseException {
         String endpoint = GameServerEndpoints.VEHICLE_CLASSES.getEndpoint();
         String apiUrl = this.getDataApiUrl(endpoint);
         List apiData = this.getData(apiUrl);
+        if (allowKarts == false) {
+            apiData = vehicleClassesWithoutKarts(apiData);
+        }
         return RacemgrUtils.filterList(apiData, count, random);
+    }
+
+    private List vehicleClassesWithoutKarts(List vehicleClasses) {
+        Predicate byVehicleClass = vehicleClassElement -> {
+            String vehicleClass = RacemgrUtils.getValueFromObj("name", vehicleClassElement);
+                return !vehicleClass.contains("kart");
+        };
+        var filteredVehicleClasses = vehicleClasses.stream().filter(byVehicleClass)
+                .collect(Collectors.toList());
+        return (List) filteredVehicleClasses;
     }
 
     public Object getRotation() throws IOException {
@@ -113,6 +132,7 @@ public class GameServerProxy {
             "LightRain",
             "FogWithRain",
             "HeavyFogWithRain",
+            "HeavyFog",
             "ThunderStorm",
             "Rain",
             "Storm",

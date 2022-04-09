@@ -1,5 +1,6 @@
 package com.coop.racemgr;
 
+import com.coop.racemgr.gameserver.GameServerMgr;
 import org.json.simple.parser.ParseException;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;

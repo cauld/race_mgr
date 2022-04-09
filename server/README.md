@@ -12,5 +12,10 @@
  - All API endpoints start with `/api/v1/` (e.g.) `http://localhost:8080/api/v1/rotation`
  - `/rotation`: List and/or change existing rotation
 
+## API Exploration (Postman)
+ - Download/Install [Postman](https://www.postman.com/downloads/)
+ - Import collection found in the `postman`
+ - Use APIs against running server
+
 ## Troubleshooting
  - If the server ever starts complaining about not being able to bind ports then most likely RMS lost track of the Game Server thread. To fix open task manager in Windows, kill "DedicatedServerCmd.exe", and restart RMS.

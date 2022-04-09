@@ -1,4 +1,4 @@
-package com.coop.racemgr;
+package com.coop.racemgr.gameserver;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

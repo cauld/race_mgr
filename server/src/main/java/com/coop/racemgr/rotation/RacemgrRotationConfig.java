@@ -1,8 +1,9 @@
-package com.coop.racemgr;
+package com.coop.racemgr.rotation;
 
+import com.coop.racemgr.gameserver.GameServerProxy;
+import com.coop.racemgr.utils.RacemgrUtils;
 import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +14,10 @@ public class RacemgrRotationConfig {
     public RacemgrRotationDefaultConfig defaultConfig;
     public List<RacemgrRotationEntry> rotation = new ArrayList<>();
 
-    public RacemgrRotationConfig(GameServerProxy gameServerProxy, int raceCount, boolean persist) throws ParseException, IOException {
+    public RacemgrRotationConfig(GameServerProxy gameServerProxy, int raceCount, boolean allowKarts, boolean persist) throws ParseException {
         this.persist_index = persist;
 
-        List raceVehicleClasses = gameServerProxy.getVehicleClasses(1, true);
+        List raceVehicleClasses = gameServerProxy.getVehicleClasses(1, true, allowKarts);
         String raceVehicleClassId = RacemgrUtils.getValueFromObj("name", raceVehicleClasses.get(0));
 
         // Technically this needs to be called "default", but that's a reserved word. We rename later.
@@ -24,7 +25,7 @@ public class RacemgrRotationConfig {
         this.defaultConfig = new RacemgrRotationDefaultConfig(raceVehicleClassId);
 
         RacemgrRotationGenerator generator = new RacemgrRotationGenerator(gameServerProxy);
-        var raceRotation = generator.generateRaceRotation(raceCount);
+        var raceRotation = generator.generateRaceRotation(raceCount, allowKarts);
         raceRotation.forEach(rotationEntry -> {
             this.addRotationEntry(rotationEntry);
         });

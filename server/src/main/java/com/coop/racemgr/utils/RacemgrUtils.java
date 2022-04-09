@@ -1,4 +1,4 @@
-package com.coop.racemgr;
+package com.coop.racemgr.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

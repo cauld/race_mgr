@@ -1,5 +1,7 @@
-package com.coop.racemgr;
+package com.coop.racemgr.rotation;
 
+import com.coop.racemgr.utils.RacemgrUtils;
+import com.coop.racemgr.gameserver.GameServerProxy;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.json.simple.parser.ParseException;
@@ -14,9 +16,9 @@ public class RacemgrRotationFileMaker {
     final public int version;
     public RacemgrRotationConfig config;
 
-    public RacemgrRotationFileMaker(int raceCount, boolean persist) throws ParseException, IOException {
+    public RacemgrRotationFileMaker(int raceCount, boolean allowKarts, boolean persist) throws ParseException, IOException {
         this.version = 7;
-        this.config = new RacemgrRotationConfig(new GameServerProxy(), raceCount, persist);
+        this.config = new RacemgrRotationConfig(new GameServerProxy(), raceCount, allowKarts, persist);
     }
 
     private void deleteCachedRotationFile(String gameServerFsPath) {

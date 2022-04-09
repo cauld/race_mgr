@@ -1,4 +1,4 @@
-package com.coop.racemgr;
+package com.coop.racemgr.rotation;
 
 // NOTE: Jackson will only work/serialize fields that are either public
 // or have a public getter methods
