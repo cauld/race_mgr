@@ -1,4 +1,4 @@
-package com.coop.racemgr.controller;
+package com.coop.racemgr.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.coop.racemgr.controller;
+package com.coop.racemgr.controllers;
 
 import com.coop.racemgr.gameserver.GameServerMgr;
 import com.coop.racemgr.gameserver.GameServerProxy;
