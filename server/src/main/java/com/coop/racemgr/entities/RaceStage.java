@@ -5,23 +5,22 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "race")
-public class Race {
-
+@Table(name = "race_stage")
+public class RaceStage {
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long raceStageId;
     public Long raceId;
-    public String startTime;
+    public String stageName;
     public String endTime;
-    public Boolean finished;
 
-    public Race() {
+    public RaceStage() {
     }
 
-    public Race(Long raceId, String startTime, String endTime, Boolean finished) {
+    public RaceStage(Long raceStageId, Long raceId, String stageName, String endTime) {
+        this.raceStageId = raceStageId;
         this.raceId = raceId;
-        this.startTime = startTime;
+        this.stageName = stageName;
         this.endTime = endTime;
-        this.finished = finished;
     }
 }
