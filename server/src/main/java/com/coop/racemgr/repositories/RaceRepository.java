@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RaceRepository extends MongoRepository<Race, Integer> {
-    @Query("{name:'?0'}")
-    Race findItemById(Long id);
+    @Query("{race_id:'?0'}")
+    Race findItemByRaceId(String id);
 
     //@Query(value="{category:'?0'}", fields="{'name' : 1, 'quantity' : 1}")
     //List<Race> findAll(String category);

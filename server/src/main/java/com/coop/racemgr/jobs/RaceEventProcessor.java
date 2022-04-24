@@ -35,6 +35,9 @@ public class RaceEventProcessor {
         return stats;
     }
 
+    // NOTE: The game server decides when to prune event history. To avoid losing data
+    // between crashes and restarts we reprocess/check all events per cycle. Only unseen
+    // events are saved. For performance, it is good to set the game server
     public void processRaces() throws IOException, ParseException {
         JSONObject stats = getStats();
         JSONArray history = (JSONArray) stats.get("history");
@@ -44,7 +47,12 @@ public class RaceEventProcessor {
             var raceData = iterator.next();
             ObjectMapper objectMapper = new ObjectMapper();
             Race race = objectMapper.readValue(raceData.toString(), Race.class);
-            this.raceRepository.save(race);
+            race.setRaceId();
+
+            var r = raceRepository.findItemByRaceId(race.getRace_id());
+            if (r == null) {
+                this.raceRepository.save(race);
+            }
         }
     }
 }

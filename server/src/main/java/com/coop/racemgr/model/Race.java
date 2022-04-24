@@ -1,5 +1,6 @@
 package com.coop.racemgr.model;
 
+import com.google.common.hash.Hashing;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,8 @@ import org.json.simple.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.nio.charset.StandardCharsets;
 
 @Data
 @NoArgsConstructor
@@ -29,7 +32,15 @@ public class Race {
     public JSONObject setup;
     public JSONObject stages;
 
+    // We need to create a unique string to act as the race id
+    // We do this by combining and hashing the event dates and index.
+    // Indexes can be recycled when the file is replaced, but we should
+    // never have the same times and index.
     public void setRaceId() {
-        this.race_id = this.end_time;
+        String key = this.start_time + this.end_time + this.index.toString();
+        String raceId = Hashing.sha256()
+                .hashString(key, StandardCharsets.UTF_8)
+                .toString();
+        this.race_id = raceId;
     }
 }
