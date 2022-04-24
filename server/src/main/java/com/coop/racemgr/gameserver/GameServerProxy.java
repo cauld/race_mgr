@@ -4,6 +4,7 @@ import com.coop.racemgr.utils.RacemgrUtils;
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -114,7 +115,7 @@ public class GameServerProxy {
         return obj;
     }
 
-    public Object getStats() throws IOException {
+    public JSONObject getStats() throws IOException, ParseException {
         String gameServerFsPath = System.getenv("RM_PATH_TO_DEDICATED_SERVER");
         String gameServerStatsFilePath = gameServerFsPath + "\\lua_config\\sms_stats_data.json";
         File file = new File(gameServerStatsFilePath);
@@ -123,8 +124,10 @@ public class GameServerProxy {
         var jsonStart = dataString.indexOf("{");
         var jsonEnd = dataString.lastIndexOf("}");
         var jsonString = dataString.substring(jsonStart, jsonEnd + 1);
-        Object obj = RacemgrUtils.jsonStrToObj(jsonString);
-        return obj;
+        JSONParser parser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) parser.parse(jsonString);
+        JSONObject stats = (JSONObject) jsonObject.get("stats");
+        return stats;
     }
 
     private List weatherWithoutRain(List weatherData) {

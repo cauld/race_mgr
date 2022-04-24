@@ -17,9 +17,6 @@ public class RacemgrApplication {
 		app.setBannerMode(Banner.Mode.OFF);
 		app.run(args);
 
-//		RaceEventProcessor raceEventProcessor = new RaceEventProcessor();
-//		raceEventProcessor.processRaces();
-
 		Thread gameServerMgr = new Thread(new GameServerMgr());
 		gameServerMgr.start();
 

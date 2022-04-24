@@ -20,6 +20,8 @@ public class Race {
     public String id;
     @Indexed(unique=true)
     public String race_id;
+    public String race_session_id;
+    public String race_rotation_id;
     public String start_time;
     public String end_time;
     public Boolean finished;
@@ -42,5 +44,13 @@ public class Race {
                 .hashString(key, StandardCharsets.UTF_8)
                 .toString();
         this.race_id = raceId;
+    }
+
+    public void setRaceSessionId(String raceSessionId) {
+        this.race_session_id = raceSessionId;
+    }
+
+    public void setRaceRotationId(String raceRotationId) {
+        this.race_rotation_id = raceRotationId;
     }
 }
