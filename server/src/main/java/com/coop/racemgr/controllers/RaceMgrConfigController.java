@@ -28,7 +28,7 @@ public class RaceMgrConfigController {
     public ResponseEntity<Object> raceMgrConfigDetails() {
         var rmc = raceMgrConfigRepository.findItemById("1");
         if (rmc == null) {
-            return ResponseHandler.generateResponse("Race Mgr config not set, please create!", HttpStatus.NOT_FOUND, null);
+            return ResponseHandler.generateResponse("Race Mgr config not set, added a default!", HttpStatus.NOT_FOUND, null);
         }  else {
             return ResponseHandler.generateResponse("Race Mgr config details", HttpStatus.OK, rmc);
         }

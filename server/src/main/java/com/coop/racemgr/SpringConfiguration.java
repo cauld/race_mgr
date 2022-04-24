@@ -19,9 +19,10 @@ public class SpringConfiguration {
     // a 1s delay for the first call and then calls 1s after each execution completes.
     // Would be nice to call the event processor directly, but I haven't figured out how
     // to autowire the repository outside of the rest controller class yet.
+    // Ref: https://www.baeldung.com/spring-scheduled-tasks
     @Scheduled(fixedDelay = 1000)
     public void scheduleFixedDelayTask() {
-        this.eventProcessingClient.get()
+        this.eventProcessingClient.post()
             .uri("http://localhost:8080/api/v1/race/events")
             .retrieve()
             .bodyToMono(String.class)
