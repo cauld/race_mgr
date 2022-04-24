@@ -67,12 +67,25 @@ public class RacemgrUtils {
         }
     }
 
+    public static String getValueFromObj(String key, Object obj, String defaultValue) {
+        String val;
+        try {
+            val = String.valueOf(RacemgrUtils.getValueFromObj(key, obj));
+            if (val == null || val.trim().equals("")) {
+                val = defaultValue;
+            }
+        } catch (Exception e) {
+            val = defaultValue;
+        }
+        return val;
+    }
+
     public static String getValueFromObj(String key, Object obj) {
         ObjectMapper mapper = new ObjectMapper();
         String val = null;
         try {
-            String weatherObjStr = mapper.writeValueAsString(obj);
-            ObjectNode node = new ObjectMapper().readValue(weatherObjStr, ObjectNode.class);
+            String objStr = mapper.writeValueAsString(obj);
+            ObjectNode node = new ObjectMapper().readValue(objStr, ObjectNode.class);
             val = node.get(key).textValue();
         } catch (JsonProcessingException e) {
             e.printStackTrace();

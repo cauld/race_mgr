@@ -64,7 +64,7 @@ public class GameServerProxy {
     private List withoutKartTracks(List tracks) {
         Predicate byTrack = trackElement -> {
             String track = RacemgrUtils.getValueFromObj("name", trackElement);
-            return !track.contains("kart");
+            return !track.toLowerCase().contains("kart");
         };
         var filteredTracks = tracks.stream().filter(byTrack)
                 .collect(Collectors.toList());
@@ -98,7 +98,7 @@ public class GameServerProxy {
     private List vehicleClassesWithoutKarts(List vehicleClasses) {
         Predicate byVehicleClass = vehicleClassElement -> {
             String vehicleClass = RacemgrUtils.getValueFromObj("name", vehicleClassElement);
-                return !vehicleClass.contains("kart");
+                return !vehicleClass.toLowerCase().contains("kart");
         };
         var filteredVehicleClasses = vehicleClasses.stream().filter(byVehicleClass)
                 .collect(Collectors.toList());

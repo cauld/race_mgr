@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class StatsController {
-    @GetMapping("/api/v1/stats")
+    @GetMapping("/api/v1/race/stats")
     public ResponseEntity<Object> stats() {
         var gameServerProxy = new GameServerProxy();
         try {
