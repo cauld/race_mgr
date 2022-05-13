@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="race_mgr" target="17" />
+      <module name="race_mgr" target="18" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

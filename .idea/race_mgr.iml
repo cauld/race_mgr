@@ -20,7 +20,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_17">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_18">
     <output url="file://$MODULE_DIR$/server/target/classes" />
     <output-test url="file://$MODULE_DIR$/server/target/test-classes" />
     <content url="file://$MODULE_DIR$/server">
@@ -121,7 +121,6 @@
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-mongodb:3.3.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.17" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:2.6.3" level="project" />
-    <orderEntry type="library" name="Maven: org.mongodb:mongo-java-driver:3.9.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: io.projectreactor:reactor-test:3.4.16" level="project" />
     <orderEntry type="library" name="Maven: io.projectreactor:reactor-core:3.4.16" level="project" />
     <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.3" level="project" />

@@ -1,7 +1,7 @@
 # Race Manager Server (RMS)
 
 ## Dev Setup
-- If not present on the machine, install [Java 17](https://docs.aws.amazon.com/corretto/latest/corretto-17-ug/downloads-list.html) JDK to dev/build.
+- If not present on the machine, install [Java 18](https://docs.aws.amazon.com/corretto/latest/corretto-18-ug/downloads-list.html) JDK to dev/build.
 - Now follow `Server Setup` below
 
 ## Server Setup
