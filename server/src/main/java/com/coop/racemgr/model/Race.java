@@ -4,6 +4,7 @@ import com.google.common.hash.Hashing;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -30,7 +31,7 @@ public class Race {
     // We may want to further model the nested objects below but there is some variability in the
     // properties plus we aren't using in the backend, just storing and returning to the UI for now.
     public JSONObject members;
-    public JSONObject participants;
+    public JSONArray participants;
     public JSONObject setup;
     public JSONObject stages;
 

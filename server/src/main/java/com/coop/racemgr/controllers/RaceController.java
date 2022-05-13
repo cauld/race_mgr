@@ -65,6 +65,7 @@ public class RaceController {
             raceEventProcessor.processRaces();
             return ResponseHandler.generateResponse("Events processed", HttpStatus.OK, null);
         }  catch (Exception e) {
+            System.out.println("Error: " + e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
