@@ -25,18 +25,11 @@
 ## MongoDB Setup
 - Unless you plan to use a remote MongoDB, install MongoDB now. Any recent version (5.0+) should work fine. The [free community edition](https://www.mongodb.com/try/download/community) is all you need.
 - Say yes to running MongoDB as a service so that you don't have to start/restart manually when using Race Manager.
-- MongoDB is not secure by default. Race Manager requires authentication, so next we'll enable authentication and add a user:
+- MongoDB is not secure by default. Race Manager requires authentication, so next we'll add a user and enable authentication:
   - Open the Windows Command Prompt
   - Switch to Mongo install directory, `cd C:\Program Files\MongoDB\Server\5.0\bin` (unless you changed during install).
-  - Open `mongod.cfg` in a text editor (NOTE: to save the updated file you will need admin privileges).
-  - Look for the `security` section which is commented out by default. Uncomment and enable security like so:
-  ```
-  security:
-    authorization: "enabled"
-  ```
-  - Now restart the "MongoDB" service using the "Services" tab in Windows Task Manager or just reboot your machine.
   - Next we'll launch Mongo Shell to add a user for the Race Manager database (NOTE: the database itself is created automatically later when the app is launched).
-  - Again from the Windows Command Prompt, in same MongoDB install directory, run `mongo` to start the Mongo Shell.
+  - In the Windows Command Prompt, run `mongo` to start the Mongo Shell.
   - Next we'll switch to the `admin` auth database and create your user. Run the following commands and you will be prompted for the password you'd like to use:
   ```
   use admin
@@ -49,6 +42,13 @@
   )
   ```
   - From the same shell, you can test the user with the following command, `db.auth("racemgr", passwordPrompt())`. A return value of `1` is good.
+  - Back in the Mongo install directory, open `mongod.cfg` in a text editor (NOTE: to save the updated file you will need admin privileges).
+  - Look for the `security` section which is commented out by default. Uncomment and enable security like so:
+  ```
+  security:
+    authorization: "enabled"
+  ```
+  - Now restart the "MongoDB" service using the "Services" tab in Windows Task Manager or just reboot your machine.
   - That's it. Return to "Server Setup" above.
 
 ## API Endpoints
