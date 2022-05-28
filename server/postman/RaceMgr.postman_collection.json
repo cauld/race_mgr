@@ -2,532 +2,10 @@
 	"info": {
 		"_postman_id": "2693d5d7-e73c-4401-83b1-4bf280fb18a3",
 		"name": "RaceMgr",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38329"
 	},
 	"item": [
-		{
-			"name": "Rotations",
-			"item": [
-				{
-					"name": "Rotation: Get Details",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/race/rotation/6264422fcacf936f98fa89db",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"race",
-								"rotation",
-								"6264422fcacf936f98fa89db"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Rotation: List (paged)",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/race/rotation?page=0&limit=10",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"race",
-								"rotation"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "0"
-								},
-								{
-									"key": "limit",
-									"value": "10"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Rotation: Generate New",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"raceCount\": \"10\",\r\n    \"allowKarts\": \"false\",\r\n    \"persist\": \"true\",\r\n    \"restart\": \"true\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/race/rotation",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"race",
-								"rotation"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Rotation: Generate w/ Name",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Custom named rotation\",\r\n    \"raceCount\": \"10\",\r\n    \"allowKarts\": \"false\",\r\n    \"persist\": \"true\",\r\n    \"restart\": \"true\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/race/rotation",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"race",
-								"rotation"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Rotation: Delete (Soft)",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/race/rotation/6264422fcacf936f98fa89db",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"race",
-								"rotation",
-								"6264422fcacf936f98fa89db"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Sessions",
-			"item": [
-				{
-					"name": "Session: Create New",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"The best series ever!\",\r\n    \"raceRotationIds\": []\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/race/session",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"race",
-								"session"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Session: Get Details",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/race/session/6265e36632510c5776ba35d0",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"race",
-								"session",
-								"6265e36632510c5776ba35d0"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Session: List (paged)",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/race/session?page=0&limit=10",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"race",
-								"session"
-							],
-							"query": [
-								{
-									"key": "page",
-									"value": "0"
-								},
-								{
-									"key": "limit",
-									"value": "10"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Session: Update",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"The best series ever!\",\r\n    \"raceRotationId3s\": [\"123\", \"456\"]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/race/session/62642e4a65298c292ef9e3de",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"race",
-								"session",
-								"62642e4a65298c292ef9e3de"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Session: Delete (Soft)",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/race/session/62642e4a65298c292ef9e3de",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"race",
-								"session",
-								"62642e4a65298c292ef9e3de"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Game Server",
-			"item": [
-				{
-					"name": "Game Server: Current Status",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/gameserver",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"gameserver"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Game Server: Start",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"status\": \"start\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/gameserver",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"gameserver"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Game Server: Restart",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"status\": \"restart\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/gameserver",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"gameserver"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Game Server: Stop",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"status\": \"stop\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/gameserver",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"gameserver"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Config",
-			"item": [
-				{
-					"name": "Config: Get Details",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/config",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"config"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Config: Set/Update",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"serverName\": \"Red Bull\",\r\n    \"activeRaceSessionId\": \"123\",\r\n    \"activeRaceRotationId\": \"456\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/v1/config",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"config"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
 		{
 			"name": "Event Stats",
 			"item": [
@@ -537,39 +15,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/race/stats",
+							"raw": "http://{{HOST_BASE_API_URL}}/race/stats",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{HOST_BASE_API_URL}}"
 							],
-							"port": "8080",
 							"path": [
-								"api",
-								"v1",
 								"race",
 								"stats"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Stats: Process Manually",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/race/events",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"race",
-								"events"
 							]
 						}
 					},
@@ -593,15 +46,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/v1/race/events?raceSessionId=&raceRotationId=&page=0&limit=10",
+							"raw": "http://{{HOST_BASE_API_URL}}/race/events?raceSessionId=&raceRotationId=&page=0&limit=10",
 							"protocol": "http",
 							"host": [
-								"localhost"
+								"{{HOST_BASE_API_URL}}"
 							],
-							"port": "8080",
 							"path": [
-								"api",
-								"v1",
 								"race",
 								"events"
 							],
@@ -628,6 +78,694 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Sessions",
+					"item": [
+						{
+							"name": "Session: Create New",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"LAST_GENERATED_SESSION_ID\", jsonData.data.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"The best series ever!\",\r\n    \"raceRotationIds\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/session",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"session"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Session: Get Details",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/session/{{LAST_GENERATED_SESSION_ID}}",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"session",
+										"{{LAST_GENERATED_SESSION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Session: List (paged)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/session?page=0&limit=10",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"session"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Session: Update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"The best series ever!\",\r\n    \"raceRotationId3s\": [\"123\", \"456\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/session/{{LAST_GENERATED_SESSION_ID}}",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"session",
+										"{{LAST_GENERATED_SESSION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Session: Delete (Soft)",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/session/{{LAST_GENERATED_SESSION_ID}}",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"session",
+										"{{LAST_GENERATED_SESSION_ID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Game Server",
+					"item": [
+						{
+							"name": "Game Server: Current Status",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/gameserver",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"gameserver"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Game Server: Start",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"start\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/gameserver",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"gameserver"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Game Server: Restart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"restart\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/gameserver",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"gameserver"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Game Server: Stop",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"status\": \"stop\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/gameserver",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"gameserver"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Rotations",
+					"item": [
+						{
+							"name": "Rotation: Generate New",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"raceCount\": \"10\",\r\n    \"allowKarts\": \"false\",\r\n    \"persist\": \"true\",\r\n    \"restart\": \"true\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"rotation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rotation: Generate w/ Name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Custom named rotation\",\r\n    \"raceCount\": \"10\",\r\n    \"allowKarts\": \"false\",\r\n    \"persist\": \"true\",\r\n    \"restart\": \"true\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"rotation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rotation: Get Details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation/{{LAST_GENERATED_ROTATION_ID}}",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"rotation",
+										"{{LAST_GENERATED_ROTATION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rotation: List (paged)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation?page=0&limit=10",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"rotation"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rotation: Delete (Soft)",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation/{{LAST_GENERATED_ROTATION_ID}}",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"rotation",
+										"{{LAST_GENERATED_ROTATION_ID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Config",
+					"item": [
+						{
+							"name": "Config: Get Details",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/config",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"config"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Config: Set/Update",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"serverName\": \"Red Bull\",\r\n    \"activeRaceSessionId\": \"123\",\r\n    \"activeRaceRotationId\": \"456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/config",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"config"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Events",
+					"item": [
+						{
+							"name": "Stats: Process Manually",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/events",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"events"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "12345",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "admin",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Get xsrf-token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"XSRF-TOKEN\", decodeURIComponent(pm.cookies.get(\"XSRF-TOKEN\")));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{HOST_BASE_API_URL}}/race/stats",
+					"protocol": "http",
+					"host": [
+						"{{HOST_BASE_API_URL}}"
+					],
+					"path": [
+						"race",
+						"stats"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

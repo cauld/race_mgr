@@ -1,5 +1,6 @@
-package com.coop.racemgr.controllers;
+package com.coop.racemgr.controllers.admin;
 
+import com.coop.racemgr.controllers.ResponseHandler;
 import com.coop.racemgr.gameserver.GameServerMgr;
 import com.coop.racemgr.gameserver.GameServerProxy;
 import com.coop.racemgr.model.RaceRotation;
@@ -41,7 +42,7 @@ public class RaceRotationController {
         private GameServerProxy gameServerProxy;
     }
 
-    @GetMapping("/api/v1/race/rotation/{id}")
+    @GetMapping("/api/v1/admin/race/rotation/{id}")
     public ResponseEntity<Object> raceRotationDetails(@PathVariable String id) {
         var rr = raceRotationRepository.findItemById(id);
         if (rr == null) {
@@ -51,7 +52,7 @@ public class RaceRotationController {
         }
     }
 
-    @GetMapping("/api/v1/race/rotation")
+    @GetMapping("/api/v1/admin/race/rotation")
     public ResponseEntity<Object> raceRotationList(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer limit) {
         Pageable paging = PageRequest.of(page, limit);
         try {
@@ -62,7 +63,7 @@ public class RaceRotationController {
         }
     }
 
-    @PostMapping("/api/v1/race/rotation")
+    @PostMapping("/api/v1/admin/race/rotation")
     public ResponseEntity<Object> rotation(@RequestBody RaceRotationRequest request) throws org.json.simple.parser.ParseException {
         // Generate rotation config
         RacemgrRotationConfig rotationConfig = new RacemgrRotationConfig(new GameServerProxy(), request.raceCount, request.allowKarts, request.persist);
@@ -77,16 +78,16 @@ public class RaceRotationController {
 
             if (request.restart) {
                 GameServerMgr.restart();
-                return ResponseHandler.generateResponse("Successfully generated new rotation, restarting server now to apply!", HttpStatus.OK, rotationConfig);
+                return ResponseHandler.generateResponse("Successfully generated new rotation, restarting server now to apply!", HttpStatus.OK, raceRotation);
             } else {
-                return ResponseHandler.generateResponse("Successfully generated new rotation, manually restart server to apply!", HttpStatus.OK, rotationConfig);
+                return ResponseHandler.generateResponse("Successfully generated new rotation, manually restart server to apply!", HttpStatus.OK, raceRotation);
             }
         } catch (Exception e) {
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
 
-    @DeleteMapping("/api/v1/race/rotation/{id}")
+    @DeleteMapping("/api/v1/admin/race/rotation/{id}")
     public ResponseEntity<Object> deleteRaceRotation(@PathVariable String id) {
         var rr = raceRotationRepository.findItemById(id);
         if (rr == null) {

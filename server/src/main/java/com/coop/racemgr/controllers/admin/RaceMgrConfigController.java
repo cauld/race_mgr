@@ -1,5 +1,6 @@
-package com.coop.racemgr.controllers;
+package com.coop.racemgr.controllers.admin;
 
+import com.coop.racemgr.controllers.ResponseHandler;
 import com.coop.racemgr.model.RaceMgrConfig;
 import com.coop.racemgr.repositories.RaceMgrConfigRepository;
 import lombok.Data;
@@ -24,7 +25,7 @@ public class RaceMgrConfigController {
         Long updated;
     }
 
-    @GetMapping("/api/v1/config")
+    @GetMapping("/api/v1/admin/config")
     public ResponseEntity<Object> raceMgrConfigDetails() {
         var rmc = raceMgrConfigRepository.findItemById("1");
         if (rmc == null) {
@@ -34,7 +35,7 @@ public class RaceMgrConfigController {
         }
     }
 
-    @PutMapping("/api/v1/config")
+    @PutMapping("/api/v1/admin/config")
     public ResponseEntity<Object> updateRaceMgrConfigDetails(@RequestBody RaceMgrConfigRequest request) {
         var rmc = raceMgrConfigRepository.findItemById("1");
         if (rmc == null) {

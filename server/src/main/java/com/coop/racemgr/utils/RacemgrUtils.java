@@ -7,6 +7,9 @@ import com.google.common.collect.Lists;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class RacemgrUtils {
     public static List jsonArrToList(JSONArray jsonArr) {
@@ -119,5 +123,21 @@ public class RacemgrUtils {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
         Date date = new Date(System.currentTimeMillis());
         return formatter.format(date);
+    }
+
+    public static AtomicReference<String> getXsrfToken(String url) {
+        WebClient webClient = WebClient.create();
+        final AtomicReference<String> xsrfToken = new AtomicReference<>();
+        webClient.get()
+            .uri(url)
+            .retrieve()
+            .onStatus(HttpStatus::is2xxSuccessful, r -> {
+                xsrfToken.set(r.cookies().get("XSRF-TOKEN").get(0).getValue());
+                return Mono.empty();
+            })
+            .bodyToMono(String.class)
+            .block();
+
+        return xsrfToken;
     }
 }

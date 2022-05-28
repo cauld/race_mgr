@@ -1,6 +1,5 @@
 package com.coop.racemgr.controllers;
 
-import com.coop.racemgr.jobs.RaceEventProcessor;
 import com.coop.racemgr.model.Race;
 import com.coop.racemgr.repositories.RaceMgrConfigRepository;
 import com.coop.racemgr.repositories.RaceRepository;
@@ -11,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,18 +52,6 @@ public class RaceController {
 
             return ResponseHandler.generateResponse("Race event list", HttpStatus.OK, raceSessions);
         } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
-        }
-    }
-
-    @PostMapping("/api/v1/race/events")
-    public ResponseEntity<Object> processEvents() {
-        var raceEventProcessor = new RaceEventProcessor(this.raceRepository, this.raceMgrConfigRepository);
-        try {
-            raceEventProcessor.processRaces();
-            return ResponseHandler.generateResponse("Events processed", HttpStatus.OK, null);
-        }  catch (Exception e) {
-            System.out.println("Error: " + e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }

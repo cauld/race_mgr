@@ -1,8 +1,12 @@
 package com.coop.racemgr;
 
+import com.coop.racemgr.utils.RacemgrUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
@@ -13,7 +17,13 @@ public class SpringConfiguration {
 //        return new RaceEventProcessor();
 //    }
 
-    private WebClient eventProcessingClient = WebClient.create();
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+    private String raceMgrBaseUrl = "http://localhost:8080/";
+    private String adminUser = System.getenv("RM_ADMIN_USER");
+    private String adminPassword = System.getenv("RM_ADMIN_PASSWORD");
 
     // NOTE: This calls the self-hosted REST endpoint that triggers event process. It has
     // a 1s delay for the first call and then calls 1s after each execution completes.
@@ -22,8 +32,13 @@ public class SpringConfiguration {
     // Ref: https://www.baeldung.com/spring-scheduled-tasks
     @Scheduled(fixedDelay = 1000)
     public void scheduleFixedDelayTask() {
-        this.eventProcessingClient.post()
-            .uri("http://localhost:8080/api/v1/race/events")
+        WebClient eventProcessingClient = WebClient.create();
+        var xsrfToken = String.valueOf(RacemgrUtils.getXsrfToken(raceMgrBaseUrl));
+        eventProcessingClient.post()
+            .uri(raceMgrBaseUrl + "api/v1/admin/race/events")
+                .headers(httpHeaders -> httpHeaders.setBasicAuth(adminUser, adminPassword))
+                .headers(httpHeaders -> httpHeaders.set( "X-XSRF-TOKEN", xsrfToken))
+                .cookies(cookies -> cookies.add("XSRF-TOKEN", xsrfToken))
             .retrieve()
             .bodyToMono(String.class)
             .block();

@@ -17,6 +17,8 @@
      - `RM_MONGO_PASS` - That password you set when creating the user above
      - `RM_MONGO_HOST` - Use `localhost` if you are running on the same machine
      - `RM_MONGO_PORT` - Use `27017` unless you've customized
+     - `RM_ADMIN_USER` - All `admin` features/API endpoints require basic authentication. Set to whatever you want the admin username to be.
+     - `RM_ADMIN_PASSWORD` - All `admin` features/API endpoints require basic authentication. Set to whatever you want the admin password to be.
      - Open the Window's command prompt, `cd` to RMS server director (important), run `java -jar racemgr-0.0.X.jar` (X being the version you downloaded).
 
      NOTE for Devs:
@@ -53,8 +55,10 @@
 
 ## API Endpoints
  - All API endpoints start with `/api/v1/` (e.g.) `http://localhost:8080/api/v1/rotation`
+ - All server admin related features live under the `/api/v1/admin/` resource (e.g.) `http://localhost:8080/api/v1/admin/...`. These require basic authentication.
 
 ## API Exploration (Postman)
  - Download/Install [Postman](https://www.postman.com/downloads/)
- - [Import collection](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/) found in the `postman` directory
+ - [Import collection & environment](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/) found in the `postman` directory
+ - Open the collection, select the `RaceMgr` environment, click on the `Admin` folder in the collection and update the admin user/password values. Make sure to save after updating. More on managing environments [here](https://learning.postman.com/docs/sending-requests/managing-environments/).
  - Use APIs against running server
