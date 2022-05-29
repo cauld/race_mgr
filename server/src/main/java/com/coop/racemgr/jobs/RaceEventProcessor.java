@@ -40,15 +40,7 @@ public class RaceEventProcessor {
             while (iterator.hasNext()) {
                 var raceData = iterator.next();
                 ObjectMapper objectMapper = new ObjectMapper();
-
-                // We have to help the parser out. It can't handle a JSONArray of JSONObjects
-                // on it's own it seems when deserializing from the string. Fix manually
-                // before the readValue below.
-                var participants = raceData.get("participants");
-                raceData.remove("participants");
-
                 Race race = objectMapper.readValue(raceData.toString(), Race.class);
-                race.setParticipants((JSONArray) participants);
                 race.setRaceId();
                 race.setRaceSessionId(currentRmc.getActiveRaceSessionId());
                 race.setRaceRotationId(currentRmc.getActiveRaceRotationId());
