@@ -1,4 +1,4 @@
-package com.coop.racemgr;
+package com.coop.racemgr.security;
 
 import com.coop.racemgr.filter.CustomFilter;
 import org.springframework.beans.factory.annotation.Autowired;

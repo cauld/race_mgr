@@ -1,4 +1,4 @@
-package com.coop.racemgr;
+package com.coop.racemgr.utils;
 
 public class RacemgrBanner {
     static String banner = "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWXKKNWWWMMMMMMMMMMMMMMMMMMMM\n" +
@@ -22,7 +22,7 @@ public class RacemgrBanner {
             "MMMMMMMMMMMMMMMMMMMMMMMWWWWWWWMMMWMMMWNK00KXWMMWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n" +
             "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWWWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM";
 
-    static void print() {
+    public static void print() {
         System.out.println(banner);
     }
 }

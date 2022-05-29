@@ -1,4 +1,4 @@
-package com.coop.racemgr;
+package com.coop.racemgr.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
