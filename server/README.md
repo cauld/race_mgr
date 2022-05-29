@@ -62,3 +62,4 @@
  - [Import collection & environment](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/) found in the `postman` directory
  - Open the collection, select the `RaceMgr` environment, click on the `Admin` folder in the collection and update the admin user/password values. Make sure to save after updating. More on managing environments [here](https://learning.postman.com/docs/sending-requests/managing-environments/).
  - Use APIs against running server
+ - Here is a [demo/explanation video](https://www.youtube.com/watch?v=_ou79ZR819s&ab_channel=RaceManager) of our APIs and Postman usage.
