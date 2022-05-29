@@ -1,84 +1,11 @@
 {
 	"info": {
-		"_postman_id": "e0b95855-1d3e-4388-ae8d-b422c4be3126",
+		"_postman_id": "f3522eda-d245-4674-8029-59c0959eebaa",
 		"name": "RaceMgr",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "38329"
 	},
 	"item": [
-		{
-			"name": "Event Stats",
-			"item": [
-				{
-					"name": "Stats: Get Live",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{HOST_BASE_API_URL}}/race/stats",
-							"protocol": "http",
-							"host": [
-								"{{HOST_BASE_API_URL}}"
-							],
-							"path": [
-								"race",
-								"stats"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Stats: List (filtered & paged)",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://{{HOST_BASE_API_URL}}/race/events?raceSessionId=&raceRotationId=&page=0&limit=10",
-							"protocol": "http",
-							"host": [
-								"{{HOST_BASE_API_URL}}"
-							],
-							"path": [
-								"race",
-								"events"
-							],
-							"query": [
-								{
-									"key": "raceSessionId",
-									"value": ""
-								},
-								{
-									"key": "raceRotationId",
-									"value": ""
-								},
-								{
-									"key": "page",
-									"value": "0"
-								},
-								{
-									"key": "limit",
-									"value": "10"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
 		{
 			"name": "Admin",
 			"item": [
@@ -763,6 +690,84 @@
 							""
 						]
 					}
+				}
+			]
+		},
+		{
+			"name": "Public",
+			"item": [
+				{
+					"name": "Event Stats",
+					"item": [
+						{
+							"name": "Stats: Get Live",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/race/stats",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"race",
+										"stats"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Stats: List (filtered & paged)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/race/events?raceSessionId=&raceRotationId=&page=0&limit=10",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"race",
+										"events"
+									],
+									"query": [
+										{
+											"key": "raceSessionId",
+											"value": ""
+										},
+										{
+											"key": "raceRotationId",
+											"value": ""
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
