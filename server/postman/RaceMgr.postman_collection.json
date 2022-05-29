@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2693d5d7-e73c-4401-83b1-4bf280fb18a3",
+		"_postman_id": "e0b95855-1d3e-4388-ae8d-b422c4be3126",
 		"name": "RaceMgr",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "38329"
@@ -699,6 +699,35 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Get xsrf-token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"XSRF-TOKEN\", decodeURIComponent(pm.cookies.get(\"XSRF-TOKEN\")));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST_URL}}/",
+							"protocol": "http",
+							"host": [
+								"{{HOST_URL}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"auth": {
@@ -736,36 +765,6 @@
 					}
 				}
 			]
-		},
-		{
-			"name": "Get xsrf-token",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.environment.set(\"XSRF-TOKEN\", decodeURIComponent(pm.cookies.get(\"XSRF-TOKEN\")));"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://{{HOST_BASE_API_URL}}/race/stats",
-					"protocol": "http",
-					"host": [
-						"{{HOST_BASE_API_URL}}"
-					],
-					"path": [
-						"race",
-						"stats"
-					]
-				}
-			},
-			"response": []
 		}
 	]
 }
