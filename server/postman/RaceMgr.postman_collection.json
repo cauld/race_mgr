@@ -24,6 +24,15 @@
 										],
 										"type": "text/javascript"
 									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
 							],
 							"request": {
@@ -136,6 +145,17 @@
 						},
 						{
 							"name": "Session: Update",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -172,6 +192,17 @@
 						},
 						{
 							"name": "Session: Delete (Soft)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -235,6 +266,17 @@
 						},
 						{
 							"name": "Game Server: Start",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [
@@ -269,6 +311,17 @@
 						},
 						{
 							"name": "Game Server: Restart",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [
@@ -303,6 +356,17 @@
 						},
 						{
 							"name": "Game Server: Stop",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [
@@ -352,6 +416,15 @@
 										],
 										"type": "text/javascript"
 									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
 								}
 							],
 							"request": {
@@ -396,6 +469,15 @@
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);\r",
 											"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -499,6 +581,17 @@
 						},
 						{
 							"name": "Rotation: Delete (Soft)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -770,6 +863,32 @@
 					]
 				}
 			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Refresh XSRF Token for mutation requests",
+					"var HOST_URL = pm.variables.get(\"HOST_URL\");",
+					"",
+					"pm.sendRequest(\"http://\" + HOST_URL + \"/\", function (err, response, options) {",
+					"    var xsrfToken = options.cookies.members[1].value;",
+					"    pm.environment.set(\"XSRF-TOKEN\", xsrfToken);",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
