@@ -17,7 +17,7 @@ public class RacemgrRotationConfig {
     public RacemgrRotationConfig(GameServerProxy gameServerProxy, int raceCount, boolean allowKarts, boolean persist) throws ParseException {
         this.persist_index = persist;
 
-        List raceVehicleClasses = gameServerProxy.getVehicleClasses(1, true, allowKarts);
+        List raceVehicleClasses = gameServerProxy.getVehicleClassesFiltered(1, true, allowKarts);
         String raceVehicleClassId = RacemgrUtils.getValueFromObj("name", raceVehicleClasses.get(0));
 
         // Technically this needs to be called "default", but that's a reserved word. We rename later.

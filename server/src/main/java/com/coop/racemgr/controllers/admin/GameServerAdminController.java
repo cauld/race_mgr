@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @RestController
-public class GameServerController {
+public class GameServerAdminController {
     public enum ServerStatuses {
         start, restart, stop;
     }

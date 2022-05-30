@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f3522eda-d245-4674-8029-59c0959eebaa",
+		"_postman_id": "7fe29bb6-6392-4cfb-a814-14dd1c87038d",
 		"name": "RaceMgr",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "38329"
@@ -167,7 +167,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"The best series ever!\",\r\n    \"raceRotationId3s\": [\"123\", \"456\"]\r\n}",
+									"raw": "{\r\n    \"name\": \"The best series ever!\",\r\n    \"raceRotationIds\": [\"123\", \"456\"]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -438,7 +438,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"raceCount\": \"10\",\r\n    \"allowKarts\": \"false\",\r\n    \"persist\": \"true\",\r\n    \"restart\": \"true\"\r\n}",
+									"raw": "{\r\n    \"raceCount\": \"50\",\r\n    \"allowKarts\": \"false\",\r\n    \"persist\": \"true\",\r\n    \"restart\": \"true\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -754,13 +754,13 @@
 				"type": "basic",
 				"basic": [
 					{
-						"key": "password",
-						"value": "12345",
+						"key": "username",
+						"value": "admin",
 						"type": "string"
 					},
 					{
-						"key": "username",
-						"value": "admin",
+						"key": "password",
+						"value": "12345",
 						"type": "string"
 					}
 				]
@@ -861,6 +861,106 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Game Server",
+					"item": [
+						{
+							"name": "Game Server: Get Weather Options",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/gameserver/weather",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"gameserver",
+										"weather"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Game Server: Get Track Options",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/gameserver/tracks",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"gameserver",
+										"tracks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Game Server: Get Livery Options",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/gameserver/liveries",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"gameserver",
+										"liveries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Game Server: Get Vehicle Options",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/gameserver/vehicles",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"gameserver",
+										"vehicles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Game Server: Get Vehicle Class Options",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/gameserver/vehicle_classes",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"gameserver",
+										"vehicle_classes"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}
@@ -873,10 +973,15 @@
 				"exec": [
 					"// Refresh XSRF Token for mutation requests",
 					"var HOST_URL = pm.variables.get(\"HOST_URL\");",
+					"console.log(\"HOST_URL\", HOST_URL);",
 					"",
 					"pm.sendRequest(\"http://\" + HOST_URL + \"/\", function (err, response, options) {",
-					"    var xsrfToken = options.cookies.members[1].value;",
-					"    pm.environment.set(\"XSRF-TOKEN\", xsrfToken);",
+					"    try {",
+					"        var xsrfToken = options.cookies.members[1].value;",
+					"        pm.environment.set(\"XSRF-TOKEN\", xsrfToken);",
+					"    } catch(e) {",
+					"        console.log(\"Can't get XSRF-TOKEN\");",
+					"    }",
 					"});"
 				]
 			}

@@ -52,10 +52,15 @@ public class GameServerProxy {
         return this.gameServerListBaseUrl + "/" + endpoint;
     }
 
-    public List getTracks(int count, boolean random, boolean allowKarts) throws ParseException {
+    public List getTracks() {
         String endpoint = GameServerEndpoints.TRACKS.getEndpoint();
         String apiUrl = this.getDataApiUrl(endpoint);
         List apiData = this.getData(apiUrl);
+        return apiData;
+    }
+
+    public List getTracksFiltered(int count, boolean random, boolean allowKarts) {
+        List apiData = this.getTracks();
         if (allowKarts == false) {
             apiData = withoutKartTracks(apiData);
         }
@@ -72,24 +77,34 @@ public class GameServerProxy {
         return (List) filteredTracks;
     }
 
-    public List getVehicles(int count, boolean random) throws ParseException {
+    public List getVehicles() {
         String endpoint = GameServerEndpoints.VEHICLES.getEndpoint();
         String apiUrl = this.getDataApiUrl(endpoint);
         List apiData = this.getData(apiUrl);
+        return apiData;
+    }
+
+    public List getVehiclesFiltered(int count, boolean random) {
+        List apiData = this.getVehicles();
         return RacemgrUtils.filterList(apiData, count, random);
     }
 
-    public List getLiveries(int count, boolean random) {
+    public List getLiveries() {
         String endpoint = GameServerEndpoints.LIVERIES.getEndpoint();
         String apiUrl = this.getDataApiUrl(endpoint);
         List apiData = this.getData(apiUrl);
-        return RacemgrUtils.filterList(apiData, count, random);
+        return apiData;
     }
 
-    public List getVehicleClasses(int count, boolean random, boolean allowKarts) throws ParseException {
+    public List getVehicleClasses() {
         String endpoint = GameServerEndpoints.VEHICLE_CLASSES.getEndpoint();
         String apiUrl = this.getDataApiUrl(endpoint);
         List apiData = this.getData(apiUrl);
+        return apiData;
+    }
+
+    public List getVehicleClassesFiltered(int count, boolean random, boolean allowKarts) {
+        List apiData = this.getVehicleClasses();
         if (allowKarts == false) {
             apiData = vehicleClassesWithoutKarts(apiData);
         }
@@ -130,16 +145,32 @@ public class GameServerProxy {
         return stats;
     }
 
+    public List getWeather() {
+        String endpoint = GameServerEndpoints.WEATHER.getEndpoint();
+        String apiUrl = this.getDataApiUrl(endpoint);
+        List apiData = this.getData(apiUrl);
+        return apiData;
+    }
+
+    public List getWeatherFiltered(int count, boolean random, boolean withoutRain) {
+        List filteredApiData = this.getWeather();
+        if (withoutRain) {
+            filteredApiData = this.weatherWithoutRain(filteredApiData);
+        }
+
+        return RacemgrUtils.filterList(filteredApiData, count, random);
+    }
+
     private List weatherWithoutRain(List weatherData) {
         List<String> rainyWeatherNames = Arrays.asList(
-            "LightRain",
-            "FogWithRain",
-            "HeavyFogWithRain",
-            "HeavyFog",
-            "ThunderStorm",
-            "Rain",
-            "Storm",
-            "Random"
+                "LightRain",
+                "FogWithRain",
+                "HeavyFogWithRain",
+                "HeavyFog",
+                "ThunderStorm",
+                "Rain",
+                "Storm",
+                "Random"
         );
 
         Predicate byWeather = weatherElement -> {
@@ -149,18 +180,5 @@ public class GameServerProxy {
         var filteredWeather = weatherData.stream().filter(byWeather)
                 .collect(Collectors.toList());
         return (List) filteredWeather;
-    }
-
-
-    public List getWeather(int count, boolean random, boolean withoutRain) throws ParseException {
-        String endpoint = GameServerEndpoints.WEATHER.getEndpoint();
-        String apiUrl = this.getDataApiUrl(endpoint);
-        List apiData = this.getData(apiUrl);
-        List filteredApiData = apiData;
-        if (withoutRain) {
-            filteredApiData = this.weatherWithoutRain(apiData);
-        }
-
-        return RacemgrUtils.filterList(filteredApiData, count, random);
     }
 }
