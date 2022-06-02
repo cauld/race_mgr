@@ -33,7 +33,7 @@ public class SpringConfiguration {
     @Scheduled(fixedDelay = 1000)
     public void scheduleFixedDelayTask() {
         WebClient eventProcessingClient = WebClient.create();
-        var xsrfToken = String.valueOf(RacemgrUtils.getXsrfToken(raceMgrBaseUrl));
+        var xsrfToken = String.valueOf(RacemgrUtils.getXsrfToken(raceMgrBaseUrl + "api"));
         eventProcessingClient.post()
             .uri(raceMgrBaseUrl + "api/v1/admin/race/events")
                 .headers(httpHeaders -> httpHeaders.setBasicAuth(adminUser, adminPassword))

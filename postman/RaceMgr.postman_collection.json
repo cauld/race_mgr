@@ -737,13 +737,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://{{HOST_URL}}/",
+							"raw": "http://{{HOST_URL}}/api",
 							"protocol": "http",
 							"host": [
 								"{{HOST_URL}}"
 							],
 							"path": [
-								""
+								"api"
 							]
 						}
 					},
@@ -975,7 +975,7 @@
 					"var HOST_URL = pm.variables.get(\"HOST_URL\");",
 					"console.log(\"HOST_URL\", HOST_URL);",
 					"",
-					"pm.sendRequest(\"http://\" + HOST_URL + \"/\", function (err, response, options) {",
+					"pm.sendRequest(\"http://\" + HOST_URL + \"/api\", function (err, response, options) {",
 					"    try {",
 					"        var xsrfToken = options.cookies.members[1].value;",
 					"        pm.environment.set(\"XSRF-TOKEN\", xsrfToken);",
