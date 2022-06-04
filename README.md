@@ -23,7 +23,7 @@
      - Open the Window's command prompt, `cd` to RMS server director (important), run `java -jar racemgr-0.0.X.jar` (X being the version you downloaded).
 
      NOTE for Devs:
-     - If you are building yourself and using IntelliJ you should define these same variables [in the IDE](https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html).
+     - If you are building yourself and using IntelliJ you can define these same variables [in the IDE](https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html) to override the Windows System Env ones as needed.
 
 ## MongoDB Setup
 - Unless you plan to use a remote MongoDB, install MongoDB now. Any recent version (5.0+) should work fine. The [free community edition](https://www.mongodb.com/try/download/community) is all you need.
