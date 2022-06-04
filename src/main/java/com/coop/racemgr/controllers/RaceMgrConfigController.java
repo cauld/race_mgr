@@ -1,4 +1,4 @@
-package com.coop.racemgr.controllers.admin;
+package com.coop.racemgr.controllers;
 
 import com.coop.racemgr.controllers.ResponseHandler;
 import com.coop.racemgr.model.RaceMgrConfig;
@@ -25,15 +25,7 @@ public class RaceMgrConfigController {
         Long updated;
     }
 
-    @GetMapping("/api/v1/admin/config")
-    public ResponseEntity<Object> raceMgrConfigDetails() {
-        var rmc = raceMgrConfigRepository.findItemById("1");
-        if (rmc == null) {
-            return ResponseHandler.generateResponse("Race Mgr config not set, added a default!", HttpStatus.NOT_FOUND, null);
-        }  else {
-            return ResponseHandler.generateResponse("Race Mgr config details", HttpStatus.OK, rmc);
-        }
-    }
+    /** ADMIN ENDPOINTS **/
 
     @PutMapping("/api/v1/admin/config")
     public ResponseEntity<Object> updateRaceMgrConfigDetails(@RequestBody RaceMgrConfigRequest request) {
@@ -52,6 +44,18 @@ public class RaceMgrConfigController {
             return ResponseHandler.generateResponse("Successfully set race mgr config!", HttpStatus.OK, null);
         } catch (Exception e) {
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
+    }
+
+    /** PUBLIC ENDPOINTS **/
+
+    @GetMapping("/api/v1/config")
+    public ResponseEntity<Object> raceMgrConfigDetails() {
+        var rmc = raceMgrConfigRepository.findItemById("1");
+        if (rmc == null) {
+            return ResponseHandler.generateResponse("Race Mgr config not set, added a default!", HttpStatus.NOT_FOUND, null);
+        }  else {
+            return ResponseHandler.generateResponse("Race Mgr config details", HttpStatus.OK, rmc);
         }
     }
 }

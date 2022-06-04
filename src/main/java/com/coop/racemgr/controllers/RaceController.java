@@ -21,6 +21,8 @@ public class RaceController {
     @Autowired
     private RaceMgrConfigRepository raceMgrConfigRepository;
 
+    /** PUBLIC ENDPOINTS **/
+
     @GetMapping("/api/v1/race/events")
     public ResponseEntity<Object> raceEventList(
             @RequestParam(required = false, defaultValue = "") String raceSessionId,

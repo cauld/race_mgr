@@ -69,81 +69,6 @@
 							"response": []
 						},
 						{
-							"name": "Session: Get Details",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/session/{{LAST_GENERATED_SESSION_ID}}",
-									"protocol": "http",
-									"host": [
-										"{{HOST_BASE_API_URL}}"
-									],
-									"path": [
-										"admin",
-										"race",
-										"session",
-										"{{LAST_GENERATED_SESSION_ID}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Session: List (paged)",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/session?page=0&limit=10",
-									"protocol": "http",
-									"host": [
-										"{{HOST_BASE_API_URL}}"
-									],
-									"path": [
-										"admin",
-										"race",
-										"session"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "0"
-										},
-										{
-											"key": "limit",
-											"value": "10"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Session: Update",
 							"event": [
 								{
@@ -233,37 +158,6 @@
 				{
 					"name": "Game Server",
 					"item": [
-						{
-							"name": "Game Server: Current Status",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://{{HOST_BASE_API_URL}}/admin/gameserver",
-									"protocol": "http",
-									"host": [
-										"{{HOST_BASE_API_URL}}"
-									],
-									"path": [
-										"admin",
-										"gameserver"
-									]
-								}
-							},
-							"response": []
-						},
 						{
 							"name": "Game Server: Start",
 							"event": [
@@ -517,69 +411,6 @@
 							"response": []
 						},
 						{
-							"name": "Rotation: Get Details",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation/{{LAST_GENERATED_ROTATION_ID}}",
-									"protocol": "http",
-									"host": [
-										"{{HOST_BASE_API_URL}}"
-									],
-									"path": [
-										"admin",
-										"race",
-										"rotation",
-										"{{LAST_GENERATED_ROTATION_ID}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Rotation: List (paged)",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation?page=0&limit=10",
-									"protocol": "http",
-									"host": [
-										"{{HOST_BASE_API_URL}}"
-									],
-									"path": [
-										"admin",
-										"race",
-										"rotation"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "0"
-										},
-										{
-											"key": "limit",
-											"value": "10"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Rotation: Delete (Soft)",
 							"event": [
 								{
@@ -622,37 +453,6 @@
 				{
 					"name": "Config",
 					"item": [
-						{
-							"name": "Config: Get Details",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://{{HOST_BASE_API_URL}}/admin/config",
-									"protocol": "http",
-									"host": [
-										"{{HOST_BASE_API_URL}}"
-									],
-									"path": [
-										"admin",
-										"config"
-									]
-								}
-							},
-							"response": []
-						},
 						{
 							"name": "Config: Set/Update",
 							"request": {
@@ -790,29 +590,10 @@
 			"name": "Public",
 			"item": [
 				{
-					"name": "Event Stats",
+					"name": "Sessions",
 					"item": [
 						{
-							"name": "Stats: Get Live",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://{{HOST_BASE_API_URL}}/race/stats",
-									"protocol": "http",
-									"host": [
-										"{{HOST_BASE_API_URL}}"
-									],
-									"path": [
-										"race",
-										"stats"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Stats: List (filtered & paged)",
+							"name": "Session: Get Details",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -829,24 +610,48 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{HOST_BASE_API_URL}}/race/events?raceSessionId=&raceRotationId=&page=0&limit=10",
+									"raw": "http://{{HOST_BASE_API_URL}}/race/session/{{LAST_GENERATED_SESSION_ID}}",
 									"protocol": "http",
 									"host": [
 										"{{HOST_BASE_API_URL}}"
 									],
 									"path": [
 										"race",
-										"events"
+										"session",
+										"{{LAST_GENERATED_SESSION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Session: List (paged)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/race/session?page=0&limit=10",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"race",
+										"session"
 									],
 									"query": [
-										{
-											"key": "raceSessionId",
-											"value": ""
-										},
-										{
-											"key": "raceRotationId",
-											"value": ""
-										},
 										{
 											"key": "page",
 											"value": "0"
@@ -955,6 +760,210 @@
 									"path": [
 										"gameserver",
 										"vehicle_classes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Game Server: Current Status",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/gameserver",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"gameserver"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Rotations",
+					"item": [
+						{
+							"name": "Rotation: Get Details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/race/rotation/{{LAST_GENERATED_ROTATION_ID}}",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"race",
+										"rotation",
+										"{{LAST_GENERATED_ROTATION_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rotation: List (paged)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/race/rotation?page=0&limit=10",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"race",
+										"rotation"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Config",
+					"item": [
+						{
+							"name": "Config: Get Details",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/config",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"config"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Events",
+					"item": [
+						{
+							"name": "Stats: Get Live",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/race/stats",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"race",
+										"stats"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Stats: List (filtered & paged)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/race/events?raceSessionId=&raceRotationId=&page=0&limit=10",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"race",
+										"events"
+									],
+									"query": [
+										{
+											"key": "raceSessionId",
+											"value": ""
+										},
+										{
+											"key": "raceRotationId",
+											"value": ""
+										},
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
 									]
 								}
 							},

@@ -1,4 +1,4 @@
-package com.coop.racemgr.controllers.admin;
+package com.coop.racemgr.controllers;
 
 import com.coop.racemgr.controllers.ResponseHandler;
 import com.coop.racemgr.gameserver.GameServerMgr;
@@ -42,26 +42,7 @@ public class RaceRotationController {
         private GameServerProxy gameServerProxy;
     }
 
-    @GetMapping("/api/v1/admin/race/rotation/{id}")
-    public ResponseEntity<Object> raceRotationDetails(@PathVariable String id) {
-        var rr = raceRotationRepository.findItemById(id);
-        if (rr == null) {
-            return ResponseHandler.generateResponse("Race session not found!", HttpStatus.NOT_FOUND, null);
-        }  else {
-            return ResponseHandler.generateResponse("Race session details", HttpStatus.OK, rr);
-        }
-    }
-
-    @GetMapping("/api/v1/admin/race/rotation")
-    public ResponseEntity<Object> raceRotationList(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer limit) {
-        Pageable paging = PageRequest.of(page, limit);
-        try {
-            var raceRotations = raceRotationRepository.findAll(paging);
-            return ResponseHandler.generateResponse("Race rotation list", HttpStatus.OK, raceRotations);
-        }  catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
-        }
-    }
+    /** ADMIN ENDPOINTS **/
 
     @PostMapping("/api/v1/admin/race/rotation")
     public ResponseEntity<Object> rotation(@RequestBody RaceRotationRequest request) throws org.json.simple.parser.ParseException {
@@ -100,6 +81,29 @@ public class RaceRotationController {
             raceRotationRepository.save(rr);
             return ResponseHandler.generateResponse("Successfully deleted race rotation!", HttpStatus.OK, null);
         } catch (Exception e) {
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
+    }
+
+    /** PUBLIC ENDPOINTS **/
+
+    @GetMapping("/api/v1/race/rotation/{id}")
+    public ResponseEntity<Object> raceRotationDetails(@PathVariable String id) {
+        var rr = raceRotationRepository.findItemById(id);
+        if (rr == null) {
+            return ResponseHandler.generateResponse("Race session not found!", HttpStatus.NOT_FOUND, null);
+        }  else {
+            return ResponseHandler.generateResponse("Race session details", HttpStatus.OK, rr);
+        }
+    }
+
+    @GetMapping("/api/v1/race/rotation")
+    public ResponseEntity<Object> raceRotationList(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer limit) {
+        Pageable paging = PageRequest.of(page, limit);
+        try {
+            var raceRotations = raceRotationRepository.findAll(paging);
+            return ResponseHandler.generateResponse("Race rotation list", HttpStatus.OK, raceRotations);
+        }  catch (Exception e) {
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }

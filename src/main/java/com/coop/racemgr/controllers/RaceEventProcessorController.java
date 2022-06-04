@@ -1,4 +1,4 @@
-package com.coop.racemgr.controllers.admin;
+package com.coop.racemgr.controllers;
 
 import com.coop.racemgr.controllers.ResponseHandler;
 import com.coop.racemgr.jobs.RaceEventProcessor;
@@ -17,6 +17,8 @@ public class RaceEventProcessorController {
 
     @Autowired
     private RaceMgrConfigRepository raceMgrConfigRepository;
+
+    /** ADMIN ENDPOINTS **/
 
     @PostMapping("/api/v1/admin/race/events")
     public ResponseEntity<Object> processEvents() {
