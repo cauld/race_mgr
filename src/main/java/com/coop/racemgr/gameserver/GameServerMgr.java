@@ -34,7 +34,9 @@ public class GameServerMgr implements Runnable {
 
         try {
             System.out.println("Starting the external game server!");
-            Runtime.getRuntime().exec(gameServerExe, null, new File(gameServerFsPath));
+            String[] command = { gameServerExe };
+            String[] commandArgs = {};
+            Runtime.getRuntime().exec(command, commandArgs, new File(gameServerFsPath));
         } catch (IOException e) {
             e.printStackTrace();
         }
