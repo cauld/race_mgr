@@ -18,8 +18,9 @@
      - `RM_MONGO_PASS` - That password you set when creating the user above
      - `RM_MONGO_HOST` - Use `localhost` if you are running on the same machine
      - `RM_MONGO_PORT` - Use `27017` unless you've customized
-     - `RM_ADMIN_USER` - All `admin` features/API endpoints require basic authentication. Set to whatever you want the admin username to be.
-     - `RM_ADMIN_PASSWORD` - All `admin` features/API endpoints require basic authentication. Set to whatever you want the admin password to be.
+     - `RM_ADMIN_USER` - All `admin` features/API endpoints require Bearer (JWT) authentication. Set to whatever you want the admin username to be.
+     - `RM_ADMIN_PASSWORD` - All `admin` features/API endpoints require Bearer (JWT) authentication. Set to whatever you want the admin password to be.
+     - `RM_JWT_SECRET` - This is used as part of user authentication. It should be a random 64 character string. We recommend using [this tool](http://www.unit-conversion.info/texttools/random-string-generator/) to generate one.
      - Open the Window's command prompt, `cd` to RMS server director (important), run `java -jar racemgr-0.0.X.jar` (X being the version you downloaded).
 
      NOTE for Devs:
@@ -56,7 +57,7 @@
 
 ## API Endpoints
  - All API endpoints start with `/api/v1/` (e.g.) `http://localhost:8080/api/v1/rotation`
- - All server admin related features live under the `/api/v1/admin/` resource (e.g.) `http://localhost:8080/api/v1/admin/...`. These require basic authentication.
+ - All server admin related features live under the `/api/v1/admin/` resource (e.g.) `http://localhost:8080/api/v1/admin/...`. These require Bearer (JWT) authentication.
 
 ## API Exploration (Postman)
  - Download/Install [Postman](https://www.postman.com/downloads/)

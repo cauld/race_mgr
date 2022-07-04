@@ -519,48 +519,14 @@
 							"response": []
 						}
 					]
-				},
-				{
-					"name": "Get xsrf-token",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.environment.set(\"XSRF-TOKEN\", decodeURIComponent(pm.cookies.get(\"XSRF-TOKEN\")));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{HOST_URL}}/api",
-							"protocol": "http",
-							"host": [
-								"{{HOST_URL}}"
-							],
-							"path": [
-								"api"
-							]
-						}
-					},
-					"response": []
 				}
 			],
 			"auth": {
-				"type": "basic",
-				"basic": [
+				"type": "bearer",
+				"bearer": [
 					{
-						"key": "username",
-						"value": "admin",
-						"type": "string"
-					},
-					{
-						"key": "password",
-						"value": "12345",
+						"key": "token",
+						"value": "{{JWT_TOKEN}}",
 						"type": "string"
 					}
 				]
@@ -970,6 +936,106 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"JWT_TOKEN\", jsonData.data.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-XSRF-TOKEN",
+								"value": "{{XSRF-TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{HOST_BASE_API_URL}}/authenticate",
+							"protocol": "http",
+							"host": [
+								"{{HOST_BASE_API_URL}}"
+							],
+							"path": [
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get xsrf-token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"XSRF-TOKEN\", decodeURIComponent(pm.cookies.get(\"XSRF-TOKEN\")));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST_URL}}/api",
+							"protocol": "http",
+							"host": [
+								"{{HOST_URL}}"
+							],
+							"path": [
+								"api"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
