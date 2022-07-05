@@ -18,7 +18,6 @@ import java.io.IOException;
 @SpringBootApplication
 @EnableMongoRepositories(basePackages = "com.coop.racemgr")
 public class RacemgrApplication {
-
 	private static final Logger logger = LogManager.getLogger(RacemgrApplication.class);
 
 	public static void main(String[] args) throws IOException, ParseException {

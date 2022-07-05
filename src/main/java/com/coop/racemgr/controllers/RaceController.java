@@ -1,8 +1,11 @@
 package com.coop.racemgr.controllers;
 
+import com.coop.racemgr.RacemgrApplication;
 import com.coop.racemgr.model.Race;
 import com.coop.racemgr.repositories.RaceMgrConfigRepository;
 import com.coop.racemgr.repositories.RaceRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +24,8 @@ public class RaceController {
     @Autowired
     private RaceMgrConfigRepository raceMgrConfigRepository;
 
+    private static final Logger logger = LogManager.getLogger(RacemgrApplication.class);
+
     /** PUBLIC ENDPOINTS **/
 
     @GetMapping("/api/v1/race/events")
@@ -36,19 +41,19 @@ public class RaceController {
         try {
             if (!raceSessionId.equals("") && !raceRotationId.equals("")) {
                 // Filter by session and rotation
-                System.out.println("Filter by session and rotation: " + raceSessionId);
+                logger.info("Filter by session and rotation: " + raceSessionId);
                 raceSessions = raceRepository.findAllBySessionIdAndRotationId(raceSessionId, raceRotationId, paging);
             } else if (!raceSessionId.equals("") && raceRotationId.equals("")) {
-                System.out.println("Filter by session");
+                logger.info("Filter by session");
                 // Filter by session
                 raceSessions = raceRepository.findAllBySessionId(raceSessionId, paging);
                 // Filter by rotation
             } else if (raceSessionId.equals("") && !raceRotationId.equals("")) {
-                System.out.println("Filter by rotation");
+                logger.info("Filter by rotation");
                 raceSessions = raceRepository.findAllByRotationId(raceRotationId, paging);
             } else {
                 // No filter
-                System.out.println("Filter none");
+                logger.info("Filter none");
                 raceSessions = raceRepository.findAll(paging);
             }
 

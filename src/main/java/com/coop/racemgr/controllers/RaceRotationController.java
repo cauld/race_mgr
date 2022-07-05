@@ -1,5 +1,6 @@
 package com.coop.racemgr.controllers;
 
+import com.coop.racemgr.RacemgrApplication;
 import com.coop.racemgr.controllers.ResponseHandler;
 import com.coop.racemgr.gameserver.GameServerMgr;
 import com.coop.racemgr.gameserver.GameServerProxy;
@@ -8,6 +9,8 @@ import com.coop.racemgr.repositories.RaceRotationRepository;
 import com.coop.racemgr.rotation.RacemgrRotationConfig;
 import com.coop.racemgr.rotation.RacemgrRotationFileMaker;
 import lombok.Data;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +45,8 @@ public class RaceRotationController {
         private GameServerProxy gameServerProxy;
     }
 
+    private static final Logger logger = LogManager.getLogger(RacemgrApplication.class);
+
     /** ADMIN ENDPOINTS **/
 
     @PostMapping("/api/v1/admin/race/rotation")
@@ -64,6 +69,7 @@ public class RaceRotationController {
                 return ResponseHandler.generateResponse("Successfully generated new rotation, manually restart server to apply!", HttpStatus.OK, raceRotation);
             }
         } catch (Exception e) {
+            logger.error(e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
@@ -81,6 +87,7 @@ public class RaceRotationController {
             raceRotationRepository.save(rr);
             return ResponseHandler.generateResponse("Successfully deleted race rotation!", HttpStatus.OK, null);
         } catch (Exception e) {
+            logger.error(e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
@@ -104,6 +111,7 @@ public class RaceRotationController {
             var raceRotations = raceRotationRepository.findAll(paging);
             return ResponseHandler.generateResponse("Race rotation list", HttpStatus.OK, raceRotations);
         }  catch (Exception e) {
+            logger.error(e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }

@@ -1,9 +1,12 @@
 package com.coop.racemgr.controllers;
 
+import com.coop.racemgr.RacemgrApplication;
 import com.coop.racemgr.gameserver.GameServerMgr;
 import com.coop.racemgr.gameserver.GameServerProxy;
 import com.coop.racemgr.utils.RacemgrUtils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,8 @@ public class GameServerController {
     public enum ServerStatuses {
         start, restart, stop;
     }
+
+    private static final Logger logger = LogManager.getLogger(RacemgrApplication.class);
 
     private GameServerProxy gameServerProxy = new GameServerProxy();
 
@@ -36,7 +41,7 @@ public class GameServerController {
             gameServerMgr.stop();
         } else {
             String msg = "Unknown status parameter!";
-            System.out.println(msg);
+            logger.warn(msg);
             return ResponseHandler.generateResponse(msg, HttpStatus.BAD_REQUEST, null);
         }
 
@@ -58,6 +63,7 @@ public class GameServerController {
             List weather = this.gameServerProxy.getWeather();
             return ResponseHandler.generateResponse("List of weather options", HttpStatus.OK, weather);
         }  catch (Exception e) {
+            logger.error(e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
@@ -68,6 +74,7 @@ public class GameServerController {
             List tracks = this.gameServerProxy.getTracks();
             return ResponseHandler.generateResponse("List of track options", HttpStatus.OK, tracks);
         }  catch (Exception e) {
+            logger.error(e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
@@ -78,6 +85,7 @@ public class GameServerController {
             List liveries = this.gameServerProxy.getLiveries();
             return ResponseHandler.generateResponse("List of livery options", HttpStatus.OK, liveries);
         }  catch (Exception e) {
+            logger.error(e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
@@ -88,6 +96,7 @@ public class GameServerController {
             List vehicles = this.gameServerProxy.getVehicles();
             return ResponseHandler.generateResponse("List of vehicle options", HttpStatus.OK, vehicles);
         }  catch (Exception e) {
+            logger.error(e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
@@ -98,6 +107,7 @@ public class GameServerController {
             List vehicleClasses = this.gameServerProxy.getVehicleClasses();
             return ResponseHandler.generateResponse("List of vehicle class options", HttpStatus.OK, vehicleClasses);
         }  catch (Exception e) {
+            logger.error(e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }

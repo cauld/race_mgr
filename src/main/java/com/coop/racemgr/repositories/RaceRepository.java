@@ -23,8 +23,6 @@ public interface RaceRepository extends PagingAndSortingRepository<Race, Integer
     @Query("{race_session_id:'?0', 'race_rotation_id':'?1'}")
     Page<Race> findAllBySessionIdAndRotationId(String raceSessionId, String raceRotationId, Pageable pageable);
 
-
-
     public long count();
 }
 

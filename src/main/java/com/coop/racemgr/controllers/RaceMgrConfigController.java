@@ -1,9 +1,12 @@
 package com.coop.racemgr.controllers;
 
+import com.coop.racemgr.RacemgrApplication;
 import com.coop.racemgr.controllers.ResponseHandler;
 import com.coop.racemgr.model.RaceMgrConfig;
 import com.coop.racemgr.repositories.RaceMgrConfigRepository;
 import lombok.Data;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class RaceMgrConfigController {
     @Autowired
     private RaceMgrConfigRepository raceMgrConfigRepository;
+
+    private static final Logger logger = LogManager.getLogger(RacemgrApplication.class);
 
     @Data
     public static class RaceMgrConfigRequest {
@@ -43,6 +48,7 @@ public class RaceMgrConfigController {
             raceMgrConfigRepository.save(rmc);
             return ResponseHandler.generateResponse("Successfully set race mgr config!", HttpStatus.OK, null);
         } catch (Exception e) {
+            logger.error(e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }

@@ -16,4 +16,3 @@ public interface RaceRotationRepository extends PagingAndSortingRepository<RaceR
 
     public long count();
 }
-

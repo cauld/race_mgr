@@ -1,7 +1,6 @@
 package com.coop.racemgr.gameserver;
 
-public enum GameServerEndpoints
-{
+public enum GameServerEndpoints {
     TRACKS("tracks"),
     VEHICLES("vehicles"),
     LIVERIES("liveries"),
