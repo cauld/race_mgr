@@ -30,17 +30,17 @@ public class SpringConfiguration {
     // Would be nice to call the event processor directly, but I haven't figured out how
     // to autowire the repository outside of the rest controller class yet.
     // Ref: https://www.baeldung.com/spring-scheduled-tasks
-//    @Scheduled(fixedDelay = 1000)
-//    public void scheduleFixedDelayTask() {
-//        WebClient eventProcessingClient = WebClient.create();
-//        var xsrfToken = String.valueOf(RacemgrUtils.getXsrfToken(raceMgrBaseUrl + "api"));
-//        eventProcessingClient.post()
-//            .uri(raceMgrBaseUrl + "api/v1/admin/race/events")
-//                .headers(httpHeaders -> httpHeaders.setBasicAuth(adminUser, adminPassword))
-//                .headers(httpHeaders -> httpHeaders.set( "X-XSRF-TOKEN", xsrfToken))
-//                .cookies(cookies -> cookies.add("XSRF-TOKEN", xsrfToken))
-//            .retrieve()
-//            .bodyToMono(String.class)
-//            .block();
-//    }
+    @Scheduled(fixedDelay = 1000)
+    public void scheduleFixedDelayTask() {
+        WebClient eventProcessingClient = WebClient.create();
+        var xsrfToken = String.valueOf(RacemgrUtils.getXsrfToken(raceMgrBaseUrl + "api"));
+        eventProcessingClient.post()
+            .uri(raceMgrBaseUrl + "api/v1/admin/race/events")
+                .headers(httpHeaders -> httpHeaders.setBasicAuth(adminUser, adminPassword))
+                .headers(httpHeaders -> httpHeaders.set( "X-XSRF-TOKEN", xsrfToken))
+                .cookies(cookies -> cookies.add("XSRF-TOKEN", xsrfToken))
+            .retrieve()
+            .bodyToMono(String.class)
+            .block();
+    }
 }
