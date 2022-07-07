@@ -1,4 +1,7 @@
 # Race Manager Server (RMS)
+This is an advanced (unofficial) Automobilista 2 server. It supports online championships with permanent history tracking, easy rotation management/generation, 
+general server management, etc. It's now easier than every to race with your friends and brag about your results (or blame them on someone else). 
+It assumes you have the [Automobilista 2 Dedicated Server](https://steamdb.info/app/1338040/z) installed on the same machine.
 
 ## Dev Setup
 - If not present on the machine, install [Java 18](https://docs.aws.amazon.com/corretto/latest/corretto-18-ug/downloads-list.html) JDK to dev/build.
