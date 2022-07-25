@@ -13,8 +13,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**")
-                .allowedOrigins("http://localhost:3000");
+        registry.addMapping("/api/**");
+                // Would be good to limit, but we don't control the end user domain/ips
+                //.allowedOrigins("http://localhost:3000");
     }
 
     @Override

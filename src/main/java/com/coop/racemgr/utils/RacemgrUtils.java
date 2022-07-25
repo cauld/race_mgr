@@ -5,9 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Lists;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -16,10 +19,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class RacemgrUtils {
@@ -125,11 +125,13 @@ public class RacemgrUtils {
         return formatter.format(date);
     }
 
-    public static AtomicReference<String> getXsrfToken(String url) {
+    public static String getXsrfToken(String raceMgrBaseUrl) {
+        var xsrfUrl = raceMgrBaseUrl + "api";
+
         WebClient webClient = WebClient.create();
         final AtomicReference<String> xsrfToken = new AtomicReference<>();
         webClient.get()
-            .uri(url)
+            .uri(xsrfUrl)
             .retrieve()
             .onStatus(HttpStatus::is2xxSuccessful, r -> {
                 xsrfToken.set(r.cookies().get("XSRF-TOKEN").get(0).getValue());
@@ -138,6 +140,38 @@ public class RacemgrUtils {
             .bodyToMono(String.class)
             .block();
 
-        return xsrfToken;
+        return String.valueOf(xsrfToken);
+    }
+
+    public static String getJwt(String raceMgrBaseUrl) {
+        String adminUser = System.getenv("RM_ADMIN_USER");
+        String adminPassword = System.getenv("RM_ADMIN_PASSWORD");
+
+        Map<String, String> bodyMap = new HashMap();
+        bodyMap.put("username", adminUser);
+        bodyMap.put("password", adminPassword);
+
+        WebClient webClient = WebClient.create();
+
+        var authUrl = raceMgrBaseUrl + "api/v1/authenticate";
+        var xsrfToken = RacemgrUtils.getXsrfToken(raceMgrBaseUrl);
+
+        var response = webClient.post()
+                .uri(authUrl)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .headers(httpHeaders -> httpHeaders.set("X-XSRF-TOKEN", xsrfToken))
+                .cookies(cookies -> cookies.add("XSRF-TOKEN", xsrfToken))
+                .body(BodyInserters.fromValue(bodyMap))
+                .retrieve()
+                .bodyToMono(JSONObject.class)
+                .block();
+
+        Object obj = RacemgrUtils.jsonStrToObj(String.valueOf(response));
+        JSONObject jo = (JSONObject) obj;
+        JSONObject joResponse = (JSONObject) jo.get("data");
+        var jwt = RacemgrUtils.getValueFromObj("token", joResponse);
+
+        return jwt;
     }
 }

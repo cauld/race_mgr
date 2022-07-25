@@ -10,13 +10,13 @@
 	</parent>
 	<groupId>com.coop</groupId>
 	<artifactId>racemgr</artifactId>
-	<version>0.0.13</version>
+	<version>0.0.15</version>
 	<name>Race Manager</name>
 	<description>Race Manager</description>
 	<properties>
 		<java.version>18</java.version>
 		<frontend-src-dir>${project.basedir}/src/main/client</frontend-src-dir>
-		<node.version>v16.5.0</node.version>
+		<node.version>v16.16.0</node.version>
 		<npm.version>8.11.0</npm.version>
 		<frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
 	</properties>
@@ -83,7 +83,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-			<version>2.6.7</version>
+			<version>2.7.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
