@@ -59,9 +59,9 @@ public class RaceEventProcessor {
                     }
                 }
 
-                logger.info("Race event processing error: " + RacemgrUtils.getCurrentDateTime());
+                logger.info("Race event processing cycle complete: " + RacemgrUtils.getCurrentDateTime());
             } catch (Exception e) {
-                // There is no history (race data) present on in the dedicated server
+                // Not a real error, there is no history (race data) present on in the dedicated server
                 logger.info("Race event processing, nothing to process yet: " + RacemgrUtils.getCurrentDateTime());
             }
         }
