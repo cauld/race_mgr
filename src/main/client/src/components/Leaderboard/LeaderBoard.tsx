@@ -13,7 +13,6 @@ import RaceSummary from './RaceSummary';
 
 import {IRace} from './interfaces';
 import {IAdvancedFilter} from './AdvancedFiltersDialog';
-import {ISession} from './interfaces';
 
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
@@ -24,25 +23,31 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
 export const defaultAdvancedFilter:IAdvancedFilter = {
-	humanPlayers: [0, 64],
-	gridSize: [0, 64],
-	aiStrength: [0, 150],
+	humanPlayers: [0, 32],
+	gridSize: [0, 32],
+	aiStrength: [0, 100],
 };
 
 const LeaderBoard:React.FC = () => {
+	const [loading, setLoading] = useState(true);
 	const [currentSessionId, setCurrentSessionId] = useState('');
+	const [currentRotationId, setCurrentRotationId] = useState('');
+	const [serverName, setServerName] = useState('');
 	const [startDate, setStartDate] = useState(0);
 	const [endDate, setEndDate] = useState(0);
 	const [races, setRaces] = useState<IRace[]>([]);
 	const [filteredRaces, setFilteredRaces] = useState<IRace[]>([]);
-	const [loading, setLoading] = useState(true);
 	const [advancedFilterIsOpen, setAdvancedFilterIsOpen] = useState(false);
 	const [advancedFilters, setAdvancedFilters] = useState<IAdvancedFilter>(defaultAdvancedFilter);
 
 	useEffect(() => {
+		if (!currentSessionId || !currentRotationId) {
+			return;
+		}
+
 		setLoading(true);
 
-		fetchRaceData(currentSessionId).then(r => {
+		fetchRaceData(currentSessionId, currentRotationId).then(r => {
 			const raceResults = (r as Array<IRace>)?.filter(r => r.finished === true);
 
 			if (!raceResults || raceResults.length === 0) {
@@ -60,7 +65,7 @@ const LeaderBoard:React.FC = () => {
 			setRaces(raceResults);
 			setLoading(false);
 		});
-	}, [currentSessionId]);
+	}, [currentSessionId, currentRotationId]);
 
 	useEffect(() => {
 		let newResults = races.filter(r => r.startDate >= startDate && r.endDate <= endDate);
@@ -74,10 +79,6 @@ const LeaderBoard:React.FC = () => {
 		setFilteredRaces(newResults);
 	}, [startDate, endDate, races, advancedFilters]);
 
-	useEffect(() => {
-		setLoading(true);
-	}, []);
-
 	return (
 		<Paper sx={{
 			p: 2,
@@ -88,10 +89,15 @@ const LeaderBoard:React.FC = () => {
 			<Typography variant="h5" align="left" gutterBottom={true}>
 				Leader Board
 			</Typography>
+
 			<Typography variant="subtitle1" align="left" gutterBottom={true}>
 				<SessionsFilter
-					currentSessionId={currentSessionId}
 					setCurrentSessionId={setCurrentSessionId}
+					currentSessionId={currentSessionId}
+					currentRotationId={currentRotationId}
+					setCurrentRotationId={setCurrentRotationId}
+					serverName={serverName}
+					setServerName={setServerName}
 					startDate ={startDate}
 					setStartDate={setStartDate}
 					endDate ={endDate}
@@ -125,7 +131,7 @@ const LeaderBoard:React.FC = () => {
 			<Grid container spacing={3}>
 				<Grid item xs={12} md={12} lg={12}>
 					<Typography marginTop={'5px'} marginBottom={'5px'} variant="h6">
-						{ filteredRaces.length} Races
+						{serverName} - { filteredRaces.length} Races
 					</Typography>
 				</Grid>
 			</Grid>

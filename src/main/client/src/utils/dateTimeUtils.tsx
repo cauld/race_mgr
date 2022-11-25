@@ -1,5 +1,3 @@
-import {convertEpochTime} from './epochUtils';
-
 export const convertEpochTimeToRaceResult = (epoch:number) => {
 	const e = epoch / 1000;
 	const minutes = Math.floor(e / 60);

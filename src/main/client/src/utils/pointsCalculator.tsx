@@ -1,45 +1,33 @@
 export const calculatePoints = (finishPlace:number, numberOfPlayers:number, tookPole?: boolean, fastestLap?:boolean) => {
-	let totalPoints:number = 0;
+	const pointsPositions = Math.round(numberOfPlayers / 2); // Assign points for the 1st half of the finish places
+	const pointsPositionsBeat = pointsPositions - finishPlace;
 
-	// Make this a formula with nothing hardcoded if possible
+	let points = pointsPositionsBeat < 0 ? 0 : pointsPositionsBeat * 2;
+
+	const firstPlaceBonus = 0.4;
+	const secondPlaceBonus = 0.1;
+	const thirdPlaceBonus = 0.075;
+
 	switch (finishPlace) {
 		case 1:
-			totalPoints = numberOfPlayers * 1.25;
+			points += points * firstPlaceBonus;
 			break;
 		case 2:
-			totalPoints = numberOfPlayers * 0.9;
+			points += points * secondPlaceBonus;
 			break;
 		case 3:
-			totalPoints = numberOfPlayers * 0.75;
+			points += points * thirdPlaceBonus;
 			break;
-		case 4:
-			totalPoints = numberOfPlayers * 0.6;
-			break;
-		case 5:
-			totalPoints = numberOfPlayers * 0.50;
-			break;
-		case 6:
-			totalPoints = numberOfPlayers * 0.40;
-			break;
-		case 7:
-			totalPoints = numberOfPlayers * 0.30;
-			break;
-		case 8:
-			totalPoints = numberOfPlayers * 0.20;
-			break;
-		case 9:
-			totalPoints = numberOfPlayers * 0.10;
-			break;
-		case 10:
-			totalPoints = numberOfPlayers * 0.05;
+		case pointsPositions: // Finished in the last points position
+			points = 1;
 			break;
 		default:
-			totalPoints = 0;
 			break;
 	}
 
-	totalPoints += (tookPole ? 1 : 0);
-	totalPoints += (fastestLap ? 1 : 0);
+	points += (tookPole ? 1 : 0);
+	points += (fastestLap ? 1 : 0);
 
-	return Math.round(totalPoints);
+	return Math.round(points);
 };
+

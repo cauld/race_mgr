@@ -28,6 +28,8 @@ interface IProps {
     filteredRaces: Array<IRace>;
 }
 
+const isHuman = (driverName:string) => driverName.slice(-4) !== '(AI)';
+
 function Row(props: { row: IRace, trackData: Array<ITrackData>, vehicleData: Array<IVehicleData> }) {
 	const {row} = props;
 	const [open, setOpen] = React.useState(false);
@@ -59,9 +61,24 @@ function Row(props: { row: IRace, trackData: Array<ITrackData>, vehicleData: Arr
 				<TableCell align="right">{row.gridSize}</TableCell>
 				<TableCell align="right">{row.laps}</TableCell>
 				<TableCell align="right">{row.aiStrength}</TableCell>
-				<TableCell align="right">{row.polePosition}</TableCell>
-				<TableCell align="right">{row.fastestLap}</TableCell>
-				<TableCell align="right">{row.winner}</TableCell>
+				<TableCell align="right"sx={{
+					fontWeight: '',
+					...(isHuman(row.polePosition) && {
+						fontWeight: 'bold',
+					}),
+				}}>{row.polePosition}</TableCell>
+				<TableCell align="right"sx={{
+					fontWeight: '',
+					...(isHuman(row.fastestLap) && {
+						fontWeight: 'bold',
+					}),
+				}}>{row.fastestLap}</TableCell>
+				<TableCell align="right"sx={{
+					fontWeight: '',
+					...(isHuman(row.winner) && {
+						fontWeight: 'bold',
+					}),
+				}}>{row.winner}</TableCell>
 			</TableRow>
 			<TableRow>
 				<TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={12}>
@@ -161,8 +178,8 @@ const RaceResults = (props:IProps) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{_.orderBy(props.filteredRaces, ['startDate'], ['desc']).map((row, key) => (
-							<Row key={key} row={row} trackData={trackData} vehicleData={vehicleData} />
+						{_.orderBy(props.filteredRaces, ['startDate'], ['desc']).map((row, idx) => (
+							<Row key={idx} row={row} trackData={trackData} vehicleData={vehicleData} />
 						))}
 					</TableBody>
 				</Table>

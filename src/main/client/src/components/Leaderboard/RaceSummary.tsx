@@ -121,7 +121,7 @@ const generateRaceSummary = (filteredRaces: Array<IRace>):Array<IPlayerSummary> 
 };
 
 const RaceSummary = (props:IProps) => {
-	const [maxSummary, setMaxSummary] = useState(3);
+	const [maxSummary, setMaxSummary] = useState(DEFAULT_SUMMARY_COUNT);
 
 	useEffect(() => {
 		setMaxSummary(DEFAULT_SUMMARY_COUNT);

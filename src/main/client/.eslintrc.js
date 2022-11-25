@@ -22,5 +22,8 @@ module.exports = {
 	rules: {
 		'guard-for-in': 0,
 		'no-unused-vars': 0,
+		'no-negated-condition': 0,
+		'no-async-promise-executor': 0,
+		'prefer-promise-reject-errors': 0,
 	},
 };

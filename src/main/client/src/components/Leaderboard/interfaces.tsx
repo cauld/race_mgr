@@ -5,6 +5,11 @@ export interface ISession {
 	finished: boolean
 }
 
+export interface IRotation {
+	id: string,
+	name: string
+}
+
 export interface IRace {
 	trackName: string,
 	startDate: number,

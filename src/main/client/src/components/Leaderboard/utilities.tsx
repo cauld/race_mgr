@@ -6,15 +6,59 @@ import {getTrackList, getVehicleList} from '../../api/asm2Api';
 import {ITrackData, IVehicleData} from '../../interfaces/asm2Interfaces';
 
 import {calculatePoints} from '../../utils/pointsCalculator';
+import {ISession, IRotation, IRace} from './interfaces';
 
-import {ISession, IRace} from './interfaces';
+import RaceMgrApi from '../../api/RaceMgrApi';
 
 export const fetchSessions = async () => {
-	try {
-		const results = await api.get('/race/session?page=0&limit=1000')
-			.then(sessions => mapSessionDataToSessionObject(sessions.data.data.content));
+	const rmApi = new RaceMgrApi();
 
-		const sortedResults = _.orderBy(results, ['startDate'], 'desc');
+	try {
+		const requestConfig = {
+			url: `${rmApi.getBaseApiUrl()}/race/session?page=0&limit=1000`,
+			method: 'get',
+		};
+
+		/// *******************************************************
+		/// *******************************************************
+		/// *******************************************************
+		/// *******************************************************
+		/// *******************************************************
+		/// *******************************************************
+
+		const apiResults = await rmApi.makeApiCall(requestConfig);
+		const {data: apiData} = apiResults;
+		const sessionContent = apiData.data.content || null;
+
+		let sortedResults;
+		// Not sure how you want to do this bit, but better have some empty list handling
+		if (sessionContent === null) {
+			sortedResults = [];
+		} else {
+			const sessions = mapSessionDataToSessionObject(sessionContent);
+			sortedResults = _.orderBy(sessions, ['startDate'], 'desc');
+		}
+
+		// For Chad:  What I am trying with your code (SEE ABOVE NOW ^)
+		// const results = await rmApi.makeApiCall(requestConfig)
+		//  .then(sessions => mapSessionDataToSessionObject(sessions.data.data.content));
+
+		// For Chad:  What I was doing before
+		// const results = await api.get('/race/session?page=0&limit=1000')
+		// 	.then(sessions => mapSessionDataToSessionObject(sessions.data.data.content));
+
+		return sortedResults;
+	} catch (err) {
+		console.log('Error', err);
+	}
+};
+
+export const fetchRotations = async () => {
+	try {
+		const results = await api.get('/race/rotation?page=0&limit=1000')
+			.then(rotations => mapRotationDataToRotationObject(rotations.data.data.content));
+
+		const sortedResults = _.orderBy(results, ['id'], 'desc');
 		return sortedResults;
 	} catch (err) {
 		console.log('Error', err);
@@ -26,6 +70,8 @@ export const fetchServerConfig = async () => {
 		const results = await api.get('/config').then((config:any) => (
 			{
 				activeRaceSessionId: config.data.data.activeRaceSessionId,
+				activeRaceRotationId: config.data.data.activeRaceRotationId,
+				serverName: config.data.data.serverName,
 			}
 		));
 		return results;
@@ -34,14 +80,15 @@ export const fetchServerConfig = async () => {
 	}
 };
 
-export const fetchRaceData = async (currentSessionId:string) => {
+export const fetchRaceData = async (currentSessionId:string, currentRotationId: string) => {
 	try {
 		if (!currentSessionId) {
 			return [];
 		}
 
 		const sessionId = currentSessionId === 'All' ? '' : currentSessionId;
-		const results = await api.get('/race/events?raceSessionId=' + sessionId + '&raceRotationId=&page=0&limit=10000')
+		const rotationId = currentRotationId === 'All' ? '' : currentRotationId;
+		const results = await api.get('/race/events?raceSessionId=' + sessionId + '&raceRotationId=' + rotationId + '&page=0&limit=10000')
 			.then(races =>
 				mapRaceDataToRaceResultsObject(races.data.data.content),
 			);
@@ -89,6 +136,15 @@ const mapSessionDataToSessionObject = (data:Array<any>):Array<ISession> => {
 		name: d.name,
 		startDate: d.created,
 		finished: true,
+	}));
+
+	return mappedResult;
+};
+
+const mapRotationDataToRotationObject = (data:Array<any>):Array<IRotation> => {
+	const mappedResult:Array<IRotation> = data.map(d => ({
+		id: d.id,
+		name: d.name,
 	}));
 
 	return mappedResult;
