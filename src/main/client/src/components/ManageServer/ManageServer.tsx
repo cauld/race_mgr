@@ -6,34 +6,37 @@ import ServerConfig from './ServerConfig';
 
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
 
-import SplitButton from './ApplyServerConfig';
+import ApplyServerConfig from './ApplyServerConfig';
 
 import Paper from '@mui/material/Paper';
 import {styled} from '@mui/material/styles';
 
-const Item = styled(Paper)(({theme}) => ({
-	backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-	...theme.typography.body2,
-	padding: theme.spacing(1),
-	textAlign: 'center',
-	color: theme.palette.text.secondary,
-}));
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
+type notificationSeverity = 'success' | 'error';
 
 const ManageServer:React.FC = () => {
-	const [refreshing, setRefreshing] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [notificationIsOpen, setNotificationIsOpen] = useState(false);
+	const [notificationMessage, setNotificationMessage] = useState('');
+	const [notificationSeverity, setNotificationSeverity] = useState<notificationSeverity>('success');
 	const [serverName, setServerName] = useState('');
 	const [currentSessionId, setCurrentSessionId] = useState('');
 	const [currentRotationId, setCurrentRotationId] = useState('');
 
 	const setInitialState = async () => {
+		setLoading(true);
 		await fetchServerConfig()
 			.then(config => {
 				setCurrentSessionId(config?.activeRaceSessionId);
 				setCurrentRotationId(config?.activeRaceRotationId);
 				setServerName(config?.serverName);
-			});
+			}).then(() => setLoading(false));
 	};
 
 	useEffect(() => {
@@ -42,6 +45,20 @@ const ManageServer:React.FC = () => {
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setServerName(event.target.value);
+	};
+
+	const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+		if (reason === 'clickaway') {
+			return;
+		}
+
+		setNotificationIsOpen(false);
+	};
+
+	const showNotification = (message:string, severity: notificationSeverity) => {
+		setNotificationMessage(message);
+		setNotificationSeverity(severity);
+		setNotificationIsOpen(true);
 	};
 
 	return (
@@ -78,11 +95,31 @@ const ManageServer:React.FC = () => {
 			</Typography>
 
 			<Typography variant="subtitle1" align="left" gutterBottom={true}>
-				<SplitButton
+				<ApplyServerConfig
 					serverName={serverName}
 					currentSessionId={currentSessionId}
-					currentRotationId={currentRotationId}></SplitButton>
+					currentRotationId={currentRotationId}
+					showNotification={showNotification}
+					setLoading={setLoading}
+				></ApplyServerConfig>
+
 			</Typography>
+
+			<Snackbar
+				anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+				open={notificationIsOpen}
+				autoHideDuration={3000}
+				onClose={handleClose}
+			>
+				<Alert severity={notificationSeverity}>{notificationMessage}</Alert>
+			</Snackbar>
+
+			<Backdrop
+				sx={{color: '#fff', zIndex: theme => theme.zIndex.drawer + 1}}
+				open={loading}
+			>
+				<CircularProgress color="inherit" />
+			</Backdrop>
 
 		</Paper>
 	);

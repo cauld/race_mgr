@@ -80,10 +80,24 @@ export const updateServerConfig = async (config:IServerConfig) => {
 			method: 'put',
 		};
 
-		await rmApi.makeApiCall(requestConfig);
+		return await rmApi.makeApiCall(requestConfig);
 	} catch (err) {
-		// eslint-disable-next-line no-warning-comments
-		// ToDo: Display an error to the user
+		console.log('Error', err);
+	}
+};
+
+export const updateServer = async (action: string) => {
+	const rmApi = new RaceMgrApi();
+
+	try {
+		const requestConfig = {
+			url: `${rmApi.getBaseApiUrl()}/admin/gameserver`,
+			data: {status: action},
+			method: 'post',
+		};
+
+		return await rmApi.makeApiCall(requestConfig);
+	} catch (err) {
 		console.log('Error', err);
 	}
 };

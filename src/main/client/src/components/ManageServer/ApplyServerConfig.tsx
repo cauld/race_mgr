@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import {updateServerConfig, doAuth} from './utilities';
+import {updateServerConfig, doAuth, updateServer} from './utilities';
 
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -17,27 +17,125 @@ const options = ['Update and Restart', 'Update', 'Start', 'Stop', 'Restart'];
 interface IProps {
 	serverName: string,
 	currentSessionId?: string,
-	currentRotationId?: string
+	currentRotationId?: string,
+	showNotification: (message:string, severity: any) => void,
+	setLoading: (isLoading:boolean) => void,
 }
 
 const ApplyServerConfig = (props:IProps) => {
 	const [open, setOpen] = React.useState(false);
 	const anchorRef = React.useRef<HTMLDivElement>(null);
 	const [selectedIndex, setSelectedIndex] = React.useState(1);
+	const [formIsValid, setFormIsValid] = React.useState(true);
 
 	const handleAuthClick = () => {
 		doAuth();
 	};
 
-	const handleClick = () => {
+	const handleUpdateServerConfig = () => {
+		props.setLoading(true);
+
 		updateServerConfig({
 			serverName: props.serverName,
 			activeRaceSessionId: props.currentSessionId ?? '',
 			activeRaceRotationId: props.currentRotationId ?? '',
-		});
+		}).then(res => {
+			props.setLoading(false);
 
-		if (props.serverName.length > 0) {
-			console.info(`You clicked ${options[selectedIndex]}`);
+			if (res) {
+				props.showNotification('Configuration Updated', 'success');
+			} else {
+				props.showNotification('Error Updating Configuration', 'error');
+			}
+		});
+	};
+
+	const handleUpdateServerConfigAndRestart = () => {
+		props.setLoading(true);
+
+		updateServerConfig({
+			serverName: props.serverName,
+			activeRaceSessionId: props.currentSessionId ?? '',
+			activeRaceRotationId: props.currentRotationId ?? '',
+		}).then(() => {
+			updateServer('restart').then(res => {
+				props.setLoading(false);
+
+				if (res) {
+					props.showNotification('Configuration Updated and Server Restarted', 'success');
+				} else {
+					props.showNotification('Error Updating Configuration', 'error');
+				}
+			});
+		});
+	};
+
+	const handleRestartServer = () => {
+		props.setLoading(true);
+
+		updateServer('restart').then(res => {
+			props.setLoading(false);
+
+			if (res) {
+				props.showNotification('Server Restarted', 'success');
+			} else {
+				props.showNotification('Error Restarting Server', 'error');
+			}
+		});
+	};
+
+	const handleStopServer = () => {
+		props.setLoading(true);
+
+		updateServer('stop').then(res => {
+			props.setLoading(false);
+
+			if (res) {
+				props.showNotification('Server Stopped', 'success');
+			} else {
+				props.showNotification('Error Stopping Server', 'error');
+			}
+		});
+	};
+
+	const handleStartServer = () => {
+		props.setLoading(true);
+
+		updateServer('start').then(res => {
+			props.setLoading(false);
+
+			if (res) {
+				props.showNotification('Server Started', 'success');
+			} else {
+				props.showNotification('Error Starting Server', 'error');
+			}
+		});
+	};
+
+	const handleClick = () => {
+		setFormIsValid(props.serverName !== '');
+		if (!formIsValid) {
+			return;
+		}
+
+		switch (options[selectedIndex]) {
+			case 'Update and Restart':
+				handleUpdateServerConfigAndRestart();
+				break;
+			case 'Update':
+				handleUpdateServerConfig();
+				break;
+			case 'Start':
+				handleStartServer();
+				break;
+			case 'Stop':
+				handleStopServer();
+				break;
+			case 'Restart':
+				handleRestartServer();
+				break;
+			default:
+				break;
 		}
 	};
 
@@ -71,6 +169,7 @@ const ApplyServerConfig = (props:IProps) => {
 	return (
 		<React.Fragment>
 			<Button onClick={handleAuthClick}>doAuth()</Button>
+
 			<ButtonGroup variant="contained" ref={anchorRef} aria-label="split button">
 				<Button onClick={handleClick}>{options[selectedIndex]}</Button>
 				<Button
@@ -84,6 +183,7 @@ const ApplyServerConfig = (props:IProps) => {
 					<ArrowDropDownIcon />
 				</Button>
 			</ButtonGroup>
+
 			<Popper
 				sx={{
 					zIndex: 1,
