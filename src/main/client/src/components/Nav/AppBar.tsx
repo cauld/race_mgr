@@ -20,7 +20,6 @@ import {makeStyles} from '@material-ui/core/styles';
 
 import LeaderBoard from '../Leaderboard/LeaderBoard';
 import ManageServer from '../ManageServer/ManageServer';
-import StatsPage from '../Stats/Stats';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -185,15 +184,6 @@ const DashboardContent = () => {
 								</ListItemButton>
 							</RouterLink>
 
-							<RouterLink to="/stats" className={classes.link}>
-								<ListItemButton>
-									<ListItemIcon>
-										<QueryStatsIcon />
-									</ListItemIcon>
-									<ListItemText primary="Stats" />
-								</ListItemButton>
-							</RouterLink>
-
 						</List>
 					</Drawer>
 
@@ -217,9 +207,6 @@ const DashboardContent = () => {
 								</Route>
 								<Route exact path="/manageServer">
 									<ManageServer />
-								</Route>
-								<Route exact path="/stats">
-									<StatsPage />
 								</Route>
 							</Switch>
 							<Footer />

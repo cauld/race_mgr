@@ -4,7 +4,7 @@ export default class RaceMgrApi {
 	private readonly BASE_API_URL = '/api';
 	private readonly BASE_API_URL_WITH_VERSION = `${this.BASE_API_URL}/v1`;
 	private readonly BASE_ADMIN_URL = `${this.BASE_API_URL_WITH_VERSION}/admin`;
-	private JWT_TOKEN = null; // Required in all authenticated (/admin) routes
+	private JWT_TOKEN = ''; // Required in all authenticated (/admin) routes
 
 	private checkIfXsrfTokenIsRequired(config: AxiosRequestConfig): boolean {
 		let xsrfTokenRequired = false;
@@ -87,7 +87,7 @@ export default class RaceMgrApi {
 
 			const response = await axios(config);
 			if (response.status === 200) {
-				this.JWT_TOKEN = response.data.token;
+				this.JWT_TOKEN = response.data.data.token;
 				resolve();
 			} else {
 				reject('Authentication failure!');

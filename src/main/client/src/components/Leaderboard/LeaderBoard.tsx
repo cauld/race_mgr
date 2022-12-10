@@ -6,7 +6,7 @@ import {fetchRaceData} from './utilities';
 
 import AdvancedFiltersDialog from './AdvancedFiltersDialog';
 
-import SessionsFilter from './SessionsFilter';
+import SessionsFilter from './ServerConfig/SessionsFilter';
 import DateFilter from './DateFilter';
 import RaceResults from './RaceResults';
 import RaceSummary from './RaceSummary';
