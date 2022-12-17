@@ -15,3 +15,11 @@ export interface IRotation {
 	id: string,
 	name: string
 }
+
+export interface IAddRotation {
+	rotationName: string,
+	raceSize: number,
+	allowKarts: boolean,
+	persist: boolean,
+	restart: boolean
+}

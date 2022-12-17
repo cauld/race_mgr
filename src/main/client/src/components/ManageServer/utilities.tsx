@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import {ISession, IServerConfig} from './interfaces';
+import {ISession, IServerConfig, IAddRotation} from './interfaces';
 
 import {defaultConfig} from './defaults';
 
@@ -33,6 +33,50 @@ export const fetchSessions = async () => {
 	}
 };
 
+export const addSession = async (sessionName:string) => {
+	const rmApi = new RaceMgrApi();
+
+	try {
+		const requestConfig = {
+			url: `${rmApi.getBaseApiUrl()}/admin/race/session`,
+			data: {
+				name: sessionName,
+			},
+			method: 'POST',
+		};
+
+		const apiResults = await rmApi.makeApiCall(requestConfig);
+		const {data: apiData} = apiResults;
+		return apiData.data?.id;
+	} catch (err) {
+		console.log('Error', err);
+	}
+};
+
+export const addRotation = async (rotation:IAddRotation) => {
+	const rmApi = new RaceMgrApi();
+
+	try {
+		const requestConfig = {
+			url: `${rmApi.getBaseApiUrl()}/admin/race/rotation`,
+			data: {
+				name: rotation.rotationName,
+				raceCount: rotation.raceSize,
+				allowKarts: rotation.allowKarts,
+				persist: rotation.persist,
+				restart: rotation.restart,
+			},
+			method: 'POST',
+		};
+
+		const apiResults = await rmApi.makeApiCall(requestConfig);
+		const {data: apiData} = apiResults;
+		return apiData.data?.id;
+	} catch (err) {
+		console.log('Error', err);
+	}
+};
+
 export const fetchRotations = async () => {
 	const rmApi = new RaceMgrApi();
 	try {
@@ -54,17 +98,6 @@ export const fetchRotations = async () => {
 		}
 
 		return sortedResults;
-	} catch (err) {
-		console.log('Error', err);
-	}
-};
-
-export const doAuth = async () => {
-	const rmApi = new RaceMgrApi();
-
-	try {
-		// Do No Hardcode this!
-		rmApi.doAuth('admin', 'TheC00p').then(res => console.log('***** Brandon ***** res', res));
 	} catch (err) {
 		console.log('Error', err);
 	}

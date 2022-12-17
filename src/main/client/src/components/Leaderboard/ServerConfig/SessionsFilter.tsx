@@ -22,7 +22,8 @@ interface IProps {
 	startDate:number,
 	setStartDate: (startDate:number) => void,
 	endDate: number,
-	setEndDate: (endDate:number) => void
+	setEndDate: (endDate:number) => void,
+	setLoading: (isLoading:boolean) => void
 }
 
 const StatsFilter = (props:IProps) => {
@@ -32,6 +33,10 @@ const StatsFilter = (props:IProps) => {
 	const setInitialState = async () => {
 		await fetchServerConfig()
 			.then(config => {
+				if (config === undefined) {
+					props.setLoading(false);
+				}
+
 				props.setCurrentSessionId(config?.activeRaceSessionId);
 				props.setCurrentRotationId(config?.activeRaceRotationId);
 				props.setServerName(config?.serverName);

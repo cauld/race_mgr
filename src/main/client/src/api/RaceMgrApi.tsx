@@ -67,7 +67,7 @@ export default class RaceMgrApi {
 	// Public endpoints need no auth, else I would have made these inputs
 	// request to init the class. So just call once before making any admin
 	// requests and it will keep the token in memory for subsequent requests.
-	public async doAuth(username: string, password: string): Promise<void> {
+	public async doAuth(username: string, password: string): Promise<string> {
 		return new Promise(async (resolve, reject) => {
 			const data = JSON.stringify({
 				username,
@@ -85,12 +85,16 @@ export default class RaceMgrApi {
 
 			await this.setXsrfTokenIfNeeded(config);
 
-			const response = await axios(config);
-			if (response.status === 200) {
-				this.JWT_TOKEN = response.data.data.token;
-				resolve();
-			} else {
-				reject('Authentication failure!');
+			try	{
+				const response = await axios(config);
+				if (response.status === 200) {
+					this.JWT_TOKEN = response.data.data.token;
+					resolve('OK');
+				} else {
+					resolve('Error');
+				}
+			} catch {
+				resolve('Error');
 			}
 		});
 	}

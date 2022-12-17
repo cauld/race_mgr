@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 
-import {updateServerConfig, doAuth, updateServer} from './utilities';
+import {updateServerConfig, updateServer} from './utilities';
 
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -28,9 +28,15 @@ const ApplyServerConfig = (props:IProps) => {
 	const [selectedIndex, setSelectedIndex] = React.useState(1);
 	const [formIsValid, setFormIsValid] = React.useState(true);
 
-	const handleAuthClick = () => {
-		doAuth();
-	};
+	useEffect(() => {
+		const formIsValid
+			= props.serverName?.length > 0
+			&& props.currentSessionId !== ''
+			&& props.currentSessionId !== undefined
+			&& props.currentRotationId !== ''
+			&& props.currentRotationId !== undefined;
+		setFormIsValid(formIsValid);
+	}, [props.serverName, props.currentSessionId, props.currentRotationId]);
 
 	const handleUpdateServerConfig = () => {
 		props.setLoading(true);
@@ -113,11 +119,6 @@ const ApplyServerConfig = (props:IProps) => {
 	};
 
 	const handleClick = () => {
-		setFormIsValid(props.serverName !== '');
-		if (!formIsValid) {
-			return;
-		}
-
 		switch (options[selectedIndex]) {
 			case 'Update and Restart':
 				handleUpdateServerConfigAndRestart();
@@ -168,9 +169,7 @@ const ApplyServerConfig = (props:IProps) => {
 
 	return (
 		<React.Fragment>
-			<Button onClick={handleAuthClick}>doAuth()</Button>
-
-			<ButtonGroup variant="contained" ref={anchorRef} aria-label="split button">
+			<ButtonGroup disabled={!formIsValid} variant="contained" ref={anchorRef} aria-label="split button">
 				<Button onClick={handleClick}>{options[selectedIndex]}</Button>
 				<Button
 					size="small"

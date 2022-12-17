@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+
 import '@fontsource/roboto/400.css';
 
 import AppBar from './components/Nav/AppBar';

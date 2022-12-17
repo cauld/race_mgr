@@ -102,6 +102,7 @@ const LeaderBoard:React.FC = () => {
 					setStartDate={setStartDate}
 					endDate ={endDate}
 					setEndDate={setEndDate}
+					setLoading={setLoading}
 				/>
 			</Typography>
 
