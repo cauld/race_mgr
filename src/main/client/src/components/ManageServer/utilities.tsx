@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import {ISession, IServerConfig, IAddRotation} from './interfaces';
+import {ISession, IServerConfig, IAddRotation, IRotationDetail} from './interfaces';
 
 import {defaultConfig} from './defaults';
 
@@ -56,16 +56,29 @@ export const addSession = async (sessionName:string) => {
 export const addRotation = async (rotation:IAddRotation) => {
 	const rmApi = new RaceMgrApi();
 
+	let data = {};
+
+	if (rotation.rotationName.length > 0) {
+		data = {
+			name: rotation.rotationName,
+			raceCount: rotation.raceSize,
+			allowKarts: rotation.allowKarts,
+			persist: rotation.persist,
+			restart: rotation.restart,
+		};
+	} else {
+		data = {
+			raceCount: rotation.raceSize,
+			allowKarts: rotation.allowKarts,
+			persist: rotation.persist,
+			restart: rotation.restart,
+		};
+	}
+
 	try {
 		const requestConfig = {
 			url: `${rmApi.getBaseApiUrl()}/admin/race/rotation`,
-			data: {
-				name: rotation.rotationName,
-				raceCount: rotation.raceSize,
-				allowKarts: rotation.allowKarts,
-				persist: rotation.persist,
-				restart: rotation.restart,
-			},
+			data,
 			method: 'POST',
 		};
 
@@ -98,6 +111,32 @@ export const fetchRotations = async () => {
 		}
 
 		return sortedResults;
+	} catch (err) {
+		console.log('Error', err);
+	}
+};
+
+export const fetchRotationDetail = async (rotationId:string) => {
+	const rmApi = new RaceMgrApi();
+	try {
+		const requestConfig = {
+			url: `${rmApi.getBaseApiUrl()}/race/rotation/` + rotationId,
+			method: 'get',
+		};
+
+		const apiResults = await rmApi.makeApiCall(requestConfig);
+		const {data: apiData} = apiResults;
+		const rotationDetailData = apiData.data || null;
+
+		let results;
+		if (rotationDetailData === null) {
+			results = {};
+		} else {
+			const rotationDetail = mapRotationDetailToRotationDetailObject(rotationDetailData);
+			results = rotationDetail;
+		}
+
+		return results;
 	} catch (err) {
 		console.log('Error', err);
 	}
@@ -174,5 +213,20 @@ const mapSessionDataToSessionObject = (data:Array<any>):Array<ISession> => {
 	}));
 
 	return mappedResult;
+};
+
+const mapRotationDetailToRotationDetailObject = (data:any):IRotationDetail => {
+	const rotataionDetails:IRotationDetail = {
+		id: data.id,
+		name: data.name,
+		vehicleClassId: data.config.defaultConfig.VehicleClassId,
+		rotations: [],
+	};
+
+	rotataionDetails.rotations = data.config.rotation.map(r => ({
+		name: r.TrackId,
+	}));
+
+	return rotataionDetails;
 };
 

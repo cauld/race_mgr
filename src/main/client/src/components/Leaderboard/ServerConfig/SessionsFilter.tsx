@@ -70,11 +70,6 @@ const StatsFilter = (props:IProps) => {
 		props.setCurrentRotationId(event.target.value);
 	};
 
-	const isGuid = (guid:string) => {
-		const regEx = /^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$/;
-		return regEx.test(guid);
-	};
-
 	return (
 		<Grid container spacing={3}>
 			<Grid item xs={12} md={3}>
@@ -107,7 +102,7 @@ const StatsFilter = (props:IProps) => {
 						<MenuItem value="All">
 							<em>All Rotations</em>
 						</MenuItem>
-						{rotations?.map((td, idx) => <MenuItem key={td.id} value={td.id}>{isGuid(td.name) ? `Rotation ${idx + 1}` : td.name}</MenuItem>)}
+						{rotations?.map((td, idx) => <MenuItem key={td.id} value={td.id}>{td.name}</MenuItem>)}
 					</Select>
 				</FormControl>
 			</Grid>

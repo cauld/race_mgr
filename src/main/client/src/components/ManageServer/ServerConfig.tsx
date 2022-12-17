@@ -6,6 +6,7 @@ import {ISession, IRotation} from './interfaces';
 
 import AddSessionDialog from './AddSessionDialog';
 import AddRotationDialog from './AddRotationDialog';
+import ViewRotationDialog from './ViewRotationDialog';
 
 import Grid from '@mui/material/Grid';
 
@@ -32,6 +33,7 @@ const ServerConfig = (props:IProps) => {
 	const [sessions, setSessions] = useState<ISession[]>([]);
 	const [rotations, setRotations] = useState<IRotation[]>([]);
 	const [addSessionDialogIsOpen, setAddSessionDialogIsOpen] = useState(false);
+	const [viewRotationDialogIsOpen, setViewRotationDialogIsOpen] = useState(false);
 	const [addRotationDialogIsOpen, setAddRotationDialogIsOpen] = useState(false);
 	const [newSessionId, setNewSessionId] = useState('');
 	const [newRotationId, setNewRotationId] = useState('');
@@ -77,11 +79,6 @@ const ServerConfig = (props:IProps) => {
 
 	const handleRotationChange = (event: SelectChangeEvent) => {
 		props.setCurrentRotationId(event.target.value);
-	};
-
-	const isGuid = (guid:string) => {
-		const regEx = /^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$/;
-		return regEx.test(guid);
 	};
 
 	return (
@@ -130,7 +127,7 @@ const ServerConfig = (props:IProps) => {
 							label="Rotation"
 							onChange={handleRotationChange}
 						>
-							{rotations?.map((td, idx) => <MenuItem key={td.id} value={td.id}>{isGuid(td.name) ? `Rotation ${idx + 1}` : td.name}</MenuItem>)}
+							{rotations?.map((td, idx) => <MenuItem key={td.id} value={td.id}>{td.name}</MenuItem>)}
 						</Select>
 					</FormControl>
 				</Grid>
@@ -156,11 +153,12 @@ const ServerConfig = (props:IProps) => {
 									component="button"
 									variant="body2"
 									underline="none"
+									visibility={ props.currentRotationId === undefined ? 'hidden' : 'visible'}
 									onClick={() => {
-										setAddSessionDialogIsOpen(!addSessionDialogIsOpen);
+										setViewRotationDialogIsOpen(!viewRotationDialogIsOpen);
 									}}
 								>
-					View Rotation
+									View Rotation
 								</Link>
 							</Typography>
 						</FormControl>
@@ -171,6 +169,7 @@ const ServerConfig = (props:IProps) => {
 			<Grid item md={12}>
 				<AddSessionDialog setNewSessionId={setNewSessionId} open={addSessionDialogIsOpen} setOpen={setAddSessionDialogIsOpen} isLoading={props.isLoading} setIsLoading={props.setIsLoading} />
 				<AddRotationDialog setNewRotationId={setNewRotationId} open={addRotationDialogIsOpen} setOpen={setAddRotationDialogIsOpen} isLoading={props.isLoading} setIsLoading={props.setIsLoading} />
+				<ViewRotationDialog rotationId={props.currentRotationId} open={viewRotationDialogIsOpen} setOpen={setViewRotationDialogIsOpen} isLoading={props.isLoading} setIsLoading={props.setIsLoading} />
 			</Grid>
 		</Grid>);
 };

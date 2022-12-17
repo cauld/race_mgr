@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 
 import {addRotation} from './utilities';
@@ -105,7 +105,6 @@ const AddRotationDialog = (props:IProps) => {
 								variant="standard"
 								fullWidth
 								value={rotationName}
-								required
 								disabled={props.isLoading}
 								onChange={handleRotationNameChange} />
 						</Grid>
@@ -156,7 +155,7 @@ const AddRotationDialog = (props:IProps) => {
 						</Grid>
 
 					</Grid>
-					<ErrorTypography>
+					<ErrorTypography align="left">
 						{errorMessage}
 					</ErrorTypography>
 
@@ -164,7 +163,7 @@ const AddRotationDialog = (props:IProps) => {
 
 				<DialogActions>
 					<Button onClick={handleClose} disabled={props.isLoading}>Cancel</Button>
-					<LoadingButton onClick={handleApply} loading={props.isLoading} disabled={rotationName.length === 0}>
+					<LoadingButton onClick={handleApply} loading={props.isLoading}>
 							Add Rotation
 					</LoadingButton>
 				</DialogActions>

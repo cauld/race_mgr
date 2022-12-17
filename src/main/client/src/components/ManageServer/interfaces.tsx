@@ -16,6 +16,17 @@ export interface IRotation {
 	name: string
 }
 
+export interface IRotationTrackInfo {
+	name:string,
+}
+
+export interface IRotationDetail {
+	id: string,
+	name: string,
+	vehicleClassId: string,
+	rotations: Array<IRotationTrackInfo> // TrackId
+}
+
 export interface IAddRotation {
 	rotationName: string,
 	raceSize: number,
