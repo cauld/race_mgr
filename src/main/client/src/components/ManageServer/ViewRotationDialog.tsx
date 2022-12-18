@@ -19,12 +19,6 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
-const ErrorTypography = withStyles({
-	root: {
-		color: 'red',
-	},
-})(Typography);
-
 interface IProps {
     open: boolean,
     setOpen: (isOpen:false)=> void,
@@ -34,7 +28,6 @@ interface IProps {
 }
 
 const ViewRotationDialog = (props:IProps) => {
-	const [errorMessage, setErrorMessage] = useState('');
 	const [rotationDetail, setRotationDetail] = useState<IRotationDetail>();
 
 	const getRotationDetail = async () => {
@@ -51,6 +44,7 @@ const ViewRotationDialog = (props:IProps) => {
 
 	const handleClose = () => {
 		props.setOpen(false);
+		setRotationDetail(undefined);
 		props.setIsLoading(false);
 	};
 
@@ -85,10 +79,6 @@ const ViewRotationDialog = (props:IProps) => {
 						</Grid>
 
 					</Grid>
-					<ErrorTypography align="left">
-						{errorMessage}
-					</ErrorTypography>
-
 				</DialogContent>
 
 				<DialogActions>
