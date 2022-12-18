@@ -60,7 +60,7 @@ public class GameServerMgr implements Runnable {
             logger.info("Stopping the external game server!");
             var pids = WindowsUtils.getPidsByName(gameServerExeName);
             if (pids.size() > 0) {
-                WindowsUtils.killProcess(pids.get(0));
+                WindowsUtils.killProcess(gameServerExeName);
             }
         } else {
             logger.info("External game server not running, nothing to stop.");

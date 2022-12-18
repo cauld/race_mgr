@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class DefaultController {
     @RequestMapping("/api")
     public String home() {
-        return "Welcome to Race Server Manager!";
+        return "Welcome to Race Manager!";
     }
 }

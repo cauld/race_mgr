@@ -34,12 +34,11 @@ public class WindowsUtils {
         return pids.size() > 0;
     }
 
-    public static void killProcess(Long pid) {
+    public static void killProcess(String processImageName) {
         try {
-            String[] command = { "taskkill" };
-            String[] commandArgs = { String.format("/pid %s", pid), "/F" };
-            Runtime.getRuntime().exec(command, commandArgs);
-            logger.info(pid + " killed successfully!");
+            String command = "taskkill /f /im " + processImageName;
+            Runtime.getRuntime().exec(command);
+            logger.info(processImageName + " killed successfully!");
         } catch (IOException e) {
             logger.error(e);
             e.printStackTrace();
