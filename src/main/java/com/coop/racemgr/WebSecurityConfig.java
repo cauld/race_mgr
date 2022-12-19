@@ -68,8 +68,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             .and()
             // Public endpoints require no auth
-            .authorizeRequests().antMatchers("/api/v1/**").permitAll()
-            .and()
+            //.authorizeRequests().antMatchers("/api/v1/**").permitAll()
+            //.and()
             // All admin paths require authentication
             .authorizeRequests().antMatchers("/api/v1/admin/**").authenticated()
             .and()
