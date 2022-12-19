@@ -1,12 +1,11 @@
 package com.coop.racemgr.controllers;
 
 import com.coop.racemgr.RacemgrApplication;
-import com.coop.racemgr.controllers.ResponseHandler;
 import com.coop.racemgr.gameserver.GameServerMgr;
 import com.coop.racemgr.gameserver.GameServerProxy;
 import com.coop.racemgr.model.RaceRotation;
 import com.coop.racemgr.repositories.RaceRotationRepository;
-import com.coop.racemgr.rotation.RacemgrRotationConfig;
+import com.coop.racemgr.rotation.RacemgrRotationConfigMaker;
 import com.coop.racemgr.rotation.RacemgrRotationFileMaker;
 import lombok.Data;
 import org.apache.logging.log4j.LogManager;
@@ -52,22 +51,12 @@ public class RaceRotationController {
     @PostMapping("/api/v1/admin/race/rotation")
     public ResponseEntity<Object> rotation(@RequestBody RaceRotationRequest request) throws org.json.simple.parser.ParseException {
         // Generate rotation config
-        RacemgrRotationConfig rotationConfig = new RacemgrRotationConfig(new GameServerProxy(), request.raceCount, request.allowKarts, request.persist);
+        RacemgrRotationConfigMaker rotationConfig = new RacemgrRotationConfigMaker(new GameServerProxy(), request.raceCount, request.allowKarts, request.persist);
 
         try {
-            var rotationFileMaker = new RacemgrRotationFileMaker(rotationConfig);
-            rotationFileMaker.writeGeneratedRotationFile();
-
-            // If successfully written, save this config in the db history
             var raceRotation = new RaceRotation(request.name, rotationConfig);
             raceRotationRepository.save(raceRotation);
-
-            if (request.restart) {
-                GameServerMgr.restart();
-                return ResponseHandler.generateResponse("Successfully generated new rotation, restarting server now to apply!", HttpStatus.OK, raceRotation);
-            } else {
-                return ResponseHandler.generateResponse("Successfully generated new rotation, manually restart server to apply!", HttpStatus.OK, raceRotation);
-            }
+            return ResponseHandler.generateResponse("Successfully generated new rotation", HttpStatus.OK, raceRotation);
         } catch (Exception e) {
             logger.error(e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
@@ -86,6 +75,24 @@ public class RaceRotationController {
             rr.setUpdated(System.currentTimeMillis());
             raceRotationRepository.save(rr);
             return ResponseHandler.generateResponse("Successfully deleted race rotation!", HttpStatus.OK, null);
+        } catch (Exception e) {
+            logger.error(e);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
+    }
+
+    @PostMapping("/api/v1/admin/race/rotation/{id}/activate")
+    public ResponseEntity<Object> activateRaceRotation(@PathVariable String id) {
+        RaceRotation rr = raceRotationRepository.findItemById(id);
+        if (rr == null) {
+            return ResponseHandler.generateResponse("Race rotation not found!", HttpStatus.NOT_FOUND, null);
+        }
+
+        try {
+            var rotationFileMaker = new RacemgrRotationFileMaker(rr);
+            rotationFileMaker.writeGeneratedRotationFile();
+            GameServerMgr.restart();
+            return ResponseHandler.generateResponse("Successfully activated race rotation, restarting server now to apply!", HttpStatus.OK, null);
         } catch (Exception e) {
             logger.error(e);
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);

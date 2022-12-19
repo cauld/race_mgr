@@ -1,9 +1,9 @@
 package com.coop.racemgr.rotation;
 
+import com.coop.racemgr.model.RaceRotation;
 import com.coop.racemgr.utils.RacemgrUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.json.simple.parser.ParseException;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,11 +13,11 @@ import java.nio.file.Paths;
 // or have a public getter methods
 public class RacemgrRotationFileMaker {
     final public int version;
-    public RacemgrRotationConfig config;
+    public Object config;
 
-    public RacemgrRotationFileMaker(RacemgrRotationConfig config) throws ParseException, IOException {
+    public RacemgrRotationFileMaker(RaceRotation raceRotation) {
         this.version = 7;
-        this.config = config;
+        this.config = raceRotation.config;
     }
 
     private void deleteCachedRotationFile(String gameServerFsPath) {
@@ -35,6 +35,7 @@ public class RacemgrRotationFileMaker {
         String gameServerDefaultRotationFilePath = gameServerFsPath + "\\lua\\sms_rotate\\sms_rotate_default_config.json";
 
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+
         // Convert config object to JSON file
         mapper.writerWithDefaultPrettyPrinter().writeValue(Paths.get(gameServerDefaultRotationFilePath).toFile(), this);
         // The game server expects the default config to use the property name "default"

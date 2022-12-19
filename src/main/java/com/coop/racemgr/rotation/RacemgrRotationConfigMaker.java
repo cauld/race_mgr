@@ -9,12 +9,12 @@ import java.util.List;
 
 // NOTE: Jackson will only work/serialize fields that are either public
 // or have a public getter methods
-public class RacemgrRotationConfig {
+public class RacemgrRotationConfigMaker {
     public boolean persist_index;
     public RacemgrRotationDefaultConfig defaultConfig;
     public List<RacemgrRotationEntry> rotation = new ArrayList<>();
 
-    public RacemgrRotationConfig(GameServerProxy gameServerProxy, int raceCount, boolean allowKarts, boolean persist) throws ParseException {
+    public RacemgrRotationConfigMaker(GameServerProxy gameServerProxy, int raceCount, boolean allowKarts, boolean persist) throws ParseException {
         this.persist_index = persist;
 
         List raceVehicleClasses = gameServerProxy.getVehicleClassesFiltered(1, true, allowKarts);
