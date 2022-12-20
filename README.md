@@ -24,7 +24,8 @@ It assumes you have the [Automobilista 2 Dedicated Server](https://steamdb.info/
      - `RM_ADMIN_USER` - All `admin` features/API endpoints require Bearer (JWT) authentication. Set to whatever you want the admin username to be.
      - `RM_ADMIN_PASSWORD` - All `admin` features/API endpoints require Bearer (JWT) authentication. Set to whatever you want the admin password to be.
      - `RM_JWT_SECRET` - This is used as part of user authentication. It should be a random 64 character string. We recommend using [this tool](http://www.unit-conversion.info/texttools/random-string-generator/) to generate one.
-     - Open the Window's command prompt, `cd` to RMS server director (important), run `java -jar racemgr-0.0.X.jar` (X being the version you downloaded).
+     - Open the Window's command prompt, `cd` to RMS server director (important), run `java -jar racemgr-X.X.X.jar` (X being the version you downloaded).
+     - The web application UI is now available on port `8080` (e.g.) http://localhost:8080/
 
      NOTE for Devs:
      - If you are building yourself and using IntelliJ you can define these same variables [in the IDE](https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html) to override the Windows System Env ones as needed.
