@@ -87,7 +87,16 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: prop => prop !== 'open'})(
 	}),
 );
 
-const mdTheme = createTheme();
+const mdTheme = createTheme({
+	palette: {
+		primary: {
+			main: '#ff2800',
+		},
+		secondary: {
+			main: '#636262',
+		},
+	},
+});
 
 const DashboardContent = () => {
 	const [open, setOpen] = React.useState(true);
@@ -147,7 +156,13 @@ const DashboardContent = () => {
 								noWrap
 								sx={{flexGrow: 1}}
 							>
-              Race Manager
+								<div style={{
+									marginRight: '8px',
+									top: '-8px',
+									position: 'relative',
+									display: 'inline',
+								}}>Race Manager</div>
+								<img src="race_mgr_logo.png" alt="logo" width="50px" />
 							</Typography>
 
 							{!isAuthenticated
@@ -161,7 +176,7 @@ const DashboardContent = () => {
 							}
 
 							{isAuthenticated
-							&& <Avatar sx={{bgcolor: 'white', color: '#1976d2'}}>R</Avatar>
+							&& <Avatar sx={{bgcolor: 'white', color: 'black'}}>R</Avatar>
 
 							}
 						</Toolbar>

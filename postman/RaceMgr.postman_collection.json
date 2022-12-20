@@ -332,7 +332,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"raceCount\": \"50\",\r\n    \"allowKarts\": \"false\",\r\n    \"persist\": \"true\",\r\n    \"restart\": \"true\"\r\n}",
+									"raw": "{\r\n    \"raceCount\": \"50\",\r\n    \"allowKarts\": \"false\",\r\n    \"persist\": \"true\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -388,7 +388,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"name\": \"Custom named rotation\",\r\n    \"raceCount\": \"10\",\r\n    \"allowKarts\": \"false\",\r\n    \"persist\": \"true\",\r\n    \"restart\": \"true\"\r\n}",
+									"raw": "{\r\n    \"name\": \"Custom named rotation\",\r\n    \"raceCount\": \"10\",\r\n    \"allowKarts\": \"false\",\r\n    \"persist\": \"true\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -405,6 +405,54 @@
 										"admin",
 										"race",
 										"rotation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rotation: Activate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation/{{LAST_GENERATED_ROTATION_ID}}/activate",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"rotation",
+										"{{LAST_GENERATED_ROTATION_ID}}",
+										"activate"
 									]
 								}
 							},
