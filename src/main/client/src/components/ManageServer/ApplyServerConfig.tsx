@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 
-import {updateServerConfig, updateServer} from './utilities';
+import {updateServerStatus} from '../../state/serverStatus';
+import {updateServerConfig} from '../../state/serverConfig';
 
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -12,128 +14,67 @@ import Popper from '@mui/material/Popper';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 
-const options = ['Update and Restart', 'Update', 'Start', 'Stop', 'Restart'];
+const options = ['Update Server', 'Start Server', 'Stop Server'];
 
 interface IProps {
 	serverName: string,
-	currentSessionId?: string,
-	currentRotationId?: string,
 	showNotification: (message:string, severity: any) => void,
-	setLoading: (isLoading:boolean) => void,
+	setIsServerRunning: (isRunning:boolean) => void
 }
 
 const ApplyServerConfig = (props:IProps) => {
-	const [open, setOpen] = React.useState(false);
 	const anchorRef = React.useRef<HTMLDivElement>(null);
-	const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+	const [open, setOpen] = React.useState(false);
+	const [selectedIndex, setSelectedIndex] = React.useState(1); // SplitButton
 	const [formIsValid, setFormIsValid] = React.useState(true);
+
+	const {serverStatus, serverConfig, sessions, rotations} = useSelector((state:any) => state);
+
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const formIsValid
 			= props.serverName?.length > 0
-			&& props.currentSessionId !== ''
-			&& props.currentSessionId !== undefined
-			&& props.currentRotationId !== ''
-			&& props.currentRotationId !== undefined;
+			&& sessions.selectedSessionId !== ''
+			&& sessions.selectedSessionId !== undefined
+			&& rotations.selectedRotationId !== ''
+			&& rotations.selectedRotationId !== undefined;
 		setFormIsValid(formIsValid);
-	}, [props.serverName, props.currentSessionId, props.currentRotationId]);
+	}, [serverConfig.serverName, sessions.selectedSessionId, rotations.selectedRotationId, props.serverName]);
 
 	const handleUpdateServerConfig = () => {
-		props.setLoading(true);
-
-		updateServerConfig({
-			serverName: props.serverName,
-			activeRaceSessionId: props.currentSessionId ?? '',
-			activeRaceRotationId: props.currentRotationId ?? '',
-		}).then(res => {
-			props.setLoading(false);
-
-			if (res) {
-				props.showNotification('Configuration Updated', 'success');
-			} else {
-				props.showNotification('Error Updating Configuration', 'error');
-			}
-		});
-	};
-
-	const handleUpdateServerConfigAndRestart = () => {
-		props.setLoading(true);
-
-		updateServerConfig({
-			serverName: props.serverName,
-			activeRaceSessionId: props.currentSessionId ?? '',
-			activeRaceRotationId: props.currentRotationId ?? '',
-		}).then(() => {
-			updateServer('restart').then(res => {
-				props.setLoading(false);
-
-				if (res) {
-					props.showNotification('Configuration Updated and Server Restarted', 'success');
-				} else {
-					props.showNotification('Error Updating Configuration', 'error');
-				}
-			});
-		});
-	};
-
-	const handleRestartServer = () => {
-		props.setLoading(true);
-
-		updateServer('restart').then(res => {
-			props.setLoading(false);
-
-			if (res) {
-				props.showNotification('Server Restarted', 'success');
-			} else {
-				props.showNotification('Error Restarting Server', 'error');
-			}
-		});
+		dispatch(updateServerConfig(
+			{
+				serverName: props.serverName,
+				activeRaceSessionId: sessions.selectedSessionId ?? '',
+				activeRaceRotationId: rotations.selectedRotationId ?? '',
+			}),
+		);
 	};
 
 	const handleStopServer = () => {
-		props.setLoading(true);
-
-		updateServer('stop').then(res => {
-			props.setLoading(false);
-
-			if (res) {
-				props.showNotification('Server Stopped', 'success');
-			} else {
-				props.showNotification('Error Stopping Server', 'error');
-			}
-		});
+		if (serverStatus.isRunning) {
+			dispatch(updateServerStatus('stop'));
+		}
 	};
 
 	const handleStartServer = () => {
-		props.setLoading(true);
-
-		updateServer('start').then(res => {
-			props.setLoading(false);
-
-			if (res) {
-				props.showNotification('Server Started', 'success');
-			} else {
-				props.showNotification('Error Starting Server', 'error');
-			}
-		});
+		if (!serverStatus.isRunning) {
+			dispatch(updateServerStatus('start'));
+		}
 	};
 
 	const handleClick = () => {
 		switch (options[selectedIndex]) {
-			case 'Update and Restart':
-				handleUpdateServerConfigAndRestart();
-				break;
-			case 'Update':
+			case 'Update Server':
 				handleUpdateServerConfig();
 				break;
-			case 'Start':
+			case 'Start Server':
 				handleStartServer();
 				break;
-			case 'Stop':
+			case 'Stop Server':
 				handleStopServer();
-				break;
-			case 'Restart':
-				handleRestartServer();
 				break;
 			default:
 				break;

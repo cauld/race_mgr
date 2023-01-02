@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+
 const _ = require('lodash');
 
-import {fetchSessions, fetchRotations, fetchServerConfig} from './utilities';
+import {updateServerConfig} from '../../../state/serverConfig';
 
 import {ISession, IRotation} from './interfaces';
 
@@ -11,64 +13,41 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 
 import Select, {SelectChangeEvent} from '@mui/material/Select';
+import {getSessions, setSelectedSessionId} from '../../../state/sessions';
+import {getRotations, setSelectedRotationId} from '../../../state/rotations';
+import {fetchSessionDetail} from '../../ManageServer/utilities';
 
-interface IProps {
-	currentSessionId: string,
-	setCurrentSessionId: (sessionid:string) => void,
-	currentRotationId: string,
-	setCurrentRotationId: (rotationid:string) => void,
-	serverName:string,
-	setServerName: (serverName:string) => void,
-	startDate:number,
-	setStartDate: (startDate:number) => void,
-	endDate: number,
-	setEndDate: (endDate:number) => void,
-	setLoading: (isLoading:boolean) => void
-}
+const StatsFilter = () => {
+	const {serverConfig, sessions, rotations} = useSelector((state:any) => state);
 
-const StatsFilter = (props:IProps) => {
-	const [sessions, setSessions] = useState<ISession[]>([]);
-	const [rotations, setRotations] = useState<IRotation[]>([]);
-
-	const setInitialState = async () => {
-		await fetchServerConfig()
-			.then(config => {
-				if (config === undefined) {
-					props.setLoading(false);
-				}
-
-				props.setCurrentSessionId(config?.activeRaceSessionId);
-				props.setCurrentRotationId(config?.activeRaceRotationId);
-				props.setServerName(config?.serverName);
-			});
-	};
-
-	const getSessions = async () => {
-		const sessions: ISession[] = await fetchSessions();
-		setSessions(sessions);
-	};
-
-	const getRotations = async () => {
-		const rotations: IRotation[] = await fetchRotations();
-		setRotations(rotations);
-	};
+	const [filteredRotations, setFilteredRotaions] = useState<Array<IRotation>>([]);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		getSessions();
-		getRotations();
+		dispatch(getSessions());
+		dispatch(getRotations());
 	}, []);
 
 	useEffect(() => {
-		setInitialState();
-	}, [sessions]);
+		dispatch(setSelectedSessionId(serverConfig.activeRaceSessionId));
+		dispatch(setSelectedRotationId(serverConfig.activeRaceRotationId));
+	}, [serverConfig]);
 
 	const handleSessionChange = (event: SelectChangeEvent) => {
-		props.setCurrentSessionId(event.target.value);
+		dispatch(setSelectedSessionId(event.target.value));
 	};
 
 	const handleRotationChange = (event: SelectChangeEvent) => {
-		props.setCurrentRotationId(event.target.value);
+		dispatch(setSelectedRotationId(event.target.value));
 	};
+
+	useEffect(() => {
+		fetchSessionDetail(sessions.selectedSessionId).then(r => {
+			const rotationsForActiveSession = rotations?.rotations.filter(element => r.raceRotationIds.includes(element.id));
+
+			setFilteredRotaions(rotationsForActiveSession);
+		});
+	}, [sessions.selectedSessionId, rotations]);
 
 	return (
 		<Grid container spacing={3}>
@@ -78,14 +57,14 @@ const StatsFilter = (props:IProps) => {
 					<Select
 						labelId="session-select"
 						id="session-select"
-						value={props.currentSessionId ?? ''}
+						value={sessions.selectedSessionId ?? ''}
 						label="Session"
 						onChange={handleSessionChange}
 					>
 						<MenuItem value="All">
 							<em>All Sessions</em>
 						</MenuItem>
-						{sessions?.map(td => <MenuItem key={td.id} value={td.id}>{ td.name}</MenuItem>)}
+						{sessions?.sessions?.map(td => <MenuItem key={td.id} value={td.id}>{ td.name}</MenuItem>)}
 					</Select>
 				</FormControl>
 			</Grid>
@@ -95,14 +74,14 @@ const StatsFilter = (props:IProps) => {
 					<Select
 						labelId="rotation-select"
 						id="rotation-select"
-						value={props.currentRotationId ?? ''}
+						value={rotations.selectedRotationId ?? ''}
 						label="Rotation"
 						onChange={handleRotationChange}
 					>
 						<MenuItem value="All">
 							<em>All Rotations</em>
 						</MenuItem>
-						{rotations?.map((td, idx) => <MenuItem key={td.id} value={td.id}>{td.name}</MenuItem>)}
+						{filteredRotations?.map((td, idx) => <MenuItem key={td.id} value={td.id}>{td.name}</MenuItem>)}
 					</Select>
 				</FormControl>
 			</Grid>

@@ -1,8 +1,15 @@
+
 import React, {useEffect, useState} from 'react';
+
+import {useDispatch, useSelector} from 'react-redux';
+import {getServerConfig} from '../../state/serverConfig';
+import {getServerStatus} from '../../state/serverStatus';
 
 import _ from 'lodash';
 
 import {fetchRaceData} from './utilities';
+
+import ServerStopped from '../ErrorStates/ServerStopped';
 
 import AdvancedFiltersDialog from './AdvancedFiltersDialog';
 
@@ -21,6 +28,7 @@ import Typography from '@mui/material/Typography';
 
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import ServerConfigError from '../ErrorStates/ServerConfigError';
 
 export const defaultAdvancedFilter:IAdvancedFilter = {
 	humanPlayers: [0, 32],
@@ -29,27 +37,34 @@ export const defaultAdvancedFilter:IAdvancedFilter = {
 };
 
 const LeaderBoard:React.FC = () => {
-	const [loading, setLoading] = useState(true);
-	const [currentSessionId, setCurrentSessionId] = useState('');
-	const [currentRotationId, setCurrentRotationId] = useState('');
-	const [serverName, setServerName] = useState('');
+	const dispatch = useDispatch();
+	const {serverConfig, serverStatus, sessions, rotations} = useSelector((state:any) => state);
+
+	const [loading, setLoading] = useState(false);
+
+	// Filter State
 	const [startDate, setStartDate] = useState(0);
 	const [endDate, setEndDate] = useState(0);
-	const [races, setRaces] = useState<IRace[]>([]);
-	const [filteredRaces, setFilteredRaces] = useState<IRace[]>([]);
 	const [advancedFilterIsOpen, setAdvancedFilterIsOpen] = useState(false);
 	const [advancedFilters, setAdvancedFilters] = useState<IAdvancedFilter>(defaultAdvancedFilter);
 
+	const [races, setRaces] = useState<IRace[]>([]);
+	const [filteredRaces, setFilteredRaces] = useState<IRace[]>([]);
+
 	useEffect(() => {
-		if (!currentSessionId || !currentRotationId) {
-			return;
-		}
+		dispatch(getServerStatus());
+		dispatch(getServerConfig());
+	}, [dispatch]);
+
+	useEffect(() => {
+		// Should rediect if server is not running, or if there is not active config
+		// If (!serverConfig.activeRaceSessionId || !serverConfig.activeRaceRotationId || !serverStatus.isRunning) {
+		// 	return;
+		// }
 
 		setLoading(true);
-
-		fetchRaceData(currentSessionId, currentRotationId).then(r => {
+		fetchRaceData(sessions.selectedSessionId, rotations.selectedRotationId).then(r => {
 			const raceResults = (r as Array<IRace>)?.filter(r => r.finished === true);
-
 			if (!raceResults || raceResults.length === 0) {
 				setRaces([]);
 				setLoading(false);
@@ -65,7 +80,7 @@ const LeaderBoard:React.FC = () => {
 			setRaces(raceResults);
 			setLoading(false);
 		});
-	}, [currentSessionId, currentRotationId]);
+	}, [sessions.selectedSessionId, rotations.selectedRotationId]);
 
 	useEffect(() => {
 		let newResults = races.filter(r => r.startDate >= startDate && r.endDate <= endDate);
@@ -80,85 +95,76 @@ const LeaderBoard:React.FC = () => {
 	}, [startDate, endDate, races, advancedFilters]);
 
 	return (
-		<Paper sx={{
-			p: 2,
-			pb: 5,
-			display: 'flex',
-			flexDirection: 'column',
-		}}>
-			<Typography variant="h5" align="left" gutterBottom={true}>
+		!serverStatus.isRunning ? <ServerStopped />
+			:			!serverConfig.serverName || !serverConfig.activeRaceSessionId || !serverConfig.activeRaceRotationId ? <ServerConfigError />
+
+				: <Paper sx={{
+					p: 2,
+					pb: 5,
+					display: 'flex',
+					flexDirection: 'column',
+				}}>
+					<Typography variant="h5" align="left" gutterBottom={true}>
 				Leader Board
-			</Typography>
-
-			<Typography variant="subtitle1" align="left" gutterBottom={true}>
-				<SessionsFilter
-					setCurrentSessionId={setCurrentSessionId}
-					currentSessionId={currentSessionId}
-					currentRotationId={currentRotationId}
-					setCurrentRotationId={setCurrentRotationId}
-					serverName={serverName}
-					setServerName={setServerName}
-					startDate ={startDate}
-					setStartDate={setStartDate}
-					endDate ={endDate}
-					setEndDate={setEndDate}
-					setLoading={setLoading}
-				/>
-			</Typography>
-
-			<Typography variant="h5" align="left">
-				<DateFilter
-					currentSessionId={currentSessionId}
-					startDate ={startDate}
-					setStartDate={setStartDate}
-					endDate ={endDate}
-					setEndDate={setEndDate}
-				/>
-			</Typography>
-
-			<Typography align="left">
-				<Link
-					component="button"
-					variant="body2"
-					underline="none"
-					onClick={() => {
-						setAdvancedFilterIsOpen(!advancedFilterIsOpen);
-					}}
-				>
-					Advanced Filters
-				</Link>
-			</Typography>
-
-			<Grid container spacing={3}>
-				<Grid item xs={12} md={12} lg={12}>
-					<Typography marginTop={'5px'} marginBottom={'5px'} variant="h6">
-						{serverName} - { filteredRaces.length} Races
 					</Typography>
-				</Grid>
-			</Grid>
 
-			<Grid container spacing={3} marginBottom={'25px'} marginTop={'-35px'}>
-				<Grid item xs={12} md={12} lg={12} display={filteredRaces.length > 0 ? '' : 'none'}>
-					<Typography variant="h6" align="left">Session Leaders</Typography>
-					<RaceSummary filteredRaces={filteredRaces} />
+					<Typography variant="subtitle1" align="left" gutterBottom={true}>
+						<SessionsFilter />
+					</Typography>
 
-				</Grid>
-			</Grid>
+					<Typography variant="subtitle1" align="left" gutterBottom={true}>
+						<DateFilter
+							currentSessionId={serverConfig.activeRaceSessionId}
+							startDate ={startDate}
+							setStartDate={setStartDate}
+							endDate ={endDate}
+							setEndDate={setEndDate}
+						/>
+					</Typography>
 
-			<Grid container spacing={3}>
-				<Grid item xs={12} md={12} lg={12} display={filteredRaces.length > 0 ? '' : 'none'}>
-					<Typography variant="h6" align="left">Race Summary</Typography>
-					<RaceResults filteredRaces={filteredRaces}/>
-				</Grid>
-			</Grid>
-			< AdvancedFiltersDialog open={advancedFilterIsOpen} setOpen={setAdvancedFilterIsOpen} advancedFilters={advancedFilters} setAdvancedFilters={setAdvancedFilters} />
-			<Backdrop
-				sx={{color: '#fff', zIndex: theme => theme.zIndex.drawer + 1}}
-				open={loading}
-			>
-				<CircularProgress color="inherit" />
-			</Backdrop>
-		</Paper>
+					<Typography align="left">
+						<Link
+							component="button"
+							variant="body2"
+							underline="none"
+							onClick={() => {
+								setAdvancedFilterIsOpen(!advancedFilterIsOpen);
+							}}
+						>
+					Advanced Filters
+						</Link>
+					</Typography>
+
+					<Grid container spacing={3}>
+						<Grid item xs={12} md={12} lg={12}>
+							<Typography marginTop={'5px'} marginBottom={'5px'} variant="h6">
+								{serverConfig.serverName} - { filteredRaces.length} Races
+							</Typography>
+						</Grid>
+					</Grid>
+
+					<Grid container spacing={3} marginBottom={'25px'} marginTop={'-35px'}>
+						<Grid item xs={12} md={12} lg={12} display={filteredRaces.length > 0 ? '' : 'none'}>
+							<Typography variant="h6" align="left">Session Leaders</Typography>
+							<RaceSummary filteredRaces={filteredRaces} />
+
+						</Grid>
+					</Grid>
+
+					<Grid container spacing={3}>
+						<Grid item xs={12} md={12} lg={12} display={filteredRaces.length > 0 ? '' : 'none'}>
+							<Typography variant="h6" align="left">Race Summary</Typography>
+							<RaceResults filteredRaces={filteredRaces}/>
+						</Grid>
+					</Grid>
+					< AdvancedFiltersDialog open={advancedFilterIsOpen} setOpen={setAdvancedFilterIsOpen} advancedFilters={advancedFilters} setAdvancedFilters={setAdvancedFilters} />
+					<Backdrop
+						sx={{color: '#fff', zIndex: theme => theme.zIndex.drawer + 1}}
+						open={loading}
+					>
+						<CircularProgress color="inherit" />
+					</Backdrop>
+				</Paper>
 	);
 };
 

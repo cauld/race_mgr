@@ -22,17 +22,5 @@ export const listItems = (
 			</ListItemIcon>
 			<ListItemText primary="Manage Server" />
 		</ListItemButton>
-		<ListItemButton>
-			<ListItemIcon>
-				<PeopleIcon />
-			</ListItemIcon>
-			<ListItemText primary="Stats" />
-		</ListItemButton>
-		<ListItemButton>
-			<ListItemIcon>
-				<BarChartIcon />
-			</ListItemIcon>
-			<ListItemText primary="Rotations" />
-		</ListItemButton>
 	</React.Fragment>
 );

@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react';
 
-import {fetchRotationDetail} from './utilities';
+import {useDispatch, useSelector} from 'react-redux';
+import {getRotationDetail} from '../../state/rotationDetail';
 
-import {IRotationDetail} from './interfaces';
-
-import {withStyles} from '@material-ui/core/styles';
 import Typography from '@mui/material/Typography';
 
 import Button from '@mui/material/Button';
@@ -21,43 +19,35 @@ import ListItemText from '@mui/material/ListItemText';
 
 interface IProps {
     open: boolean,
-    setOpen: (isOpen:false)=> void,
-    isLoading: boolean,
-	setIsLoading: (isLoading: boolean) => void,
-	rotationId: string
+    setOpen: (isOpen:false)=> void
 }
 
 const ViewRotationDialog = (props:IProps) => {
-	const [rotationDetail, setRotationDetail] = useState<IRotationDetail>();
+	const {rotations, rotationDetail} = useSelector((state:any) => state);
 
-	const getRotationDetail = async () => {
-		fetchRotationDetail(props.rotationId).then(res => {
-			setRotationDetail(res);
-		});
-	};
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (props.open === true) {
-			getRotationDetail();
+			dispatch(getRotationDetail(rotations.selectedRotationId));
 		}
 	}, [props.open]);
 
 	const handleClose = () => {
 		props.setOpen(false);
-		setRotationDetail(undefined);
-		props.setIsLoading(false);
+		// SetRotationDetail(undefined); // Set from Saga as well
 	};
 
 	return (
 		<div>
 			<Dialog open={props.open} onClose={handleClose}>
-				<DialogTitle>{rotationDetail?.name}</DialogTitle>
+				<DialogTitle>{rotationDetail?.rotationDetail?.name}</DialogTitle>
 
-				<DialogContent sx={{minWidth: 600}}>
+				<DialogContent sx={{minWidth: 600, minHeight: 400}}>
 					<Grid container spacing={0} padding={0}>
 						<Grid item xs={12}>
 							<Typography sx={{m: 0}} variant="h6" component="div">
-							Vehicle Class: {rotationDetail?.vehicleClassId.replaceAll('_', ' ')}
+							Vehicle Class: {rotationDetail?.rotationDetail?.vehicleClassId.replaceAll('_', ' ')}
 							</Typography>
 						</Grid>
 
@@ -65,9 +55,9 @@ const ViewRotationDialog = (props:IProps) => {
 							<Typography sx={{mt: 2, fontWeight: 'bold'}} variant="subtitle1" component="div" align="left">
 							Tracks
 							</Typography>
-							<List dense={true}>
+							<List dense={true} sx={{visibility: rotationDetail.isLoading ? 'hidden' : ''}}>
 								{
-									rotationDetail?.rotations.map((rotation, idx) =>
+									rotationDetail?.rotationDetail?.rotations?.map((rotation, idx) =>
 										<ListItem key={idx}>
 											<ListItemText
 												primary={rotation.name.replaceAll('_', ' ')}
@@ -82,7 +72,7 @@ const ViewRotationDialog = (props:IProps) => {
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={handleClose} disabled={props.isLoading}>Close</Button>
+					<Button onClick={handleClose} disabled={rotationDetail.isLoading}>Close</Button>
 				</DialogActions>
 			</Dialog>
 		</div>

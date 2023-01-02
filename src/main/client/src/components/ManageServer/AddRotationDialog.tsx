@@ -1,7 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+
+import {addRotation} from '../../state/rotations';
+
 import {withStyles} from '@material-ui/core/styles';
 
-import {addRotation} from './utilities';
+// Import {addRotation} from './utilities';
 import {sanitizeString} from '../../utils/stringUtils';
 
 import Typography from '@mui/material/Typography';
@@ -28,12 +32,14 @@ const ErrorTypography = withStyles({
 interface IProps {
     open: boolean,
     setOpen: (isOpen:false)=> void,
-    isLoading: boolean,
-	setIsLoading: (isLoading: boolean) => void,
-	setNewRotationId: (rotationId:string) => void
+    // IsLoading: boolean,
+	// setIsLoading: (isLoading: boolean) => void,
+	// setNewRotationId: (rotationId:string) => void
 }
 
 const AddRotationDialog = (props:IProps) => {
+	const {rotations} = useSelector((state:any) => state);
+
 	const [rotationName, setRotationName] = useState('');
 	const [raceSize, setRaceSize] = useState(10);
 	const [allowKarts, setAllowKarts] = useState(false);
@@ -41,10 +47,27 @@ const AddRotationDialog = (props:IProps) => {
 	const [restart, setRestart] = useState(true);
 	const [errorMessage, setErrorMessage] = useState('');
 
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		setErrorMessage('');
+	}, [props.open]);
+
+	useEffect(() => {
+		if (rotations.selectedRotationId) {
+			handleClose();
+		}
+	}, [rotations.selectedRotationId]);
+
+	useEffect(() => {
+		if (rotations.hasError === true) {
+			setErrorMessage('Error adding rotation, make sure the Rotation Name is unique');
+		}
+	}, [rotations.hasError]);
+
 	const handleClose = () => {
 		props.setOpen(false);
 		clearRotationName();
-		props.setIsLoading(false);
 	};
 
 	const handleRotationNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,22 +92,29 @@ const AddRotationDialog = (props:IProps) => {
 	};
 
 	const handleApply = () => {
-		props.setIsLoading(true);
-		addRotation({
+		dispatch(addRotation({
 			rotationName: sanitizeString(rotationName),
 			raceSize,
 			allowKarts,
 			persist,
-			restart,
-		}).then(rotationId => {
-			if (rotationId) {
-				props.setNewRotationId(rotationId);
-				handleClose();
-			} else {
-				setErrorMessage('Error adding rotation, make sure the Rotation Name is unique');
-				props.setIsLoading(false);
-			}
-		});
+			// Restart,
+		}));
+
+		// AddRotation({
+		// 	rotationName: sanitizeString(rotationName),
+		// 	raceSize,
+		// 	allowKarts,
+		// 	persist,
+		// 	restart,
+		// }).then(rotationId => {
+		// 	if (rotationId) {
+		// 		props.setNewRotationId(rotationId);
+		// 		handleClose();
+		// 	} else {
+		// 		setErrorMessage('Error adding rotation, make sure the Rotation Name is unique');
+		// 		props.setIsLoading(false);
+		// 	}
+		// });
 	};
 
 	const clearRotationName = () => {
@@ -105,7 +135,7 @@ const AddRotationDialog = (props:IProps) => {
 								variant="standard"
 								fullWidth
 								value={rotationName}
-								disabled={props.isLoading}
+								disabled={rotations.isLoading}
 								onChange={handleRotationNameChange} />
 						</Grid>
 						<Grid item xs={12}>
@@ -115,12 +145,12 @@ const AddRotationDialog = (props:IProps) => {
 								getAriaLabel={() => 'Race Count'}
 								value={raceSize}
 								onChange={handleRaceSizeChange}
-								min={0}
+								min={1}
 								max={32}
 								valueLabelDisplay="auto"
 								sx={{pt: 2}}
-								disabled={props.isLoading}
-								marks={[{value: 0, label: '0'}, {value: 32, label: '32'}]}
+								disabled={rotations.isLoading}
+								marks={[{value: 1, label: '1'}, {value: 32, label: '32'}]}
 
 							/>
 
@@ -128,7 +158,7 @@ const AddRotationDialog = (props:IProps) => {
 						<Grid item xs={4}>
 							<FormControlLabel
 								control={
-									<Switch disabled={props.isLoading} checked={allowKarts} onChange={handleAllowKartsChanged} name="allowKarts" />
+									<Switch disabled={rotations.isLoading} checked={allowKarts} onChange={handleAllowKartsChanged} name="allowKarts" />
 								}
 								label="Allow Karts"
 							/>
@@ -137,7 +167,7 @@ const AddRotationDialog = (props:IProps) => {
 						<Grid item xs={4}>
 							<FormControlLabel
 								control={
-									<Switch disabled={props.isLoading} checked={persist} onChange={handlePersistChanged} name="persist" />
+									<Switch disabled={rotations.isLoading} checked={persist} onChange={handlePersistChanged} name="persist" />
 								}
 								label="Persist"
 							/>
@@ -147,7 +177,7 @@ const AddRotationDialog = (props:IProps) => {
 						<Grid item xs={4}>
 							<FormControlLabel
 								control={
-									<Switch disabled={props.isLoading} checked={restart} onChange={handleRestartChanged} name="restart" />
+									<Switch disabled={rotations.isLoading} checked={restart} onChange={handleRestartChanged} name="restart" />
 								}
 								label="Restart"
 							/>
@@ -162,8 +192,8 @@ const AddRotationDialog = (props:IProps) => {
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={handleClose} disabled={props.isLoading}>Cancel</Button>
-					<LoadingButton onClick={handleApply} loading={props.isLoading}>
+					<Button onClick={handleClose} disabled={rotations.isLoading}>Cancel</Button>
+					<LoadingButton onClick={handleApply} loading={rotations.isLoading}>
 							Add Rotation
 					</LoadingButton>
 				</DialogActions>

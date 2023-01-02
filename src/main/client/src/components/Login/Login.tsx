@@ -41,14 +41,19 @@ const Login = (props:ILoginProps) => {
 
 	const handleLogin = () => {
 		setLoading(true);
-		doAuth(userName, password).then(res => {
-			if (res === 'OK') {
-				props.setIsAuthenticated(true);
-			} else {
-				setErrorMessage('Invalid username or password');
-				setLoading(false);
-			}
-		});
+		try	{
+			doAuth(userName, password).then(res => {
+				if (res === 'OK') {
+					props.setIsAuthenticated(true);
+				} else {
+					setErrorMessage('Invalid username or password');
+					setLoading(false);
+				}
+			});
+		} catch {
+			setLoading(false);
+			setErrorMessage('Login Error');
+		}
 	};
 
 	return (

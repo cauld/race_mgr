@@ -64,14 +64,12 @@ export const addRotation = async (rotation:IAddRotation) => {
 			raceCount: rotation.raceSize,
 			allowKarts: rotation.allowKarts,
 			persist: rotation.persist,
-			restart: rotation.restart,
 		};
 	} else {
 		data = {
 			raceCount: rotation.raceSize,
 			allowKarts: rotation.allowKarts,
 			persist: rotation.persist,
-			restart: rotation.restart,
 		};
 	}
 
@@ -85,6 +83,46 @@ export const addRotation = async (rotation:IAddRotation) => {
 		const apiResults = await rmApi.makeApiCall(requestConfig);
 		const {data: apiData} = apiResults;
 		return apiData.data?.id;
+	} catch (err) {
+		console.log('Error', err);
+	}
+};
+
+export const activateRotationId = async (rotationId:string) => {
+	const rmApi = new RaceMgrApi();
+
+	try {
+		const requestConfig = {
+			url: `${rmApi.getBaseApiUrl()}/admin/race/rotation/${rotationId}/activate`,
+			method: 'POST',
+		};
+
+		const apiResults = await rmApi.makeApiCall(requestConfig);
+		const {data: apiData} = apiResults;
+		return apiData;
+	} catch (err) {
+		console.log('Error', err);
+	}
+};
+
+export const updateSession = async (sessionName: string, sessionId:string, rotationIds: Array<string>) => {
+	const rmApi = new RaceMgrApi();
+
+	const data = {
+		name: sessionName,
+		raceRotationIds: rotationIds,
+	};
+
+	try {
+		const requestConfig = {
+			url: `${rmApi.getBaseApiUrl()}/admin/race/session/${sessionId}`,
+			data,
+			method: 'PUT',
+		};
+
+		const apiResults = await rmApi.makeApiCall(requestConfig);
+		const {data: apiData} = apiResults;
+		return apiData;
 	} catch (err) {
 		console.log('Error', err);
 	}
@@ -111,6 +149,31 @@ export const fetchRotations = async () => {
 		}
 
 		return sortedResults;
+	} catch (err) {
+		console.log('Error', err);
+	}
+};
+
+export const fetchSessionDetail = async (sessionId:string) => {
+	const rmApi = new RaceMgrApi();
+	try {
+		const requestConfig = {
+			url: `${rmApi.getBaseApiUrl()}/race/session/${sessionId}`,
+			method: 'get',
+		};
+
+		const apiResults = await rmApi.makeApiCall(requestConfig);
+		const {data: apiData} = apiResults;
+		const sessionDetailData = apiData.data || null;
+
+		let results;
+		if (sessionDetailData === null) {
+			results = {};
+		} else {
+			results = sessionDetailData;
+		}
+
+		return results;
 	} catch (err) {
 		console.log('Error', err);
 	}
@@ -169,6 +232,25 @@ export const updateServer = async (action: string) => {
 		};
 
 		return await rmApi.makeApiCall(requestConfig);
+	} catch (err) {
+		console.log('Error', err);
+	}
+};
+
+export const fetchServerStatus = async () => {
+	const rmApi = new RaceMgrApi();
+
+	try {
+		const requestConfig = {
+			url: `${rmApi.getBaseApiUrl()}/gameserver`,
+			method: 'get',
+		};
+
+		const apiResults = await rmApi.makeApiCall(requestConfig);
+		const {data: apiData} = apiResults;
+		const serverStatus = apiData.data || null;
+
+		return serverStatus;
 	} catch (err) {
 		console.log('Error', err);
 	}

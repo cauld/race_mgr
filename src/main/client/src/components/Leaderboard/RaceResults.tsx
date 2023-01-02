@@ -47,7 +47,7 @@ function Row(props: { row: IRace, trackData: Array<ITrackData>, vehicleData: Arr
 					</IconButton>
 				</TableCell>
 				<TableCell component="th" scope="row">
-					{ props.trackData.filter(td => td.id === row.trackName)[0]?.name.replaceAll('_', ' ') }
+					{ props.trackData?.filter(td => td.id === row.trackName)[0]?.name.replaceAll('_', ' ') }
 				</TableCell>
 				<TableCell component="th" scope="row">
 					{convertEpochDate(row.startDate)}
@@ -115,7 +115,7 @@ function Row(props: { row: IRace, trackData: Array<ITrackData>, vehicleData: Arr
 												{raceResult.driverName.substring(0, 30)}
 											</TableCell>
 											<TableCell>
-												{ props.vehicleData.filter(vd => vd.id === raceResult.vehicleId)[0]?.name}
+												{ props.vehicleData?.filter(vd => vd.id === raceResult.vehicleId)[0]?.name}
 											</TableCell>
 											<TableCell align="right" sx={{
 												fontWeight: '',

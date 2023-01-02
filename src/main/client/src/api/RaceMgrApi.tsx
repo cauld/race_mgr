@@ -4,7 +4,6 @@ export default class RaceMgrApi {
 	private readonly BASE_API_URL = '/api';
 	private readonly BASE_API_URL_WITH_VERSION = `${this.BASE_API_URL}/v1`;
 	private readonly BASE_ADMIN_URL = `${this.BASE_API_URL_WITH_VERSION}/admin`;
-	private JWT_TOKEN = ''; // Required in all authenticated (/admin) routes
 
 	private checkIfXsrfTokenIsRequired(config: AxiosRequestConfig): boolean {
 		let xsrfTokenRequired = false;
@@ -45,9 +44,10 @@ export default class RaceMgrApi {
 	// Will automatically add the JWT to any admin api request
 	// doAuth is required somewhere in the flow to get the token set first
 	private setAuthTokenIfNeeded(config: AxiosRequestConfig = {}) {
+		const jwtToken = this.getCookie('JWT-TOKEN');
 		if (config.url && config.url.includes('/admin')) {
-			if (this.JWT_TOKEN !== null) {
-				axios.defaults.headers.common.Authorization = this.JWT_TOKEN;
+			if (jwtToken !== null) {
+				axios.defaults.headers.common.Authorization = `Bearer ${jwtToken}`;
 			} else {
 				throw new Error('Admin endpoint requested, but no token found. Call doAuth first.');
 			}
@@ -88,7 +88,7 @@ export default class RaceMgrApi {
 			try	{
 				const response = await axios(config);
 				if (response.status === 200) {
-					this.JWT_TOKEN = response.data.data.token;
+					document.cookie = 'JWT-TOKEN=' + response.data.data.token + ';expires=Fri, 31 Dec 9999 23:59:59 GMT';
 					resolve('OK');
 				} else {
 					resolve('Error');
@@ -108,5 +108,18 @@ export default class RaceMgrApi {
 			this.setAuthTokenIfNeeded(config);
 			return axios(config);
 		});
+	}
+
+	private getCookie(name) {
+		const value = `; ${document.cookie}`;
+		const parts = value.split(`; ${name}=`);
+		if (parts.length === 2) {
+			const val = parts.pop();
+			if (val) {
+				return val.split(';').shift();
+			}
+		}
+
+		return '';
 	}
 }

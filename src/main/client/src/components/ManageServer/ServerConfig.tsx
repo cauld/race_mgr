@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 const _ = require('lodash');
 
 import {fetchSessions, fetchRotations} from './utilities';
@@ -19,66 +20,33 @@ import FormControl from '@mui/material/FormControl';
 
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import {Stack} from '@mui/material';
+import {getSessions, setSelectedSessionId} from '../../state/sessions';
+import {getRotations, setSelectedRotationId} from '../../state/rotations';
 
-interface IProps {
-	currentSessionId: string,
-	setCurrentSessionId: (sessionid:string) => void,
-	currentRotationId: string,
-	setCurrentRotationId: (rotationid:string) => void,
-	isLoading: boolean,
-	setIsLoading: (isLoading: boolean) => void
-}
+const ServerConfig = () => {
+	const {serverStatus, sessions, rotations, serverConfig} = useSelector((state:any) => state);
 
-const ServerConfig = (props:IProps) => {
-	const [sessions, setSessions] = useState<ISession[]>([]);
-	const [rotations, setRotations] = useState<IRotation[]>([]);
 	const [addSessionDialogIsOpen, setAddSessionDialogIsOpen] = useState(false);
 	const [viewRotationDialogIsOpen, setViewRotationDialogIsOpen] = useState(false);
 	const [addRotationDialogIsOpen, setAddRotationDialogIsOpen] = useState(false);
-	const [newSessionId, setNewSessionId] = useState('');
-	const [newRotationId, setNewRotationId] = useState('');
 
-	const getSessions = async () => {
-		const sessions: ISession[] = await fetchSessions();
-		setSessions(sessions);
-	};
-
-	const getRotations = async () => {
-		const rotations: IRotation[] = await fetchRotations();
-		setRotations(rotations);
-	};
+	const dispatch = useDispatch();
 
 	useEffect(() => {
-		getSessions();
-		getRotations();
-	}, []);
-
-	useEffect(() => {
-		if (!newSessionId) {
-			return;
-		}
-
-		getSessions().then(() => {
-			props.setCurrentSessionId(newSessionId);
-		});
-	}, [newSessionId]);
-
-	useEffect(() => {
-		if (!newRotationId) {
-			return;
-		}
-
-		getRotations().then(() => {
-			props.setCurrentRotationId(newRotationId);
-		});
-	}, [newRotationId]);
+		dispatch(getSessions());
+		dispatch(getRotations());
+	}, [dispatch]);
 
 	const handleSessionChange = (event: SelectChangeEvent) => {
-		props.setCurrentSessionId(event.target.value);
+		if (event.target.value !== sessions.selectedSessionId) {
+			dispatch(setSelectedSessionId(event.target.value));
+		}
 	};
 
 	const handleRotationChange = (event: SelectChangeEvent) => {
-		props.setCurrentRotationId(event.target.value);
+		if (event.target.value !== rotations.selectedRotationId) {
+			dispatch(setSelectedRotationId(event.target.value));
+		}
 	};
 
 	return (
@@ -90,11 +58,12 @@ const ServerConfig = (props:IProps) => {
 						<Select
 							labelId="session-select"
 							id="session-select"
-							value={props.currentSessionId}
+							value={sessions.selectedSessionId}
 							label="Session"
 							onChange={handleSessionChange}
 						>
-							{sessions?.map(td => <MenuItem key={td.id} value={td.id}>{ td.name}</MenuItem>)}
+
+							{sessions?.sessions?.map(td => <MenuItem key={td.id} value={td.id}>{ td.name}</MenuItem>)}
 						</Select>
 					</FormControl>
 				</Grid>
@@ -123,17 +92,17 @@ const ServerConfig = (props:IProps) => {
 						<Select
 							labelId="rotation-select"
 							id="rotation-select"
-							value={props.currentRotationId}
+							value={rotations.selectedRotationId}
 							label="Rotation"
 							onChange={handleRotationChange}
 						>
-							{rotations?.map((td, idx) => <MenuItem key={td.id} value={td.id}>{td.name}</MenuItem>)}
+							{rotations?.rotations?.map((td, idx) => <MenuItem key={td.id} value={td.id}>{td.name}</MenuItem>)}
 						</Select>
 					</FormControl>
 				</Grid>
 				<Grid item xs={6}>
 					<Stack direction="row">
-						<FormControl variant="standard" sx={{p: 1, m: 1}} size="small">
+						<FormControl variant="standard" sx={{p: 1, m: 1, display: serverStatus.isRunning ? 'inline' : 'none'}} size="small" >
 							<Typography align="left">
 								<Link
 									component="button"
@@ -153,7 +122,6 @@ const ServerConfig = (props:IProps) => {
 									component="button"
 									variant="body2"
 									underline="none"
-									visibility={ props.currentRotationId === undefined ? 'hidden' : 'visible'}
 									onClick={() => {
 										setViewRotationDialogIsOpen(!viewRotationDialogIsOpen);
 									}}
@@ -167,9 +135,9 @@ const ServerConfig = (props:IProps) => {
 
 			</Grid>
 			<Grid item md={12}>
-				<AddSessionDialog setNewSessionId={setNewSessionId} open={addSessionDialogIsOpen} setOpen={setAddSessionDialogIsOpen} isLoading={props.isLoading} setIsLoading={props.setIsLoading} />
-				<AddRotationDialog setNewRotationId={setNewRotationId} open={addRotationDialogIsOpen} setOpen={setAddRotationDialogIsOpen} isLoading={props.isLoading} setIsLoading={props.setIsLoading} />
-				<ViewRotationDialog rotationId={props.currentRotationId} open={viewRotationDialogIsOpen} setOpen={setViewRotationDialogIsOpen} isLoading={props.isLoading} setIsLoading={props.setIsLoading} />
+				<AddSessionDialog open={addSessionDialogIsOpen} setOpen={setAddSessionDialogIsOpen} />
+				<AddRotationDialog open={addRotationDialogIsOpen} setOpen={setAddRotationDialogIsOpen} />
+				<ViewRotationDialog open={viewRotationDialogIsOpen} setOpen={setViewRotationDialogIsOpen} />
 			</Grid>
 		</Grid>);
 };

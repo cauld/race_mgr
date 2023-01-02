@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {withStyles} from '@material-ui/core/styles';
 
-import {addSession} from './utilities';
 import {sanitizeString} from '../../utils/stringUtils';
+
+import {addSession, setSelectedSessionId} from '../../state/sessions';
 
 import Button from '@mui/material/Button';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -24,20 +26,37 @@ const ErrorTypography = withStyles({
 
 interface IProps {
     open: boolean,
-    setOpen: (isOpen:false)=> void,
-    isLoading: boolean,
-	setIsLoading: (isLoading: boolean) => void
-	setNewSessionId: (sessionId:string) => void
+    setOpen: (isOpen:false)=> void
 }
 
 const AddSessionDialog = (props:IProps) => {
+	const {sessions, serverConfig} = useSelector((state:any) => state);
+
 	const [sessionName, setSessionName] = useState('');
 	const [errorMessage, setErrorMessage] = useState('');
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		setErrorMessage('');
+	}, [props.open]);
+
+	useEffect(() => {
+		// Updated when a new Session is Added
+		if (sessions.selectedSessionId) {
+			handleClose();
+		}
+	}, [sessions.selectedSessionId]);
+
+	useEffect(() => {
+		if (sessions.hasError === true) {
+			setErrorMessage('Error adding session, make sure the Session Name is unique');
+		}
+	}, [sessions.hasError]);
 
 	const handleClose = () => {
 		props.setOpen(false);
 		clearSessionName();
-		props.setIsLoading(false);
 	};
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,17 +64,8 @@ const AddSessionDialog = (props:IProps) => {
 		setErrorMessage('');
 	};
 
-	const handleApply = () => {
-		props.setIsLoading(true);
-		addSession(sanitizeString(sessionName)).then(sessionId => {
-			if (sessionId) {
-				props.setNewSessionId(sessionId);
-				handleClose();
-			} else {
-				setErrorMessage('Error adding session, make sure the Session Name is unique');
-				props.setIsLoading(false);
-			}
-		});
+	const handleAddSession = () => {
+		dispatch(addSession(sanitizeString(sessionName)));
 	};
 
 	const clearSessionName = () => {
@@ -76,7 +86,7 @@ const AddSessionDialog = (props:IProps) => {
 							fullWidth
 							required={true}
 							value={sessionName}
-							disabled={props.isLoading}
+							disabled={sessions.isLoading}
 							onChange={handleChange} />
 						<ErrorTypography>
 							{errorMessage}
@@ -86,8 +96,8 @@ const AddSessionDialog = (props:IProps) => {
 				</DialogContent>
 
 				<DialogActions>
-					<Button onClick={handleClose} disabled={props.isLoading}>Cancel</Button>
-					<LoadingButton disabled={sessionName.length === 0} onClick={handleApply} loading={props.isLoading}>
+					<Button onClick={handleClose} disabled={sessions.isLoading}>Cancel</Button>
+					<LoadingButton disabled={sessionName.length === 0} onClick={handleAddSession} loading={sessions.isLoading}>
 							Add Session
 					</LoadingButton>
 				</DialogActions>

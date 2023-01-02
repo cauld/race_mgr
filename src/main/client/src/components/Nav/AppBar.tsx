@@ -36,6 +36,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
 import LoginIcon from '@mui/icons-material/Login';
+import ServerStopped from '../ErrorStates/ServerStopped';
+import ServerConfigError from '../ErrorStates/ServerConfigError';
+import ServerStatusError from '../ErrorStates/ServerStatusError';
 
 const drawerWidth: number = 240;
 
@@ -101,7 +104,7 @@ const mdTheme = createTheme({
 const DashboardContent = () => {
 	const [open, setOpen] = React.useState(true);
 	const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-	const [cookies] = useCookies(['JWT_TOKEN', 'XSRF-TOKEN']);
+	const [cookies] = useCookies(['JWT-TOKEN']);
 
 	// Set the defaults
 	const toggleDrawer = () => {
@@ -109,7 +112,7 @@ const DashboardContent = () => {
 	};
 
 	useEffect(() => {
-		const hasToken = cookies['XSRF-TOKEN'] !== undefined;
+		const hasToken = cookies['JWT-TOKEN'] !== undefined;
 		setIsAuthenticated(hasToken);
 	}, []);
 
@@ -243,6 +246,15 @@ const DashboardContent = () => {
 								</Route>
 								<Route exact path="/login">
 									<Login isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+								</Route>
+								<Route exact path="/serverstopped">
+									<ServerStopped />
+								</Route>
+								<Route exact path="/serverconfigerror">
+									<ServerConfigError />
+								</Route>
+								<Route exact path="/serverstatuserror">
+									<ServerStatusError />
 								</Route>
 							</Switch>
 							<Footer />

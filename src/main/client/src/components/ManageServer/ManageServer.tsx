@@ -1,15 +1,20 @@
 import React, {useState, useEffect} from 'react';
-
-import {fetchServerConfig} from './utilities';
+import {useSelector, useDispatch} from 'react-redux';
+import {getServerConfig} from '../../state/serverConfig';
+import {getServerStatus} from '../../state/serverStatus';
+import {setSelectedSessionId} from '../../state/sessions';
+import {setSelectedRotationId} from '../../state/rotations';
 
 import ServerConfig from './ServerConfig';
 
-import {Redirect} from 'react-router-dom';
+import {Redirect, useHistory} from 'react-router-dom';
 
 import Typography from '@mui/material/Typography';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 import ApplyServerConfig from './ApplyServerConfig';
 
@@ -19,34 +24,56 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import {sanitizeString} from '../../utils/stringUtils';
 
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
+
 type notificationSeverity = 'success' | 'error';
 
 interface IManageServerProps {
-	isAuthenticated: boolean
+	isAuthenticated: boolean,
 }
 
 const ManageServer = (props:IManageServerProps) => {
-	const [loading, setLoading] = useState(true);
+	const {serverConfig, serverStatus, sessions, rotations, rotationDetail} = useSelector((state:any) => state);
+
 	const [notificationIsOpen, setNotificationIsOpen] = useState(false);
 	const [notificationMessage, setNotificationMessage] = useState('');
 	const [notificationSeverity, setNotificationSeverity] = useState<notificationSeverity>('success');
-	const [serverName, setServerName] = useState('');
-	const [currentSessionId, setCurrentSessionId] = useState('');
-	const [currentRotationId, setCurrentRotationId] = useState('');
 
-	const setInitialState = async () => {
-		setLoading(true);
-		await fetchServerConfig()
-			.then(config => {
-				setCurrentSessionId(config?.activeRaceSessionId);
-				setCurrentRotationId(config?.activeRaceRotationId);
-				setServerName(config?.serverName);
-			}).then(() => setLoading(false));
-	};
+	const [serverName, setServerName] = useState('');
+
+	const dispatch = useDispatch();
+	const history = useHistory();
 
 	useEffect(() => {
-		setInitialState();
-	}, []);
+		dispatch(getServerStatus());
+		dispatch(getServerConfig());
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (!serverName) {
+			setServerName(serverConfig.serverName);
+		}
+
+		if (!sessions.selectedSessionId || sessions.selectedSessionId === 'All') {
+			dispatch(setSelectedSessionId(serverConfig.activeRaceSessionId));
+		}
+
+		if (!rotations.selectedRotationId || rotations.selectedRotationId === 'All') {
+			dispatch(setSelectedRotationId(serverConfig.activeRaceRotationId));
+		}
+	}, [serverConfig]);
+
+	useEffect(() => {
+		if (serverConfig.hasError === true) {
+			history.push('/serverconfigError');
+		}
+	}, [serverConfig.hasError]);
+
+	useEffect(() => {
+		if (serverStatus.hasError === true) {
+			history.push('/serverstatusError');
+		}
+	}, [serverStatus.hasError]);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setServerName(sanitizeString(event.target.value));
@@ -76,7 +103,12 @@ const ManageServer = (props:IManageServerProps) => {
 				flexDirection: 'column',
 			}}>
 				<Typography variant="h5" align="left" gutterBottom={true}>
-				Manage Server
+				Manage Server   <IconButton sx={{color: 'red', visibility: serverStatus.isRunning ? 'hidden' : 'visible'}}>
+
+						<Tooltip title="Server is not Running">
+							<ReportProblemIcon />
+						</Tooltip>
+					</IconButton>
 				</Typography>
 
 				<Typography variant="subtitle1" align="left" gutterBottom={true} maxWidth={500}>
@@ -93,23 +125,14 @@ const ManageServer = (props:IManageServerProps) => {
 
 				<Typography variant="subtitle1" align="left" gutterBottom={true}>
 
-					<ServerConfig
-						setCurrentSessionId={setCurrentSessionId}
-						currentSessionId={currentSessionId}
-						currentRotationId={currentRotationId}
-						setCurrentRotationId={setCurrentRotationId}
-						isLoading={loading}
-						setIsLoading={setLoading}
-					/>
+					<ServerConfig />
 				</Typography>
 
 				<Typography variant="subtitle1" align="left" gutterBottom={true}>
 					<ApplyServerConfig
 						serverName={serverName}
-						currentSessionId={currentSessionId}
-						currentRotationId={currentRotationId}
 						showNotification={showNotification}
-						setLoading={setLoading}
+						setIsServerRunning={serverStatus.isRunning}
 					></ApplyServerConfig>
 
 				</Typography>
@@ -125,7 +148,7 @@ const ManageServer = (props:IManageServerProps) => {
 
 				<Backdrop
 					sx={{color: '#fff', zIndex: theme => theme.zIndex.drawer + 1}}
-					open={loading}
+					open={serverConfig.isLoading || serverStatus.isLoading || sessions.isLoading || rotations.isLoading || rotationDetail.isLoading}
 				>
 					<CircularProgress color="inherit" />
 				</Backdrop>
