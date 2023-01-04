@@ -20,7 +20,7 @@ interface IProps {
     setSelectedRotationId: (selectedRotationId:string)=> void
 }
 const StatsFilter = (props:IProps) => {
-	const {serverConfig, sessions, rotations} = useSelector((state:any) => state);
+	const {sessions, rotations} = useSelector((state:any) => state);
 
 	const [filteredRotations, setFilteredRotations] = useState<Array<IRotation>>([]);
 
@@ -34,7 +34,7 @@ const StatsFilter = (props:IProps) => {
 	};
 
 	const filterRotations = () => {
-		if (sessions.isLoading || rotations.isLoading || sessions.sessions?.length === 0) {
+		if (sessions.isLoading || rotations.isLoading || sessions?.sessions?.length === 0) {
 			return;
 		}
 
@@ -52,8 +52,6 @@ const StatsFilter = (props:IProps) => {
 					props.setSelectedRotationId('All');
 				}
 			});
-		} else {
-			console.log('***** Brandon ***** sessions', props.selectedSessionId, props.selectedRotationId);
 		}
 	};
 
@@ -62,8 +60,16 @@ const StatsFilter = (props:IProps) => {
 	}, [props.selectedSessionId]);
 
 	useEffect(() => {
-		filterRotations();
-	}, [rotations.rotations]);
+		if (!rotations.isLoading) {
+			filterRotations();
+		}
+	}, [rotations.isLoading]);
+
+	useEffect(() => {
+		if (!sessions.isLoading) {
+			filterRotations();
+		}
+	}, [sessions.isLoading]);
 
 	return (
 		<Grid container spacing={3}>
