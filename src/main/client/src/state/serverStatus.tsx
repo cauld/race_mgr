@@ -8,7 +8,7 @@ export interface IServerStatusState {
 
 const initialState: IServerStatusState = {
 	isRunning: true,
-	isLoading: false,
+	isLoading: true,
 	hasError: false,
 };
 

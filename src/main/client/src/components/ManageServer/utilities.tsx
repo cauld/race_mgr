@@ -155,6 +155,10 @@ export const fetchRotations = async () => {
 };
 
 export const fetchSessionDetail = async (sessionId:string) => {
+	if (!sessionId || sessionId === 'All') {
+		return;
+	}
+
 	const rmApi = new RaceMgrApi();
 	try {
 		const requestConfig = {

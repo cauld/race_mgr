@@ -5,7 +5,7 @@ import {IRace} from './interfaces';
 
 import RaceMgrApi from '../../api/RaceMgrApi';
 
-export const fetchRaceData = async (currentSessionId:string, currentRotationId: string) => {
+export const fetchRaceData = async (currentSessionId?:string, currentRotationId?: string) => {
 	const rmApi = new RaceMgrApi();
 	try {
 		if (!currentSessionId) {

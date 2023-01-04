@@ -50,6 +50,11 @@ const ManageServer = (props:IManageServerProps) => {
 	}, [dispatch]);
 
 	useEffect(() => {
+		dispatch(setSelectedSessionId(serverConfig.activeRaceSessionId));
+		dispatch(setSelectedRotationId(serverConfig.activeRaceRotationId));
+	}, []);
+
+	useEffect(() => {
 		if (!serverName) {
 			setServerName(serverConfig.serverName);
 		}
@@ -65,7 +70,7 @@ const ManageServer = (props:IManageServerProps) => {
 
 	useEffect(() => {
 		if (serverConfig.hasError === true) {
-			history.push('/serverconfigError');
+			// History.push('/serverconfigError');
 		}
 	}, [serverConfig.hasError]);
 

@@ -55,13 +55,10 @@ export const sessionsSlice = createSlice({
 			state.isLoading = false;
 		},
 		updateSession(state, action) {
-			// Console.log('***** Brandon ***** update', action.payload);
 			state.hasError = false;
 			state.isLoading = true;
 		},
 		updateSessionSuccess(state) {
-			// Console.log('***** Brandon ***** update success');
-			// State.selectedSessionId = action.payload; // Select the new session
 			state.hasError = false;
 			state.isLoading = false;
 		},

@@ -5,6 +5,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getServerConfig} from '../../state/serverConfig';
 import {getServerStatus} from '../../state/serverStatus';
 
+import {getSessions, setSelectedSessionId} from '../../state/sessions';
+import {getRotations, setSelectedRotationId} from '../../state/rotations';
+
 import _ from 'lodash';
 
 import {fetchRaceData} from './utilities';
@@ -39,8 +42,7 @@ export const defaultAdvancedFilter:IAdvancedFilter = {
 const LeaderBoard:React.FC = () => {
 	const dispatch = useDispatch();
 	const {serverConfig, serverStatus, sessions, rotations} = useSelector((state:any) => state);
-
-	const [loading, setLoading] = useState(false);
+	const [fetchingData, setFetchingData] = useState(false);
 
 	// Filter State
 	const [startDate, setStartDate] = useState(0);
@@ -48,39 +50,53 @@ const LeaderBoard:React.FC = () => {
 	const [advancedFilterIsOpen, setAdvancedFilterIsOpen] = useState(false);
 	const [advancedFilters, setAdvancedFilters] = useState<IAdvancedFilter>(defaultAdvancedFilter);
 
+	const [selectedSessionId, setSelectedSessionId] = useState('');
+	const [selectedRotationId, setSelectedRotationId] = useState('');
+
 	const [races, setRaces] = useState<IRace[]>([]);
 	const [filteredRaces, setFilteredRaces] = useState<IRace[]>([]);
 
 	useEffect(() => {
 		dispatch(getServerStatus());
 		dispatch(getServerConfig());
-	}, [dispatch]);
+		dispatch(getSessions());
+		dispatch(getRotations());
+	}, []);
 
 	useEffect(() => {
-		// Should rediect if server is not running, or if there is not active config
-		// If (!serverConfig.activeRaceSessionId || !serverConfig.activeRaceRotationId || !serverStatus.isRunning) {
-		// 	return;
-		// }
+		setSelectedSessionId(serverConfig.activeRaceSessionId);
+	}, [serverConfig.activeRaceSessionId]);
 
-		setLoading(true);
-		fetchRaceData(sessions.selectedSessionId, rotations.selectedRotationId).then(r => {
+	useEffect(() => {
+		setSelectedRotationId(serverConfig.activeRaceRotationId);
+	}, [serverConfig.activeRaceRotationId]);
+
+	useEffect(() => {
+		if (!selectedSessionId || !selectedRotationId) {
+			setRaces([]);
+			return;
+		}
+
+		setFetchingData(true);
+		fetchRaceData(selectedSessionId, selectedRotationId).then(r => {
 			const raceResults = (r as Array<IRace>)?.filter(r => r.finished === true);
+
 			if (!raceResults || raceResults.length === 0) {
 				setRaces([]);
-				setLoading(false);
+				setFetchingData(false);
 				return;
 			}
 
 			const sortedResults = _.orderBy(raceResults, ['startDate'], 'asc');
-			const firstRace = sortedResults[0]; // Replace with lodash
+			const firstRace = sortedResults[0];
 			const lastRace = sortedResults[raceResults.length - 1];
 
 			setStartDate(firstRace?.startDate);
 			setEndDate(lastRace?.endDate);
 			setRaces(raceResults);
-			setLoading(false);
+			setFetchingData(false);
 		});
-	}, [sessions.selectedSessionId, rotations.selectedRotationId]);
+	}, [selectedRotationId, selectedSessionId]);
 
 	useEffect(() => {
 		let newResults = races.filter(r => r.startDate >= startDate && r.endDate <= endDate);
@@ -95,8 +111,8 @@ const LeaderBoard:React.FC = () => {
 	}, [startDate, endDate, races, advancedFilters]);
 
 	return (
-		!serverStatus.isRunning ? <ServerStopped />
-			:			!serverConfig.serverName || !serverConfig.activeRaceSessionId || !serverConfig.activeRaceRotationId ? <ServerConfigError />
+		!serverStatus.isLoading && !serverStatus.isRunning ? <ServerStopped />
+			:	!serverConfig.isLoading && (!serverConfig.serverName || !serverConfig.activeRaceSessionId || !serverConfig.activeRaceRotationId) ? <ServerConfigError />
 
 				: <Paper sx={{
 					p: 2,
@@ -109,7 +125,11 @@ const LeaderBoard:React.FC = () => {
 					</Typography>
 
 					<Typography variant="subtitle1" align="left" gutterBottom={true}>
-						<SessionsFilter />
+						<SessionsFilter
+							selectedSessionId={selectedSessionId}
+							setSelectedSessionId={setSelectedSessionId}
+							selectedRotationId={selectedRotationId}
+							setSelectedRotationId={setSelectedRotationId}/>
 					</Typography>
 
 					<Typography variant="subtitle1" align="left" gutterBottom={true}>
@@ -160,7 +180,7 @@ const LeaderBoard:React.FC = () => {
 					< AdvancedFiltersDialog open={advancedFilterIsOpen} setOpen={setAdvancedFilterIsOpen} advancedFilters={advancedFilters} setAdvancedFilters={setAdvancedFilters} />
 					<Backdrop
 						sx={{color: '#fff', zIndex: theme => theme.zIndex.drawer + 1}}
-						open={loading}
+						open={ fetchingData || serverConfig.isLoading || sessions.isLoading || rotations.isLoading }
 					>
 						<CircularProgress color="inherit" />
 					</Backdrop>

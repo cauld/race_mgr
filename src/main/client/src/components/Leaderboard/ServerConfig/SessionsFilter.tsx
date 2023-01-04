@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const _ = require('lodash');
 
-import {updateServerConfig} from '../../../state/serverConfig';
-
-import {ISession, IRotation} from './interfaces';
+import {IRotation} from './interfaces';
 
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
@@ -13,41 +11,59 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 
 import Select, {SelectChangeEvent} from '@mui/material/Select';
-import {getSessions, setSelectedSessionId} from '../../../state/sessions';
-import {getRotations, setSelectedRotationId} from '../../../state/rotations';
 import {fetchSessionDetail} from '../../ManageServer/utilities';
 
-const StatsFilter = () => {
+interface IProps {
+    selectedSessionId: string,
+    setSelectedSessionId: (selectedSessionId:string)=> void,
+	selectedRotationId: string,
+    setSelectedRotationId: (selectedRotationId:string)=> void
+}
+const StatsFilter = (props:IProps) => {
 	const {serverConfig, sessions, rotations} = useSelector((state:any) => state);
 
-	const [filteredRotations, setFilteredRotaions] = useState<Array<IRotation>>([]);
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(getSessions());
-		dispatch(getRotations());
-	}, []);
-
-	useEffect(() => {
-		dispatch(setSelectedSessionId(serverConfig.activeRaceSessionId));
-		dispatch(setSelectedRotationId(serverConfig.activeRaceRotationId));
-	}, [serverConfig]);
+	const [filteredRotations, setFilteredRotations] = useState<Array<IRotation>>([]);
 
 	const handleSessionChange = (event: SelectChangeEvent) => {
-		dispatch(setSelectedSessionId(event.target.value));
+		props.setSelectedSessionId(event.target.value);
+		props.setSelectedRotationId('');
 	};
 
 	const handleRotationChange = (event: SelectChangeEvent) => {
-		dispatch(setSelectedRotationId(event.target.value));
+		props.setSelectedRotationId(event.target.value);
+	};
+
+	const filterRotations = () => {
+		if (sessions.isLoading || rotations.isLoading || sessions.sessions?.length === 0) {
+			return;
+		}
+
+		if (props.selectedSessionId === 'All') {
+			setFilteredRotations(rotations?.rotations);
+			props.setSelectedRotationId('All');
+		} else if (props.selectedSessionId && props.selectedSessionId !== 'All') {
+			fetchSessionDetail(props.selectedSessionId).then(r => {
+				const filteredRotations = rotations?.rotations?.filter(rot => r?.raceRotationIds?.includes(rot.id));
+
+				setFilteredRotations(filteredRotations);
+
+				// If the selected rotationId is not in the list, set to All
+				if (!rotations.isLoading && !filteredRotations.find(fr => fr.id === props.selectedRotationId)) {
+					props.setSelectedRotationId('All');
+				}
+			});
+		} else {
+			console.log('***** Brandon ***** sessions', props.selectedSessionId, props.selectedRotationId);
+		}
 	};
 
 	useEffect(() => {
-		fetchSessionDetail(sessions.selectedSessionId).then(r => {
-			const rotationsForActiveSession = rotations?.rotations.filter(element => r.raceRotationIds.includes(element.id));
+		filterRotations();
+	}, [props.selectedSessionId]);
 
-			setFilteredRotaions(rotationsForActiveSession);
-		});
-	}, [sessions.selectedSessionId, rotations]);
+	useEffect(() => {
+		filterRotations();
+	}, [rotations.rotations]);
 
 	return (
 		<Grid container spacing={3}>
@@ -57,7 +73,7 @@ const StatsFilter = () => {
 					<Select
 						labelId="session-select"
 						id="session-select"
-						value={sessions.selectedSessionId ?? ''}
+						value={props.selectedSessionId ?? ''}
 						label="Session"
 						onChange={handleSessionChange}
 					>
@@ -74,7 +90,7 @@ const StatsFilter = () => {
 					<Select
 						labelId="rotation-select"
 						id="rotation-select"
-						value={rotations.selectedRotationId ?? ''}
+						value={props.selectedRotationId ?? ''}
 						label="Rotation"
 						onChange={handleRotationChange}
 					>

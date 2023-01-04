@@ -12,7 +12,6 @@ import {
 } from '../state/rotations';
 
 import {getServerStatus} from '../state/serverStatus';
-
 import {updateSession} from '../state/sessions';
 
 function * workGetRotations() {

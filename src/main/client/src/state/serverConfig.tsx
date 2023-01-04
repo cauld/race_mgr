@@ -13,7 +13,7 @@ const initialState: IServerConfigState = {
 	serverName: '',
 	activeRaceSessionId: '',
 	activeRaceRotationId: '',
-	isLoading: false,
+	isLoading: true,
 	hasError: false,
 };
 
