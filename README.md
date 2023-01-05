@@ -38,7 +38,7 @@ NOTES:
 - Say yes to running MongoDB as a service so that you don't have to start/restart manually when using Race Manager.
 - MongoDB is not secure by default. Race Manager requires authentication, so next we'll add a user and enable authentication:
   - Open the Windows Command Prompt
-  - Switch to Mongo install directory, `cd C:\Program Files\MongoDB\Server\5.0\bin` (unless you changed during install).
+  - Browse to Mongo install directory (e.g.) `cd C:\Program Files\MongoDB\Server\6.0\bin`
   - Next we'll launch Mongo Shell to add a user for the Race Manager database (NOTE: the database itself is created automatically later when the app is launched).
   - In the Windows Command Prompt, run `mongo` to start the Mongo Shell.
   - Next we'll switch to the `admin` auth database and create your user. Run the following commands and you will be prompted for the password you'd like to use:
