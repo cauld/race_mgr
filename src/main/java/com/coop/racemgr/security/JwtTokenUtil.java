@@ -18,7 +18,7 @@ public class JwtTokenUtil implements Serializable {
     private static final long serialVersionUID = -2550185165626007488L;
 
     // Amount of time tokens remain valid
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 2630000; // Life in seconds
 
     private String secret = System.getenv("RM_JWT_SECRET");
 
