@@ -1,4 +1,4 @@
-# Race Manager (RMS)
+# Race Manager (RM)
 RM is an advanced (unofficial) Automobilista 2 server management interface. It supports online championships with permanent history tracking, easy rotation management/generation, general server management, etc. It's now easier than every to race with your friends and brag about your results (or blame them on someone else). It assumes you have the [Automobilista 2 Dedicated Server](https://steamdb.info/app/1338040/z) installed on the same machine.
 
 ![Race Manager home screen](https://github.com/cauld/race_mgr/blob/main/screenshots/race_mgr_home.png?raw=true)
