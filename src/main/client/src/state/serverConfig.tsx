@@ -39,9 +39,11 @@ export const serverConfigSlice = createSlice({
 		},
 		updateServerConfigSuccess(state, action) {
 			state.isLoading = false;
+			state.hasError = false;
 		},
 		updateServerConfigFailure(state) {
 			state.isLoading = false;
+			state.hasError = true;
 		},
 	},
 });

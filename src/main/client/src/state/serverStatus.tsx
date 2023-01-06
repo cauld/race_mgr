@@ -30,6 +30,9 @@ export const serverStatusSlice = createSlice({
 		updateServerStatus(state, action) {
 			state.isLoading = true;
 		},
+		updateServerStatusSuccess(state) {
+			state.hasError = false;
+		},
 		updateServerStatusFailure(state) {
 			state.hasError = true;
 			state.isLoading = false;
@@ -37,5 +40,5 @@ export const serverStatusSlice = createSlice({
 	},
 });
 
-export const {getServerStatus, getServerStatusSuccess, getServerStatusFailure, updateServerStatus, updateServerStatusFailure} = serverStatusSlice.actions;
+export const {getServerStatus, getServerStatusSuccess, getServerStatusFailure, updateServerStatus, updateServerStatusSuccess, updateServerStatusFailure} = serverStatusSlice.actions;
 export default serverStatusSlice.reducer;
