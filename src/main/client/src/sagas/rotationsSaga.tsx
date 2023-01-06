@@ -14,6 +14,9 @@ import {
 import {getServerStatus} from '../state/serverStatus';
 import {updateSession} from '../state/sessions';
 
+// eslint-disable-next-line no-promise-executor-return
+const delay = time => new Promise(resolve => setTimeout(resolve, time));
+
 function * workGetRotations() {
 	const rotations = yield call(() => fetchRotations());
 	const result = yield rotations;
@@ -47,6 +50,9 @@ function * workActivateRotationId(action) {
 	if (result.status === 200) {
 		yield put(activateRotationIdSuccess());
 		yield put(updateSession(action.payload)); // Add the RotationId to the Active Session
+
+		yield put(getServerStatus());
+		yield call(delay, 1000); // Wait 1 second and try the server status again
 		yield put(getServerStatus());
 	} else {
 		yield put(activateRotationIdFailure());
