@@ -39,12 +39,12 @@ NOTES:
 - MongoDB is not secure by default. Race Manager requires authentication, so next we'll add a user and enable authentication:
   - Open the Windows Command Prompt
   - Browse to Mongo install directory (e.g.) `cd C:\Program Files\MongoDB\Server\6.0\bin` 
-   - For Mongo 5.X:
-    - Next we'll launch Mongo Shell to add a user for the Race Manager database (NOTE: the database itself is created automatically later when the app is launched).
-    - In the Windows Command Prompt, run `mongo` to start the Mongo Shell.
-  - For Mongo 6.X:
-   - The mongo shell is removed from MongoDB 6.0. The replacement is mongosh which requires a seperate [download](https://www.mongodb.com/docs/mongodb-shell/install/#install-from-msi) / install. 
-   - In the Windows Command Prompt, run `mongosh` to start the Mongosh Shell.
+    - For Mongo 5.X:
+      - Next we'll launch Mongo Shell to add a user for the Race Manager database (NOTE: the database itself is created automatically later when the app is launched).
+      - In the Windows Command Prompt, run `mongo` to start the Mongo Shell.
+    - For Mongo 6.X:
+      - The mongo shell is removed from MongoDB 6.0. The replacement is mongosh which requires a seperate [download](https://www.mongodb.com/docs/mongodb-shell/install/#install-from-msi) / install. 
+      - In the Windows Command Prompt, run `mongosh` to start the Mongosh Shell.
   - The rest of the steps are the same regardless of MongoDB version. So next we'll switch to the `admin` auth database and create your user. Run the following commands and you will be prompted for the password you'd like to use:
   ```
   use admin
