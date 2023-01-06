@@ -18,7 +18,7 @@ NOTES:
   - Add the following ENV VARS in Windows:
     - `RM_GAMESERVER_HOST` - Host running dedicated game sever (e.g.) localhost
     - `RM_GAMESERVER_PORT` - Host running dedicated game sever (e.g.) 9000
-    - `RM_PATH_TO_DEDICATED_SERVER` (e.g.) `D:\SteamLibrary\steamapps\common\Automobilista 2\Automobilista 2 - Dedicated Server`
+    - `RM_PATH_TO_DEDICATED_SERVER` (e.g.) `C:\Program Files (x86)\Steam\steamapps\common\Automobilista 2 - Dedicated Server`
       - NOTE: Don't use quotes, path is escaped internally
     - `RM_MONGO_USER` - The username you set when creating the user above, `racemgr` is unchanged
     - `RM_MONGO_PASS` - That password you set when creating the user above
