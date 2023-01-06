@@ -45,7 +45,7 @@ NOTES:
     - For Mongo 6.X:
       - The mongo shell is removed from MongoDB 6.0. The replacement is mongosh which requires a seperate [download](https://www.mongodb.com/docs/mongodb-shell/install/#install-from-msi) / install. 
       - In the Windows Command Prompt, run `mongosh` to start the Mongosh Shell.
-  - The rest of the steps are the same regardless of MongoDB version. So next we'll switch to the `admin` auth database and create your user. Run the following commands and you will be prompted for the password you'd like to use:
+  - The rest of the steps are the same regardless of MongoDB version. So next we'll switch to the `admin` auth database and create your user. Run the following commands and you will be prompted for the password you'd like to use (**NOTE**: Do not use the special characters `@` or `:`):
   ```
   use admin
   db.createUser(
