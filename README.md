@@ -1,5 +1,5 @@
 # Race Manager (RM)
-RM is an advanced (unofficial) Automobilista 2 server management interface. It supports online championships with permanent history tracking, easy rotation management/generation, general server management, etc. It's now easier than every to race with your friends and brag about your results (or blame them on someone else). It assumes you have the [Automobilista 2 Dedicated Server](https://steamdb.info/app/1338040/z) installed on the same machine.
+RM is an advanced (unofficial) Automobilista 2 server management interface. It supports online championships with permanent history tracking, easy rotation management/generation, general server management, etc. It's now easier than every to race with your friends and brag about your results (or blame them on someone else).
 
 ![Race Manager home screen](https://github.com/cauld/race_mgr/blob/main/screenshots/race_mgr_home.png?raw=true)
 
@@ -12,8 +12,9 @@ NOTES:
 
 ## Race Manager Server Setup
 - For reference, here is a [demo video](https://www.youtube.com/watch?v=qrG-Usr3-2A) that walks through the setup step shown below.
+- Race Manager assumes you have the [Automobilista 2 Dedicated Server (AM2DS)](https://steamdb.info/app/1338040/z) installed on the same machine. In addition to installing AM2DS, you must also create a `server.cfg` in the AM2DS installation directory (e.g.) `C:\Program Files (x86)\Steam\steamapps\common\Automobilista 2 - Dedicated Server`. Inside the AM2DS directory you'll find some sample configs in the `config_sample` sub-directory. You can start by copying one of those into the AM2DS parent directory (make sure to rename it to `server.cfg`). Alternatively, you can [download](https://raw.githubusercontent.com/cauld/race_mgr/main/sample_files/server.cfg) and use our starter config. You'll find a file called `UserGuide.pdf` in the AM2DS directory that explains the various configuration options. The most important one for Race Manager is `enableHttpApi`. This setting must be set to `true` for Race Manager to interact with the AM2DS APIs.
 - Race Manager uses MongoDB to store race history data. Follow the MongoDB Setup section below and then return back here and continue with the rest.
-- In the dedicated game server's `server.cfg` file, set `eventsLogSize` to a smaller value (e.g.) 1000. The default is something like 10000. One each pass RMS checks and processes each so the more there are the longer it takes to do so. We are capturing them in the mongo database at roughly 1s intervals.
+- (Optional) In the AM2DS `server.cfg` file, set `eventsLogSize` to a smaller value (e.g.) 1000. The default is something like 10000. One each pass RMS checks and processes each so the more there are the longer it takes to do so. We are capturing them in the mongo database at roughly 1s intervals. This is already done if using RM's starter config file.
 - If you didn't do the `Dev Setup` above for JDK, and it's not already present on the machine, install the latest [Java JRE](https://docs.aws.amazon.com/corretto/latest/corretto-18-ug/downloads-list.html).
   - Add the following ENV VARS in Windows:
     - `RM_GAMESERVER_HOST` - Host running dedicated game sever (e.g.) localhost
