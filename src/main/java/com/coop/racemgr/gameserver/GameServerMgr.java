@@ -37,6 +37,7 @@ public class GameServerMgr implements Runnable {
         if (isRunning() == true) {
             logger.info("External game server already running, forcing restart!");
             GameServerMgr.stop();
+            Thread.sleep(1000); // Avoid race, let the thread die before starting
         }
 
         try {
