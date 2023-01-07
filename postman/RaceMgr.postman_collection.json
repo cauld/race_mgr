@@ -514,7 +514,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"serverName\": \"Red Bull\",\r\n    \"activeRaceSessionId\": \"123\",\r\n    \"activeRaceRotationId\": \"456\"\r\n}",
+									"raw": "{\r\n    \"activeRaceSessionId\": \"63b855815a58f9234ad76c12\",\r\n    \"activeRaceRotationId\": \"63b8558f5a58f9234ad76c13\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

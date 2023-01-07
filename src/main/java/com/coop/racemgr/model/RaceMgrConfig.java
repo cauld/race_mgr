@@ -11,14 +11,12 @@ public class RaceMgrConfig {
     // @TODO support all the normal game server configs
     @JsonIgnore
     String id;
-    String serverName;
     String activeRaceSessionId;
     String activeRaceRotationId;
     Long updated;
 
-    public RaceMgrConfig(String serverName, String activeRaceSessionId, String activeRaceRotationId) {
+    public RaceMgrConfig(String activeRaceSessionId, String activeRaceRotationId) {
         this.id = "1"; // There's only every one config document
-        this.serverName = serverName;
         this.activeRaceSessionId = activeRaceSessionId;
         this.activeRaceRotationId = activeRaceRotationId;
     }

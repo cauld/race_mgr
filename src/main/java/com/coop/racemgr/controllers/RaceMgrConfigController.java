@@ -24,7 +24,6 @@ public class RaceMgrConfigController {
 
     @Data
     public static class RaceMgrConfigRequest {
-        String serverName = "You should set one...";
         String activeRaceSessionId = null;
         String activeRaceRotationId = null;
         Long updated;
@@ -36,9 +35,8 @@ public class RaceMgrConfigController {
     public ResponseEntity<Object> updateRaceMgrConfigDetails(@RequestBody RaceMgrConfigRequest request) {
         var rmc = raceMgrConfigRepository.findItemById("1");
         if (rmc == null) {
-            rmc = new RaceMgrConfig(request.serverName, request.activeRaceSessionId, request.activeRaceRotationId);
+            rmc = new RaceMgrConfig(request.activeRaceSessionId, request.activeRaceRotationId);
         }  else {
-            rmc.setServerName(request.serverName);
             rmc.setActiveRaceSessionId(request.activeRaceSessionId);
             rmc.setActiveRaceRotationId(request.activeRaceRotationId);
             rmc.setUpdated(System.currentTimeMillis());

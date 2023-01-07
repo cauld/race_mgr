@@ -36,7 +36,7 @@ public class RaceEventProcessor {
     public void processRaces() throws IOException, ParseException {
         var currentRmc = raceMgrConfigRepository.findItemById("1");
         if (currentRmc == null || currentRmc.getActiveRaceSessionId() == "" || currentRmc.getActiveRaceRotationId() == "") {
-            System.out.println("WARNING: Event processing skipped! Need activeRaceSessionId & activeRaceRotationId set in server config!");
+            System.out.println("WARNING: Event processing skipped! No activeRaceSessionId & activeRaceRotationId set. Use the Race Manager admin UI to create/update these before racing.");
         }  else {
             JSONObject stats = this.gameServerProxy.getStats();
 
