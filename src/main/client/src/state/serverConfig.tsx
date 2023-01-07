@@ -2,7 +2,6 @@ import {createSlice} from '@reduxjs/toolkit';
 import {IRotation, ISession} from '../components/ManageServer/interfaces';
 
 export interface IServerConfigState {
-    serverName: string,
 	activeRaceSessionId: string,
     activeRaceRotationId: string,
 	isLoading: boolean,
@@ -10,7 +9,6 @@ export interface IServerConfigState {
   }
 
 const initialState: IServerConfigState = {
-	serverName: '',
 	activeRaceSessionId: '',
 	activeRaceRotationId: '',
 	isLoading: true,
@@ -25,7 +23,6 @@ export const serverConfigSlice = createSlice({
 			state.isLoading = true;
 		},
 		getServerConfigSuccess(state, action) {
-			state.serverName = action.payload.serverName ?? state.serverName;
 			state.activeRaceSessionId = action.payload.activeRaceSessionId ?? state.activeRaceSessionId;
 			state.activeRaceRotationId = action.payload.activeRaceRotationId ?? state.activeRaceRotationId;
 			state.isLoading = false;

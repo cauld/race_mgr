@@ -112,7 +112,7 @@ const LeaderBoard:React.FC = () => {
 
 	return (
 		!serverStatus.isLoading && !serverStatus.isRunning ? <ServerStopped />
-			:	!serverConfig.isLoading && (!serverConfig.serverName || !serverConfig.activeRaceSessionId || !serverConfig.activeRaceRotationId) ? <ServerConfigError />
+			:	!serverConfig.isLoading && (!serverConfig.activeRaceSessionId || !serverConfig.activeRaceRotationId) ? <ServerConfigError />
 
 				: <Paper sx={{
 					p: 2,
@@ -158,7 +158,7 @@ const LeaderBoard:React.FC = () => {
 					<Grid container spacing={3}>
 						<Grid item xs={12} md={12} lg={12}>
 							<Typography marginTop={'5px'} marginBottom={'5px'} variant="h6">
-								{serverConfig.serverName} - { filteredRaces.length} Races
+								{ filteredRaces.length} Races
 							</Typography>
 						</Grid>
 					</Grid>

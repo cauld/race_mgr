@@ -17,7 +17,6 @@ import MenuList from '@mui/material/MenuList';
 const options = ['Update Server', 'Start Server', 'Stop Server'];
 
 interface IProps {
-	serverName: string,
 	showNotification: (message:string, severity: any) => void,
 	setIsServerRunning: (isRunning:boolean) => void
 }
@@ -35,18 +34,16 @@ const ApplyServerConfig = (props:IProps) => {
 
 	useEffect(() => {
 		const formIsValid
-			= props.serverName?.length > 0
-			&& sessions.selectedSessionId !== ''
+			= sessions.selectedSessionId !== ''
 			&& sessions.selectedSessionId !== undefined
 			&& rotations.selectedRotationId !== ''
 			&& rotations.selectedRotationId !== undefined;
 		setFormIsValid(formIsValid);
-	}, [serverConfig.serverName, sessions.selectedSessionId, rotations.selectedRotationId, props.serverName]);
+	}, [sessions.selectedSessionId, rotations.selectedRotationId]);
 
 	const handleUpdateServerConfig = () => {
 		dispatch(updateServerConfig(
 			{
-				serverName: props.serverName,
 				activeRaceSessionId: sessions.selectedSessionId ?? '',
 				activeRaceRotationId: rotations.selectedRotationId ?? '',
 			}),

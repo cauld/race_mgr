@@ -17,6 +17,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 
 import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import InfoIcon from '@mui/icons-material/Info';
 
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import {Stack} from '@mui/material';
@@ -67,7 +70,7 @@ const ServerConfig = () => {
 						</Select>
 					</FormControl>
 				</Grid>
-				<Grid item xs={6}>
+				<Grid item xs={12} md={6}>
 					<FormControl variant="standard" sx={{p: 1, m: 1, minWidth: 320}} size="small">
 						<Typography align="left">
 							<Link
@@ -85,7 +88,7 @@ const ServerConfig = () => {
 				</Grid>
 			</Grid>
 
-			<Grid item xs={6}>
+			<Grid item xs={12} md={6}>
 				<Grid item xs={12} sx={{height: '50px'}}>
 					<FormControl variant="standard" sx={{p: 1, m: 1, minWidth: 320}} size="small">
 						<InputLabel id="rotation-select">Rotation</InputLabel>
@@ -100,7 +103,7 @@ const ServerConfig = () => {
 						</Select>
 					</FormControl>
 				</Grid>
-				<Grid item xs={6}>
+				<Grid item xs={12}>
 					<Stack direction="row">
 						<FormControl variant="standard" sx={{p: 1, m: 1, display: serverStatus.isRunning ? 'inline' : 'none'}} size="small" >
 							<Typography align="left">
@@ -112,13 +115,18 @@ const ServerConfig = () => {
 										setAddRotationDialogIsOpen(!addRotationDialogIsOpen);
 									}}
 								>
-					Add Rotation
+					Add Rotation <IconButton>
+										<Tooltip title="Currently rotations are randomly generated and support a few options for customization (e.g.) avoid karts. Custom rotation building may be added in the future.">
+											<InfoIcon />
+										</Tooltip>
+									</IconButton>
 								</Link>
 							</Typography>
 						</FormControl>
 						<FormControl variant="standard" sx={{p: 1, m: 1}} size="small">
 							<Typography align="left">
 								<Link
+									sx={{marginTop: '9px'}}
 									component="button"
 									variant="body2"
 									underline="none"

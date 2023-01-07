@@ -280,7 +280,6 @@ export const fetchServerConfig = async () => {
 			configResults = {
 				activeRaceSessionId: serverConfig.activeRaceSessionId,
 				activeRaceRotationId: serverConfig.activeRaceRotationId,
-				serverName: serverConfig.serverName,
 			};
 		}
 

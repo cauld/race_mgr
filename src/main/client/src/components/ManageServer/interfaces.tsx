@@ -1,5 +1,4 @@
 export interface IServerConfig {
-    serverName: string,
     activeRaceSessionId:string,
     activeRaceRotationId:string
 }
