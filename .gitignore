@@ -35,3 +35,6 @@ src/main/java/main/resources/static
 
 ### VS Code ###
 .vscode/
+
+### INSTALLER ###
+installer/dist/*

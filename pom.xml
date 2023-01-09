@@ -15,6 +15,7 @@
 	<description>Race Manager</description>
 	<properties>
 		<java.version>18</java.version>
+		<start-class>com.coop.racemgr.RacemgrApplication</start-class>
 		<frontend-src-dir>${project.basedir}/src/main/client</frontend-src-dir>
 		<node.version>v18.12.1</node.version>
 		<npm.version>8.19.2</npm.version>
@@ -115,6 +116,11 @@
 			<artifactId>log4j-slf4j-impl</artifactId>
 			<version>2.19.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.akathist.maven.plugins.launch4j</groupId>
+			<artifactId>launch4j-maven-plugin</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -124,6 +130,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${project.parent.version}</version>
 				<configuration>
+					<executable>true</executable>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
@@ -205,6 +212,66 @@
                     <target>18</target>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>com.akathist.maven.plugins.launch4j</groupId>
+				<artifactId>launch4j-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>l4j-clui</id>
+						<phase>package</phase>
+						<goals><goal>launch4j</goal></goals>
+						<configuration>
+							<headerType>console</headerType>
+							<outfile>target/RaceManager.exe</outfile>
+							<jar>target/${project.artifactId}-${project.version}.jar</jar>
+							<stayAlive>false</stayAlive>
+							<restartOnCrash>false</restartOnCrash>
+							<manifest></manifest>
+							<icon>installer/racemanager.ico</icon>
+							<errTitle>Race Manager</errTitle>
+							<classPath>
+								<mainClass>org.springframework.boot.loader.JarLauncher</mainClass>
+							</classPath>
+							<jre>
+								<path>%JAVA_HOME%;%PATH%</path>
+								<requiresJdk>false</requiresJdk>
+								<requires64Bit>false</requires64Bit>
+								<minVersion></minVersion>
+								<maxVersion></maxVersion>
+							</jre>
+							<versionInfo>
+								<fileVersion>1.0.0.0</fileVersion>
+								<txtFileVersion>nil</txtFileVersion>
+								<fileDescription>RaceManager</fileDescription>
+								<copyright>All Rights Reserved</copyright>
+								<productVersion>1.0.0.0</productVersion>
+								<txtProductVersion>nil</txtProductVersion>
+								<productName>RaceManager</productName>
+								<companyName></companyName>
+								<internalName>RaceManager</internalName>
+								<originalFilename>RaceManager.exe</originalFilename>
+								<trademarks></trademarks>
+								<language>ENGLISH_US</language>
+							</versionInfo>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>assembly</id>
+						<phase>package</phase>
+						<goals><goal>single</goal></goals>
+						<configuration>
+							<descriptors>
+								<descriptor>assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
         </plugins>
 	</build>
 </project>
