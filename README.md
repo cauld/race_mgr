@@ -67,7 +67,8 @@ As long as Race Manager is running, the main web application UI is available at 
 ```    
   security:    
  authorization: "enabled"  
- ```- Now restart the "MongoDB" service using the "Services" tab in Windows Task Manager or just reboot your machine.  
+ ```
+ - Now restart the "MongoDB" service using the "Services" tab in Windows Task Manager or just reboot your machine.  
 - That's it. Return to "Server Setup" above.  
   
 ### Windows Environment Variables  
