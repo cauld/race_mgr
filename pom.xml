@@ -226,7 +226,6 @@
 							<jar>target/${project.artifactId}-${project.version}.jar</jar>
 							<stayAlive>false</stayAlive>
 							<restartOnCrash>false</restartOnCrash>
-							<manifest></manifest>
 							<icon>installer/racemanager.ico</icon>
 							<errTitle>Race Manager</errTitle>
 							<classPath>
@@ -234,10 +233,8 @@
 							</classPath>
 							<jre>
 								<path>%JAVA_HOME%;%PATH%</path>
-								<requiresJdk>false</requiresJdk>
+								<requiresJdk>true</requiresJdk>
 								<requires64Bit>false</requires64Bit>
-								<minVersion></minVersion>
-								<maxVersion></maxVersion>
 							</jre>
 							<versionInfo>
 								<fileVersion>1.0.0.0</fileVersion>

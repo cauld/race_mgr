@@ -3,38 +3,48 @@ RM is an advanced (unofficial) Automobilista 2 server management interface. It s
 
 ![Race Manager home screen](https://github.com/cauld/race_mgr/blob/main/screenshots/race_mgr_home.png?raw=true)
 
-## Dev Setup
-- If not present on the machine, install [Java 18](https://docs.aws.amazon.com/corretto/latest/corretto-18-ug/downloads-list.html) JDK to dev/build.
-- Now follow `Server Setup` below
+## Setup/Installation
+There are 3 types of setup:
+1. End user installation
+2. End user upgrade
+3. Developer setup
 
-NOTES:
-- The server log (`race_mgr.log`) lands in whatever system directory is defined in the Windows `TEMP` environment variable
+We'll cover each in this section. If you are a general user (*most people*) of the application, and not a developer, then you'd fall into number 1 or 2 above depending on if this is the first time you are installing Race Manager (RM) or not.
 
-## Race Manager Server Setup
-- For reference, here is a [demo video](https://www.youtube.com/watch?v=qrG-Usr3-2A) that walks through the setup step shown below.
-- Race Manager assumes you have the [Automobilista 2 Dedicated Server (AM2DS)](https://steamdb.info/app/1338040/z) installed on the same machine. In addition to installing AM2DS, you must also create a `server.cfg` in the AM2DS installation directory (e.g.) `C:\Program Files (x86)\Steam\steamapps\common\Automobilista 2 - Dedicated Server`. Inside the AM2DS directory you'll find some sample configs in the `config_sample` sub-directory. You can start by copying one of those into the AM2DS parent directory (make sure to rename it to `server.cfg`). Alternatively, you can [download](https://raw.githubusercontent.com/cauld/race_mgr/main/sample_files/server.cfg) and use our starter config. You'll find a file called `UserGuide.pdf` in the AM2DS directory that explains the various configuration options. The most important one for Race Manager is `enableHttpApi`. This setting must be set to `true` for Race Manager to interact with the AM2DS APIs.
-- Race Manager uses MongoDB to store race history data. Follow the MongoDB Setup section below and then return back here and continue with the rest.
-- (Optional) In the AM2DS `server.cfg` file, set `eventsLogSize` to a smaller value (e.g.) 1000. The default is something like 10000. One each pass RMS checks and processes each so the more there are the longer it takes to do so. We are capturing them in the mongo database at roughly 1s intervals. This is already done if using RM's starter config file.
-- If you didn't do the `Dev Setup` above for JDK, and it's not already present on the machine, install the latest [Java JRE](https://docs.aws.amazon.com/corretto/latest/corretto-18-ug/downloads-list.html).
-  - Add the following ENV VARS in Windows:
-    - `RM_GAMESERVER_HOST` - Host running dedicated game sever (e.g.) localhost
-    - `RM_GAMESERVER_PORT` - Host running dedicated game sever (e.g.) 9000
-    - `RM_PATH_TO_DEDICATED_SERVER` (e.g.) `C:\Program Files (x86)\Steam\steamapps\common\Automobilista 2 - Dedicated Server`
-      - NOTE: Don't use quotes, path is escaped internally
-    - `RM_MONGO_USER` - The username you set when creating the user above, `racemgr` is unchanged
-    - `RM_MONGO_PASS` - That password you set when creating the user above
-    - `RM_MONGO_HOST` - Use `localhost` if you are running on the same machine
-    - `RM_MONGO_PORT` - Use `27017` unless you've customized
-    - `RM_ADMIN_USER` - All `admin` features/API endpoints require Bearer (JWT) authentication. Set to whatever you want the admin username to be.
-    - `RM_ADMIN_PASSWORD` - All `admin` features/API endpoints require Bearer (JWT) authentication. Set to whatever you want the admin password to be.
-    - `RM_JWT_SECRET` - This is used as part of user authentication. It should be a random 64 character string. We recommend using [this tool](http://www.unit-conversion.info/texttools/random-string-generator/) to generate one.
-    - Open the Window's command prompt, `cd` to RMS server director (important), run `java -jar racemgr-X.X.X.jar` (X being the version you downloaded).
-    - The web application UI is now available on port `8080` (e.g.) http://localhost:8080/
+Official race Manager releases/downloads can found on [the releases page](https://github.com/cauld/race_mgr/releases). With each new release you'll find 3 main files; an installer .exe, a standalone .exe and a .jar file. We'll cover their differences in the sections below.
 
-    NOTE for Devs:
-    - If you are building yourself and using IntelliJ you can define these same variables [in the IDE](https://www.jetbrains.com/help/objc/add-environment-variables-and-program-arguments.html) to override the Windows System Env ones as needed.
+**@TODO** (_update outdated demos_) For reference, here is a [demo video](https://www.youtube.com/watch?v=qrG-Usr3-2A) that walks through the setup step shown below.
 
-## MongoDB Setup
+### Prerequisites
+First, let's start with the prerequisites that are required by all installations. The following 4 items are required regardless of setup type:
+
+1. **Windows OS**: Some day we may support Linux as well, but for now Windows is the only option. *NOTE:* Most of our testing is done with Windows 10 & 11.
+2. **Automobilista 2 - Dedicated Server (AM2DS)**: Race Manager must be installed on the same machine as [AM2DS](https://steamdb.info/app/1338040/z). A lot of interactions are done against the API which would support remote deployments, but Race Manager also interacts directly with the core files used in AM2DS (e.g.) sms_rotation, eventually server.cfg, etc. In addition to installing AM2DS, you must also create a `server.cfg` file in the AM2DS installation directory (e.g.) `C:\Program Files (x86)\Steam\steamapps\common\Automobilista 2 - Dedicated Server`. Inside the AM2DS directory you'll find some sample configs in the `config_sample` sub-directory. You can start by copying one of those into the AM2DS parent directory (make sure to rename it to `server.cfg`). Alternatively, you can [download](https://raw.githubusercontent.com/cauld/race_mgr/main/sample_files/server.cfg) and use our starter config. You'll find a file called `UserGuide.pdf` in the AM2DS directory that explains the various configuration options. The most important one for Race Manager is `enableHttpApi`. This setting must be set to `true` for Race Manager to interact with the AM2DS APIs.
+  - (Optional) In the AM2DS `server.cfg` file, set `eventsLogSize` to a smaller value (e.g.) 1000. The default is something like 10000. One each pass RM checks and processes each so the more there are the longer it takes to do so. We are capturing them in the mongo database at roughly 1s intervals. This is already done if using Race Manager's starter config file.
+3. **Java 18+**: Race Manager requires a recent version of Java. If not already present on the machine, install the **Java 18 JDK**. Updated standalone JRE versions are no longer offered by the main Java projects. These days the JRE is bundled with the JDK. Any standard JDK from Oracle or OpenJDK should work fine. We find the version of OpenJDK offered by Amazon ([Corsetto](https://docs.aws.amazon.com/corretto/latest/corretto-18-ug/downloads-list.html)) easiest for most people because it offers an .MSI installer. Here is a [direct link](https://corretto.aws/downloads/latest/amazon-corretto-18-x64-windows-jdk.msi) for the .MSI download.
+4. **MongoDB**:  Race Manager uses MongoDB, a popular open source NoSQL database, to store race history data. Follow the MongoDB Setup section below and then return back here to continue with the rest of the setup.
+
+### End User Installation
+In the section above we talked about the 3 different release files. For brand new end user installations you'll probably want the installer .exe. The installer does not handle any of the prerequisites so make sure to have completed that checklist first. The installer handles the installation of Race Manager like a traditional Windows application. It will create a Race Manager folder in `C:\Program Files (x86)`, collect important configuration information (e.g.) mongo password, set the required Windows environment variables and create a desktop icon for you (optional).
+
+Once installed simply use the installed `RaceManager.exe` (or shortcut) to launch Race Manager. The application starts a persistent console window that outputs various state messages during normal operation. There is no need to start AM2DS directly as Race Manager takes over operation, (i.e.) start/stop/restart, as needed.
+
+**NOTE:** If you want to stop Race Manager click on the console and then use the key combination `Ctrl + c`. Race Manager is meant to operate much like a background service, but doesn't actually register itself as a Windows service. To that end, closing the console window directly using the `X` doesn't actually close the application. That simply hides the output window. If you've closed the console window and now desire to close application itself then launch the Windows `Task Manager`, look for Race Manager in the `Processes` list, click on it and choose `End Task`.  Should you want to have Race Manager startup with Windows then [the following method](https://support.microsoft.com/en-us/windows/add-an-app-to-run-automatically-at-startup-in-windows-10-150da165-dcd9-7230-517b-cf3c295d89dd) can be utilized.
+
+#### End User Upgrade
+The easiest way to upgrade Race Manager is to stop the application and then simply replace the standalone .exe in your `C:\Program Files (x86)\Race Manager` folder with the latest one from the releases page.
+
+**NOTE:** You can also technically use the installer .exe to perform upgrades, but this isn't generally recommended. The installer is still pretty simple and as such doesn't yet retain previous configuration settings. It will also replace the previously generated application security secret which invalidates any existing authentication tokens (requiring users to clear their cookies and re-login).
+
+#### Using the .jar File
+`RaceManager.exe` wraps the Race Manager `.jar` file to bring a native Windows application look and feel, make it easy to launch, etc. You can also choose to run Race Manager directly from the released `.jar` file. You must set the required Windows environment variables manually first given that the installer normally does that (*see that section below*). With that done simply download the released `.jar` file, place it wherever you want, launch either the Windows command prompt or terminal, browse to the location you placed the `.jar` and run `java -jar racemgr-x.x.x.jar` (where `x` is dependent on the version you downloaded). Then use `Ctrl + c` to stop the application as needed.
+
+#### Accessing the Web UI
+As long as Race Manager is running, the main web application UI is available at http://localhost:8080/. General race data is available for browsing by anyone that can access the URL. If you are running this on your home network then by default that generally means anyone in your house. Admin related features like the creation/update of sessions & rotations, management of the underlying AM2DS, etc are secured behing the admin user/password that you created during installation.
+
+**NOTE:** If you do [port forwarding](https://learn.g2.com/port-forwarding) from your router, then you can technically expose your Race Manager instance to the Internet and your racing friends. In that case the URL would be `http://{YOUR-IP}:8080`. Given that ISPs change IPs from time to time, you'll probably want to use a free service like [NO-IP](https://www.noip.com/) to get a permanent hostname that stays updated with your IP as it changes.
+
+### MongoDB Setup
 - Unless you plan to use a remote MongoDB, install MongoDB now. Any recent version (5.0+) should work fine. The [free community edition](https://www.mongodb.com/try/download/community) is all you need.
 - Say yes to running MongoDB as a service so that you don't have to start/restart manually when using Race Manager.
 - MongoDB is not secure by default. Race Manager requires authentication, so next we'll add a user and enable authentication:
@@ -68,6 +78,29 @@ NOTES:
   - Now restart the "MongoDB" service using the "Services" tab in Windows Task Manager or just reboot your machine.
   - That's it. Return to "Server Setup" above.
 
+### Windows Environment Variables
+When using the installer .exe the required Windows environment variables will be set for you. Otherwise, you will need to [manage these yourself](https://geekflare.com/system-environment-variables-in-windows/).
+
+- `RM_GAMESERVER_HOST`: Host running dedicated game sever (i.e.) `localhost`
+- `RM_GAMESERVER_PORT`: Host running dedicated game sever (i.e.) `9000` (unless you customized)
+- `RM_PATH_TO_DEDICATED_SERVER`: The local filesystem path to which you've installed AM2DS (e.g.) `C:\Program Files (x86)\Steam\steamapps\common\Automobilista 2 - Dedicated Server`
+- **NOTE**: Don't use quotes, the path is escaped internally
+- `RM_MONGO_USER`: The username you set when creating the user during the mongo setup. If you follow the directions exactly, then `racemgr` was the default value.
+- `RM_MONGO_PASS`: That password you set when creating the user during the mongo setup
+- `RM_MONGO_HOST`: Use `localhost` if you are running on the same machine
+- `RM_MONGO_PORT`: Use the mongo default port, (i.e.) `27017`, unless you've customized
+- `RM_ADMIN_USER`: All `admin` features/API endpoints require Bearer (JWT) authentication. Set to whatever you want the admin username to be.
+- `RM_ADMIN_PASSWORD`: All `admin` features/API endpoints require Bearer (JWT) authentication. Set to whatever you want the admin password to be.
+- `RM_JWT_SECRET`: This is used as part of user authentication. It should be a random 64 character string that is unique to each installation. We recommend using [this tool](http://www.unit-conversion.info/texttools/random-string-generator/) to generate one.
+
+## Dev Setup
+
+- Now follow `Server Setup` below
+
+NOTES:
+- The server log (`race_mgr.log`) lands in whatever system directory is defined in the Windows `TEMP` environment variable
+
+
 ## API Endpoints
 - All API endpoints start with `/api/v1/` (e.g.) `http://localhost:8080/api/v1/rotation`
 - All server admin related features live under the `/api/v1/admin/` resource (e.g.) `http://localhost:8080/api/v1/admin/...`. These require Bearer (JWT) authentication.
@@ -80,9 +113,10 @@ NOTES:
 - Here is a [demo/explanation video](https://www.youtube.com/watch?v=_ou79ZR819s&ab_channel=RaceManager) of our APIs and Postman usage.
 
 ## TODOs (based on demand/request)
-- Support for Linux
-- A ready made Docker image
+
 - Support for custom (vs randomly generated) rotations
 - Support for rotation exporting/sharing
-- Track and car images addded for enhanced UI
-- Ability to Linux race sessions to external videos (youtube/twitch)
+- Track and car images added for enhanced UI
+- Ability to link race sessions to external videos (YouTube/Twitch)
+- Support for Linux
+- A ready-made Docker image
