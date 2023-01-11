@@ -43,7 +43,7 @@ As long as Race Manager is running, the main web application UI is available at 
 **NOTE:** If you do [port forwarding](https://learn.g2.com/port-forwarding) from your router, then you can technically expose your Race Manager instance to the Internet and your racing friends. In that case the URL would be `http://{YOUR-IP}:8080`. Given that ISPs change IPs from time to time, you'll probably want to use a free service like [NO-IP](https://www.noip.com/) to get a permanent hostname that stays updated with your IP as it changes.
 
 ### Troubleshooting Tips
-- If the console window appears and disappears immediate after launch, their is likely a configuration error (i.e.) something incorrect with the values you supplied to the installer and/or entered directly into the required Windows environment variables. For example, Race Manager is unable to connect to Mongo because the wrong password was supplied. It could also be a Java version mismatch (installing from the link provided above would rule this problem out).
+- If the console window appears and disappears immediate after launch, there is likely a configuration error (i.e.) something incorrect with the values you supplied to the installer and/or entered directly into the required Windows environment variables. For example, Race Manager is unable to connect to Mongo because the wrong password was supplied. It could also be a Java version mismatch (installing from the link provided above would rule this problem out).
   
 ## Additional Setup Information  
   
