@@ -65,8 +65,8 @@ As long as Race Manager is running, the main web application UI is available at 
 - Back in the Mongo install directory, open `mongod.cfg` in a text editor (NOTE: to save the updated file you will need admin privileges).  
 - Look for the `security` section which is commented out by default. Uncomment and enable security like so:  
 ```    
-  security:    
- authorization: "enabled"  
+security:
+  authorization: "enabled" 
  ```
  - Now restart the "MongoDB" service using the "Services" tab in Windows Task Manager or just reboot your machine.  
 - That's it. Return to "Server Setup" above.  
