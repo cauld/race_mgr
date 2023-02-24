@@ -64,8 +64,8 @@ As long as Race Manager is running, the main web application UI is available at 
  use admin    
  db.createUser( { user: "racemgr", pwd:  passwordPrompt(), roles: [ { role: "readWrite", db: "racemgr" } ] } )   
  ```  
-- Type `quit` and hit enter to exit the mongo/mongosh shell and return the Windows command prompt.  
 - From the same shell, you can test the user with the following command, `db.auth("racemgr", passwordPrompt())`. A return value of `1` is good.  
+- Type `quit` and hit enter to exit the mongo/mongosh shell and return the Windows command prompt.  
 - Back in the Mongo install directory, open `mongod.cfg` in a text editor (NOTE: to save the updated file you will need admin privileges).  
 - Look for the `security` section which is commented out by default. Uncomment and enable security like so:  
 ```    
