@@ -60,7 +60,8 @@ As long as Race Manager is running, the main web application UI is available at 
  - For Older Mongo 5.X Installations:    
       - Next we'll launch Mongo Shell to add a user for the Race Manager database (NOTE: the database itself is created automatically later when the app is launched).  
  - The rest of the steps are the same regardless of MongoDB version. So next we'll switch to the `admin` auth database and create your user. Run the following commands and you will be prompted for the password you'd like to use (**NOTE**: Do not use the special characters `@` or `:`):  
- ``` use admin    
+ ```
+ use admin    
  db.createUser( { user: "racemgr", pwd:  passwordPrompt(), roles: [ { role: "readWrite", db: "racemgr" } ] } )   
  ```  
 - Type `quit` and hit enter to exit the mongo/mongosh shell and return the Windows command prompt.  
