@@ -13,7 +13,7 @@ Official Race Manager releases/downloads can found on [the releases page](https:
   
 **@TODO** (_update outdated demos_) For reference, here is a [demo video](https://www.youtube.com/watch?v=qrG-Usr3-2A) that walks through the setup step shown below.  
   
-### Prerequisites  
+### Prerequisites for all Installation Types
 First, let's start with the prerequisites that are required by all installations. The following 4 items are required regardless of setup type:  
   
 1. **Windows OS**: Some day we may support Linux as well, but for now Windows is the only option. *NOTE:* Most of our testing is done with Windows 10 & 11.  
@@ -52,14 +52,14 @@ As long as Race Manager is running, the main web application UI is available at 
 - Say yes to running MongoDB as a service so that you don't have to start/restart manually when using Race Manager.  
 - MongoDB is not secure by default. Race Manager requires authentication, so next we'll add a user and enable authentication:  
   - Open the Windows Command Prompt  
-  - Browse to Mongo install directory (e.g.) `cd C:\Program Files\MongoDB\Server\6.0\bin`  
-- For Mongo 5.X:    
-  - Next we'll launch Mongo Shell to add a user for the Race Manager database (NOTE: the database itself is created automatically later when the app is launched).    
+  - Browse to Mongo install directory (e.g.) `cd C:\Program Files\MongoDB\Server\6.0\bin`    
   - In the Windows Command Prompt, run `mongo` to start the Mongo Shell.  
-    - For Mongo 6.X:  
+ - For Mongo 6.X:  
       - The mongo shell is removed from MongoDB 6.0. The replacement is mongosh which requires a seperate [download](https://www.mongodb.com/docs/mongodb-shell/install/#install-from-msi) / install.  
-      - In the Windows Command Prompt, run `mongosh` to start the Mongosh Shell.  
-    - The rest of the steps are the same regardless of MongoDB version. So next we'll switch to the `admin` auth database and create your user. Run the following commands and you will be prompted for the password you'd like to use (**NOTE**: Do not use the special characters `@` or `:`):  
+      - In the Windows Command Prompt, run `mongosh` to start the Mongosh Shell.
+ - For Older Mongo 5.X Installations:    
+  - Next we'll launch Mongo Shell to add a user for the Race Manager database (NOTE: the database itself is created automatically later when the app is launched).  
+- The rest of the steps are the same regardless of MongoDB version. So next we'll switch to the `admin` auth database and create your user. Run the following commands and you will be prompted for the password you'd like to use (**NOTE**: Do not use the special characters `@` or `:`):  
  ``` use admin    
  db.createUser( { user: "racemgr", pwd:  passwordPrompt(), roles: [ { role: "readWrite", db: "racemgr" } ] } )   
  ```  
