@@ -72,7 +72,7 @@ security:
   authorization: "enabled" 
  ```
  - Now restart the "MongoDB" service using the "Services" tab in Windows Task Manager or just reboot your machine.  
-- That's it. Return to "Server Setup" above.  
+- That's it. Return to [installation section](#end-user-installation) above.  
   
 ### Windows Environment Variables  
 When using the installer .exe the required Windows environment variables will be set for you. Otherwise, you will need to [manage these yourself](https://geekflare.com/system-environment-variables-in-windows/).  
