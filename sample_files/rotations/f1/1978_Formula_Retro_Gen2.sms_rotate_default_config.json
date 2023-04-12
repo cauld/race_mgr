@@ -1,0 +1,39 @@
+{
+    "version" : 7,
+    "config" : {
+      "persist_index" : true,
+      "default" : {
+        "PracticeLength" : 0,
+        "QualifyLength" : 5,
+        "RaceLength" : 5,
+        "VehicleClassId" : "F-Retro_Gen2",
+        "Flags" : "ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE",
+        "DamageType" : "VISUAL_ONLY",
+        "TireWearType" : "OFF",
+        "FuelUsageType" : "OFF",
+        "PenaltiesType" : "NONE",
+        "AllowedViews" : "Any",
+        "QualifyWeatherSlots" : 2,
+        "QualifyWeatherSlot1" : "Clear",
+        "QualifyWeatherSlot2" : "Clear",
+        "RaceWeatherSlots" : 2,
+        "RaceWeatherSlot1" : "Clear",
+        "RaceWeatherSlot2" : "Clear",
+        "RaceDateProgression" : 30
+      },
+      "rotation" : [ {
+        "TrackId" : "Buenos_Aires_Circuito_15"
+      }, {
+        "TrackId" : "Jacarepagua_Historic"
+      }, {
+        "TrackId" : "Kyalami_Historic"
+      }, {
+        "TrackId" : "Hockenheim_1977"
+      }, {
+        "TrackId" : "Spielberg_Vintage"
+      }, {
+        "TrackId" : "Monza_1991"
+      } ]
+    }
+  }
+  

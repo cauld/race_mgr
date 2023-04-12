@@ -1,0 +1,45 @@
+{
+    "version" : 7,
+    "config" : {
+      "persist_index" : true,
+      "default" : {
+        "PracticeLength" : 0,
+        "QualifyLength" : 5,
+        "RaceLength" : 5,
+        "VehicleClassId" : "F-V10_Gen1",
+        "Flags" : "ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE",
+        "DamageType" : "VISUAL_ONLY",
+        "TireWearType" : "OFF",
+        "FuelUsageType" : "OFF",
+        "PenaltiesType" : "NONE",
+        "AllowedViews" : "Any",
+        "QualifyWeatherSlots" : 2,
+        "QualifyWeatherSlot1" : "Clear",
+        "QualifyWeatherSlot2" : "Clear",
+        "RaceWeatherSlots" : 2,
+        "RaceWeatherSlot1" : "Clear",
+        "RaceWeatherSlot2" : "Clear",
+        "RaceDateProgression" : 30
+      },
+      "rotation" : [ {
+        "TrackId" : "Interlagos_GP"
+      }, {
+        "TrackId" : "Buenos_Aires_Circuito_6"
+      }, {
+        "TrackId" : "Imola_GP_2001"
+      }, {
+        "TrackId" : "Montreal_Historic"
+      }, {
+        "TrackId" : "Silverstone_2001"
+      }, {
+        "TrackId" : "Hockenheim_2001"
+      }, {
+        "TrackId" : "Spa_Francorchamps_1993"
+      }, {
+        "TrackId" : "Spielberg_Modern"
+      }, {
+        "TrackId" : "Jerez_GP1988"
+      } ]
+    }
+  }
+  

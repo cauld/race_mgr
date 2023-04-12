@@ -1,0 +1,45 @@
+{
+    "version" : 7,
+    "config" : {
+      "persist_index" : true,
+      "default" : {
+        "PracticeLength" : 0,
+        "QualifyLength" : 5,
+        "RaceLength" : 5,
+        "VehicleClassId" : "F-Ultimate_Gen2",
+        "Flags" : "ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE",
+        "DamageType" : "VISUAL_ONLY",
+        "TireWearType" : "OFF",
+        "FuelUsageType" : "OFF",
+        "PenaltiesType" : "NONE",
+        "AllowedViews" : "Any",
+        "QualifyWeatherSlots" : 2,
+        "QualifyWeatherSlot1" : "Clear",
+        "QualifyWeatherSlot2" : "Clear",
+        "RaceWeatherSlots" : 2,
+        "RaceWeatherSlot1" : "Clear",
+        "RaceWeatherSlot2" : "Clear",
+        "RaceDateProgression" : 30
+      },
+      "rotation" : [ {
+        "TrackId" : "Imola_GP_2018"
+      }, {
+        "TrackId" : "Azure_Circuit_2021"
+      }, {
+        "TrackId" : "Montreal_Modern"
+      }, {
+        "TrackId" : "Silverstone_GP"
+      }, {
+        "TrackId" : "Spielberg_Modern"
+      }, {
+        "TrackId" : "Spa_Francorchamps_2022"
+      }, {
+        "TrackId" : "Monza_2020"
+      }, {
+        "TrackId" : "Kansai_GP"
+      }, {
+        "TrackId" : "Interlagos_GP"
+      } ]
+    }
+  }
+  
