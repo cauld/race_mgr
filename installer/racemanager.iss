@@ -155,7 +155,7 @@ DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir=dist
+OutputDir=..\target
 OutputBaseFilename=RaceManager-Installer-{#MyAppVersion}
 SetupIconFile=racemanager.ico
 Compression=lzma

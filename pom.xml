@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.coop</groupId>
 	<artifactId>racemgr</artifactId>
-	<version>1.0.0-beta2</version>
+	<version>1.0.0-beta3</version>
 	<name>Race Manager</name>
 	<description>Race Manager</description>
 	<properties>
