@@ -7,6 +7,7 @@ import com.coop.racemgr.model.RaceRotation;
 import com.coop.racemgr.repositories.RaceRotationRepository;
 import com.coop.racemgr.rotation.RacemgrRotationConfigMaker;
 import com.coop.racemgr.rotation.RacemgrRotationFileMaker;
+
 import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,14 +17,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.UUID;
+import java.io.File;
 
 // @TODO:
 //  1) Support expanded custom rotations and not just semi-random
-//  2) Support swapping a rotation
-//  3) Delete a rotation
-//  4) List rotations
 
 @RestController
 public class RaceRotationController {
@@ -31,7 +29,15 @@ public class RaceRotationController {
     private RaceRotationRepository raceRotationRepository;
 
     @Data
-    public static class RaceRotationRequest {
+    public static class RaceRotationCustomRequest {
+        private String name;
+        private Object config;
+        private Long updated;
+        private Boolean active = true;
+    }
+
+    @Data
+    public static class RaceRotationGenerationRequest {
         private String name = String.valueOf(UUID.randomUUID());
         private Integer raceCount = 5;
         private Boolean allowKarts = false;
@@ -48,8 +54,38 @@ public class RaceRotationController {
 
     /** ADMIN ENDPOINTS **/
 
+    // @FIXME: This is a quick way to add support for custom rotations. For now there is no additional validation of given rotation.
+    // It assumes the same limited file format as what is created by the generator. Examples included in the Postman collection...
     @PostMapping("/api/v1/admin/race/rotation")
-    public ResponseEntity<Object> rotation(@RequestBody RaceRotationRequest request) throws org.json.simple.parser.ParseException {
+    public ResponseEntity<Object> rotation(@RequestBody RaceRotationCustomRequest request) throws org.json.simple.parser.ParseException {
+        String gameServerFsPath = System.getenv("RM_PATH_TO_DEDICATED_SERVER");
+
+        RaceRotation raceRotation;
+        try {
+            raceRotation = new RaceRotation(request.name, request.config);
+            var rotationFileMaker = new RacemgrRotationFileMaker(raceRotation);
+            rotationFileMaker.writeGeneratedRotationFile();
+
+            // Once a new file has been written we must remove the active/cached one and reboot
+            // the game server for this to take effect.
+            String gameServerCachedRotationFilePath = gameServerFsPath + "\\lua_config\\sms_rotate_config.json";
+            File file = new File(gameServerCachedRotationFilePath);
+            if (file.delete()) {
+                System.out.println("Game Server cached rotation deleted successfully");
+            } else {
+                System.out.println("Game Server cached rotation");
+            }
+
+            raceRotationRepository.save(raceRotation);
+            return ResponseHandler.generateResponse("Successfully saved custom rotation", HttpStatus.OK, raceRotation);
+        } catch (Exception e) {
+            logger.error(e);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
+    }
+
+    @PostMapping("/api/v1/admin/race/rotation/generate")
+    public ResponseEntity<Object> rotationGeneration(@RequestBody RaceRotationGenerationRequest request) throws org.json.simple.parser.ParseException {
         // Generate rotation config
         RacemgrRotationConfigMaker rotationConfig = new RacemgrRotationConfigMaker(new GameServerProxy(), request.raceCount, request.allowKarts, request.persist);
 

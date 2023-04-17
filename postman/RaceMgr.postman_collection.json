@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "7fe29bb6-6392-4cfb-a814-14dd1c87038d",
+		"_postman_id": "6c6d8324-8d95-45d1-bd4e-9584302a5853",
 		"name": "RaceMgr",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38329"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -299,7 +298,63 @@
 					"name": "Rotations",
 					"item": [
 						{
-							"name": "Rotation: Generate New",
+							"name": "Rotation: Custom",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-XSRF-TOKEN",
+										"value": "{{XSRF-TOKEN}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Example Custom Rotation\",\r\n    \"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-Vintage_Gen1\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\t\"TrackId\": \"Kyalami_Historic\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"TrackId\": \"Spa_Francorchamps_1970_1000km\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"TrackId\": \"Silverstone_1975\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"TrackId\": \"Monza_1971_10k\"\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+									"protocol": "http",
+									"host": [
+										"{{HOST_BASE_API_URL}}"
+									],
+									"path": [
+										"admin",
+										"race",
+										"rotation"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rotation: Generate",
 							"event": [
 								{
 									"listen": "test",
@@ -340,7 +395,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation/generate",
 									"protocol": "http",
 									"host": [
 										"{{HOST_BASE_API_URL}}"
@@ -348,7 +403,8 @@
 									"path": [
 										"admin",
 										"race",
-										"rotation"
+										"rotation",
+										"generate"
 									]
 								}
 							},
@@ -396,7 +452,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+									"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation/generate",
 									"protocol": "http",
 									"host": [
 										"{{HOST_BASE_API_URL}}"
@@ -404,7 +460,8 @@
 									"path": [
 										"admin",
 										"race",
-										"rotation"
+										"rotation",
+										"generate"
 									]
 								}
 							},
@@ -565,6 +622,800 @@
 								}
 							},
 							"response": []
+						}
+					]
+				},
+				{
+					"name": "Sample Custom Rotations",
+					"item": [
+						{
+							"name": "F1",
+							"item": [
+								{
+									"name": "1966_67_Formula_Vintage_Gen1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"1966-67 F1 Vintage Gen1\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-Vintage_Gen1\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\t\"TrackId\": \"Kyalami_Historic\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"TrackId\": \"Spa_Francorchamps_1970_1000km\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"TrackId\": \"Silverstone_1975\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"TrackId\": \"Monza_1971_10k\"\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "1969_70_Formula_Vintage_Gen2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"1969-70 F1 Vintage Gen2\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-Vintage_Gen2\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Kyalami_Historic\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spa_Francorchamps_1970_1000km\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Hockenheim_1977\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spielberg_Vintage\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Monza_1971_10k\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "1974_Formula_Retro_Gen1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"1974 F1 Retro Gen1\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-Retro_Gen1\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Buenos_Aires_Circuito_15\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Interlagos_Historic\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Kyalami_Historic\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spielberg_Vintage\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Watkins_Glen_GP\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "1978_Formula_Retro_Gen2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"1978 F1 Retro Gen2\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-Retro_Gen2\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Buenos_Aires_Circuito_15\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Jacarepagua_Historic\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Kyalami_Historic\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Hockenheim_1977\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spielberg_Vintage\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Monza_1991\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "1983_Formula_Retro_Gen3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"1983 F1 Retro Gen3\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-Retro_Gen3\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Jacarepagua_Historic\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Imola_GP_1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spa_Francorchamps_1993\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Silverstone_1975\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Hockenheim_1977\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spielberg_Vintage\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Monza_1991\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Kyalami_Historic\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "1988_Formula_Classic_Gen2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"1988 F1 Classic Gen2\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-Classic_Gen2\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Jacarepagua_Historic\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Imola_GP_1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Montreal_Historic\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Hockenheim_1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spa_Francorchamps_1993\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Monza_1991\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Cascais_1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Jerez_GP1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Adelaide_Historic\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "1990_Formula_Classic_Gen3",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"1990 F1 Classic Gen3\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-Classic_Gen3\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Interlagos_GP\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Imola_GP_1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Montreal_Modern\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Hockenheim_1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spa_Francorchamps_1993\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Monza_1991\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Cascais_1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Jerez_GP1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Adelaide_Historic\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "1991_Formula_Classic_Gen4",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"1991 F1 Classic Gen4\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-Classic_Gen4\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Interlagos_GP\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Imola_GP_1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Silverstone_1991\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Hockenheim_1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spa_Francorchamps_1993\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Monza_1991\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Cascais_1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Adelaide_Historic\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "1995_Formula_V12",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"1995 F1 V12\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-V12\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Interlagos_GP\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Buenos_Aires_Circuito_6\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Imola_GP_1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Hockenheim_1988\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spa_Francorchamps_1993\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Adelaide_Historic\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "1997_Formula_V10_Gen1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"1997 F1 V10 Gen1\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-V10_Gen1\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Interlagos_GP\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Buenos_Aires_Circuito_6\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Imola_GP_2001\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Montreal_Historic\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Silverstone_2001\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Hockenheim_2001\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spa_Francorchamps_1993\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spielberg_Modern\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Jerez_GP1988\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2001_Formula_V10_Gen2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"2001 F1 V10 Gen2\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-V10_Gen2\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Interlagos_GP\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Imola_GP_2001\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spielberg_Modern\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Montreal_Historic\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Silverstone_2001\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Hockenheim_2001\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Monza_1991\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2011_Formula_Reiza",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"2011 F1 Reiza\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-Reiza\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Azure_Circuit_2021\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Montreal\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Silverstone_2001\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Nurb_GP_2020\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spa_Francorchamps_1993\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Monza_1991\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Kansai_GP\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Interlagos_GP\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2019_Formula_Ultimate_Gen1",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"2019 F1 Ultimate Gen1\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-Ultimate\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Azure_Circuit_2021\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Montreal\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spielberg_Modern\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Silverstone_2001\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Hockenheim_GP\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spa_Francorchamps_2020\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Monza_2020\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Kansai_GP\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Interlagos_GP\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2022_Formula_Ultimate_Gen2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"postman.setEnvironmentVariable(\"LAST_GENERATED_ROTATION_ID\", jsonData.data.id);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-XSRF-TOKEN",
+												"value": "{{XSRF-TOKEN}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n\t\"name\": \"2022 F1 Ultimate Gen2\",\r\n\t\"config\": {\r\n\t\t\"persist_index\": true,\r\n\t\t\"defaultConfig\": {\r\n\t\t\t\"PracticeLength\": 0,\r\n\t\t\t\"QualifyLength\": 5,\r\n\t\t\t\"RaceLength\": 5,\r\n\t\t\t\"VehicleClassId\": \"F-Ultimate_Gen2\",\r\n\t\t\t\"Flags\": \"ALLOW_CUSTOM_VEHICLE_SETUP,ABS_ALLOWED,SC_ALLOWED,TCS_ALLOWED,FILL_SESSION_WITH_AI,AUTO_START_ENGINE\",\r\n\t\t\t\"DamageType\": \"VISUAL_ONLY\",\r\n\t\t\t\"TireWearType\": \"OFF\",\r\n\t\t\t\"FuelUsageType\": \"OFF\",\r\n\t\t\t\"PenaltiesType\": \"NONE\",\r\n\t\t\t\"AllowedViews\": \"Any\",\r\n\t\t\t\"QualifyWeatherSlots\": 2,\r\n\t\t\t\"QualifyWeatherSlot1\": \"Clear\",\r\n\t\t\t\"QualifyWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlots\": 2,\r\n\t\t\t\"RaceWeatherSlot1\": \"Clear\",\r\n\t\t\t\"RaceWeatherSlot2\": \"Clear\",\r\n\t\t\t\"RaceDateProgression\": 30\r\n\t\t},\r\n\t\t\"rotation\": [{\r\n\t\t\t\"TrackId\": \"Imola_GP_2018\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Azure_Circuit_2021\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Montreal_Modern\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Silverstone_GP\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spielberg_Modern\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Spa_Francorchamps_2022\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Monza_2020\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Kansai_GP\"\r\n\t\t}, {\r\n\t\t\t\"TrackId\": \"Interlagos_GP\"\r\n\t\t}]\r\n\t}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://{{HOST_BASE_API_URL}}/admin/race/rotation",
+											"protocol": "http",
+											"host": [
+												"{{HOST_BASE_API_URL}}"
+											],
+											"path": [
+												"admin",
+												"race",
+												"rotation"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				}

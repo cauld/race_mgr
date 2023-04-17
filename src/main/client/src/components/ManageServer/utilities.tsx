@@ -75,7 +75,7 @@ export const addRotation = async (rotation:IAddRotation) => {
 
 	try {
 		const requestConfig = {
-			url: `${rmApi.getBaseApiUrl()}/admin/race/rotation`,
+			url: `${rmApi.getBaseApiUrl()}/admin/race/rotation/generate`,
 			data,
 			method: 'POST',
 		};
