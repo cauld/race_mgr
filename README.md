@@ -5,8 +5,7 @@ RM is an advanced (unofficial) [Automobilista 2](https://www.game-automobilista2
   
 ![Race Manager home screen](https://github.com/cauld/race_mgr/blob/main/screenshots/race_mgr_home.png?raw=true)  
   
-**@TODO** Add a UI demo here....  
-  
+Here is a [demo video](https://www.youtube.com/watch?v=Kuyp4uOb0OQ&t=13s) of Race Manager Server in action.  
   
 ## Installation/Upgrade  
 Official Race Manager releases/downloads can found on [the releases page](https://github.com/cauld/race_mgr/releases). With each new release you'll find 3 main files; an installer .exe, a standalone .exe and a .jar file. We'll cover their differences in the sections below.  
@@ -119,7 +118,10 @@ If you are looking to add or enhance features, fix bugs, etc then this is the se
 - [Import collection & environment](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/) found in the `postman` directory  
 - Open the collection, select the `RaceMgr` environment, click on the `Admin` folder in the collection and update the admin user/password values. Make sure to save after updating. More on managing environments [here](https://learning.postman.com/docs/sending-requests/managing-environments/).  
 - Use APIs against running server  
-- **@TODO** (*update demo)*: Here is a [demo/explanation video](https://www.youtube.com/watch?v=_ou79ZR819s&ab_channel=RaceManager) of our APIs and Postman usage.  
+- Here is a [demo/explanation video](https://www.youtube.com/watch?v=LBpREwPQ514) of our APIs and Postman usage.
+
+# Custom Rotations
+- We do currently support custom rotations, but only through the API. See the API Exploration/API demo video linked too in the section below. Examples are included in our Postman collection.
   
 ## Future TODOs (based on demand/request)  
   
