@@ -5,14 +5,14 @@ RM is an advanced (unofficial) [Automobilista 2](https://www.game-automobilista2
   
 ![Race Manager home screen](https://github.com/cauld/race_mgr/blob/main/screenshots/race_mgr_home.png?raw=true)  
   
-Here is a [demo video](https://www.youtube.com/watch?v=Kuyp4uOb0OQ&t=13s) of Race Manager Server in action.  
-  
+### Demos
+ - Here is a [demo video](https://www.youtube.com/watch?v=Kuyp4uOb0OQ&t=13s) of Race Manager Server in action.
+ - Here is live [demo server](http://racemgr.ddns.net:8080/) that showcases the non-admin stats view from some example races.
+
 ## Installation/Upgrade  
 Official Race Manager releases/downloads can found on [the releases page](https://github.com/cauld/race_mgr/releases). With each new release you'll find 3 main files; an installer .exe, a standalone .exe and a .jar file. We'll cover their differences in the sections below.  
 
-### Demos
- - For reference, here is a [demo video](https://www.youtube.com/watch?v=EE4GzKiXl3Y) that walks through the setup step shown below.
- - Here is live [demo server](http://racemgr.ddns.net:8080/) that showcases the non-admin stats view from some example races.
+For reference, here is a [demo video](https://www.youtube.com/watch?v=EE4GzKiXl3Y) that walks through the setup step shown below.
   
 ### Prerequisites for all Installation Types
 First, let's start with the prerequisites that are required by all installations. The following 4 items are required regardless of setup type:  
